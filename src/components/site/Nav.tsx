@@ -5,6 +5,8 @@ import logo from "@/assets/siya-logo.svg.asset.json";
 const links = [
   { href: "#work", label: "Work" },
   { href: "#os", label: "Design OS" },
+  { href: "#atlas", label: "Atlas" },
+  { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -27,7 +29,7 @@ export function Nav() {
     >
       <motion.nav
         animate={{
-          width: scrolled ? "min(640px, 96%)" : "min(1100px, 100%)",
+          width: scrolled ? "min(820px, 96%)" : "min(1180px, 100%)",
           paddingTop: scrolled ? 8 : 14,
           paddingBottom: scrolled ? 8 : 14,
         }}
@@ -38,11 +40,11 @@ export function Nav() {
             : "border border-transparent"
         }`}
       >
-        <a href="#top" className="flex items-center gap-2 pl-2" aria-label="Home">
+        <a href="#top" className="flex items-center gap-2 pl-2" aria-label="Siya Parmar — Home">
           <img
             src={logo.url}
             alt="Siya Parmar"
-            className="h-6 w-auto invert [.light_&]:invert-0"
+            className="h-7 w-auto invert [.light_&]:invert-0"
           />
         </a>
 
@@ -62,7 +64,7 @@ export function Nav() {
 
         <a
           href="#contact"
-          className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background/40 px-3 py-1.5 text-xs text-foreground/85 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:bg-foreground hover:text-background md:text-sm"
+          className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background/40 px-3.5 py-1.5 text-xs text-foreground/85 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:bg-foreground hover:text-background md:text-sm"
         >
           <span className="relative flex h-2 w-2">
             <span
@@ -74,7 +76,7 @@ export function Nav() {
               style={{ background: "var(--accent)" }}
             />
           </span>
-          Available for Work
+          Let's talk
         </a>
       </motion.nav>
     </motion.header>

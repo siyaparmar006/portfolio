@@ -3,63 +3,83 @@ import { ArrowUpRight } from "lucide-react";
 
 type Project = {
   title: string;
-  category: string;
+  label: string;
   tags: string[];
   description: string;
   cta: string;
   gradient: string;
-  badge?: string;
+  badge: string;
+  featured?: boolean;
 };
 
 const projects: Project[] = [
   {
-    title: "Referral System for Newcomer Family Support",
-    category: "Service Design",
-    tags: ["Service Design", "Information Architecture", "Communication Design"],
+    title: "New Neighbors Partnership Communication System",
+    label: "Nonprofit Service + Communication Ecosystem",
+    tags: [
+      "Service Design",
+      "Information Architecture",
+      "Visual Systems",
+      "Print + Digital",
+    ],
     description:
-      "Redesigned partner-facing referral guidelines for New Neighbors Partnership to make complex information clearer, more accessible, and easier to act on — later showcased during a UN General Assembly refugee employment event.",
+      "Designed a scalable communication system for New Neighbors Partnership, unifying referral guidelines, volunteer onboarding, impact storytelling, cultural education, and brand materials into clearer, more accessible touchpoints — with the referral guidelines later showcased during a UN General Assembly refugee employment event.",
     cta: "View Case Study",
     gradient:
-      "radial-gradient(circle at 30% 30%, oklch(0.86 0.10 55), oklch(0.5 0.06 40))",
-    badge: "01",
+      "radial-gradient(circle at 25% 25%, oklch(0.576 0.190 275.7 / 0.55), oklch(0.22 0.01 80) 70%)",
+    badge: "01 · Signature",
+    featured: true,
   },
   {
-    title: "Product Experience Case Study",
-    category: "UX / UI",
-    tags: ["UX/UI", "Product Thinking", "Visual Interface Design"],
+    title: "LiveSeeds Plant-Care App",
+    label: "Mobile Product Experience",
+    tags: ["UX/UI", "Product Design", "Visual Interface Design"],
     description:
-      "A digital product experience focused on clear flows, intuitive screens, and human-centered interaction.",
-    cta: "Coming Soon",
+      "Designed a plant-care mobile app experience focused on helping users understand plant needs, follow care guidance, and navigate a clear, approachable digital interface.",
+    cta: "View Case Study",
     gradient:
-      "radial-gradient(circle at 70% 40%, oklch(0.576 0.190 275.7 / 0.55), oklch(0.28 0.02 80))",
+      "radial-gradient(circle at 70% 35%, oklch(0.78 0.12 150 / 0.45), oklch(0.24 0.01 80) 75%)",
     badge: "02",
   },
   {
-    title: "Brand-Led Product System",
-    category: "Branding",
-    tags: ["Branding", "Product Communication", "Visual System"],
+    title: "Evair Product Branding & Packaging System",
+    label: "Product Identity",
+    tags: ["Branding", "Packaging", "Product Communication"],
     description:
-      "A brand and product communication project exploring identity, packaging, storytelling, and visual consistency.",
-    cta: "Coming Soon",
+      "Developed a brand and packaging direction for a car freshener product, combining market research, visual identity exploration, packaging structure, and product storytelling.",
+    cta: "View Case Study",
     gradient:
-      "radial-gradient(circle at 30% 70%, oklch(0.94 0.018 75), oklch(0.7 0.10 50))",
+      "radial-gradient(circle at 30% 70%, oklch(0.88 0.10 70), oklch(0.55 0.09 45) 75%)",
     badge: "03",
   },
 ];
 
 function ProjectCard({ p, i }: { p: Project; i: number }) {
   const reduced = useReducedMotion();
+  const isFeatured = p.featured;
+
   return (
     <motion.article
-      initial={reduced ? false : { opacity: 0, y: 60 }}
+      initial={reduced ? false : { opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-15% 0px" }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-      className="group relative overflow-hidden rounded-[2rem] border border-border/60 bg-card/70 p-4 shadow-soft md:p-6"
+      viewport={{ once: true, margin: "-12% 0px" }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={reduced ? undefined : { y: -4 }}
+      className={`group relative overflow-hidden rounded-[2rem] border border-border/60 bg-card/70 p-4 shadow-soft transition-shadow duration-500 hover:shadow-lift md:p-6 ${
+        isFeatured ? "ring-1 ring-primary/30" : ""
+      }`}
     >
-      <div className="grid gap-6 md:grid-cols-[1.05fr_1fr] md:items-center md:gap-10">
+      <div
+        className={`grid gap-6 md:gap-10 md:items-center ${
+          isFeatured ? "md:grid-cols-[1.15fr_1fr]" : "md:grid-cols-[1.05fr_1fr]"
+        }`}
+      >
         {/* Visual */}
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem]">
+        <div
+          className={`relative overflow-hidden rounded-[1.5rem] ${
+            isFeatured ? "aspect-[4/3.1]" : "aspect-[4/3]"
+          }`}
+        >
           <motion.div
             className="absolute inset-0"
             style={{ background: p.gradient }}
@@ -67,8 +87,8 @@ function ProjectCard({ p, i }: { p: Project; i: number }) {
             whileHover={{ scale: 1.06 }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           />
-          <div className="absolute inset-0 grain opacity-50" />
-          <div className="absolute left-4 top-4 rounded-full bg-background/80 px-2.5 py-1 text-[10px] font-medium tracking-[0.18em] text-foreground/80 backdrop-blur">
+          <div className="absolute inset-0 grain-noise opacity-40" />
+          <div className="absolute left-4 top-4 rounded-full bg-background/80 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground/80 backdrop-blur">
             {p.badge}
           </div>
         </div>
@@ -76,9 +96,13 @@ function ProjectCard({ p, i }: { p: Project; i: number }) {
         {/* Content */}
         <div className="px-1 md:px-2">
           <div className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
-            {p.category}
+            {p.label}
           </div>
-          <h3 className="mt-3 font-display text-2xl leading-[1.05] md:text-4xl">
+          <h3
+            className={`mt-3 font-display leading-[1.05] ${
+              isFeatured ? "text-3xl md:text-5xl" : "text-2xl md:text-4xl"
+            }`}
+          >
             {p.title}
           </h3>
           <p className="mt-4 max-w-prose text-sm leading-relaxed text-muted-foreground md:text-[15px]">
@@ -95,17 +119,13 @@ function ProjectCard({ p, i }: { p: Project; i: number }) {
             ))}
           </div>
           <div className="mt-6">
-            {p.cta === "Coming Soon" ? (
-              <span className="text-sm text-muted-foreground">Coming Soon</span>
-            ) : (
-              <a
-                href="#"
-                className="group/link inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-foreground/80"
-              >
-                {p.cta}
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-              </a>
-            )}
+            <a
+              href="#"
+              className="group/link inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-foreground/80"
+            >
+              {p.cta}
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+            </a>
           </div>
         </div>
       </div>
@@ -133,18 +153,17 @@ export function Work() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-10 flex flex-col gap-3 px-2 md:mb-14 md:flex-row md:items-end md:justify-between"
+          className="mb-10 flex flex-col gap-3 px-2 md:mb-14"
         >
-          <div className="max-w-2xl">
-            <div className="mb-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-              Selected Work
-            </div>
-            <h2 className="font-display text-balance text-3xl leading-[1.05] md:text-5xl">
-              A focused body of work, carefully chosen.
-            </h2>
+          <div className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            Signature Case Studies
           </div>
-          <p className="max-w-md text-sm text-muted-foreground md:text-base">
-            Product, service, and brand systems designed across digital and physical touchpoints.
+          <h2 className="max-w-3xl font-display text-balance text-3xl leading-[1.05] md:text-5xl">
+            A focused body of work, built around clarity, systems, and visual memory.
+          </h2>
+          <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
+            Three projects that represent how I approach product thinking, service
+            communication, brand systems, and human-centered visual design.
           </p>
         </motion.div>
 

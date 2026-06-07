@@ -5,7 +5,7 @@ export function Atlas() {
   const reduced = useReducedMotion();
 
   return (
-    <section className="relative py-24 md:py-32">
+    <section id="atlas" className="relative py-24 md:py-32">
       <div className="w-full px-4 md:px-6">
         <div
           className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.25rem] border border-border/60 bg-card p-8 text-center shadow-lift md:p-16"
