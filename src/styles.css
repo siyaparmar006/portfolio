@@ -70,7 +70,7 @@
   --shadow-soft: 0 10px 40px -12px oklch(0 0 0 / 0.45);
   --shadow-lift: 0 24px 60px -20px oklch(0 0 0 / 0.6);
   --gradient-warm: linear-gradient(135deg, oklch(0.576 0.190 275.7) 0%, oklch(0.68 0.16 275.7) 100%);
-  --gradient-soft: radial-gradient(circle at 30% 20%, oklch(0.50 0.36 275.7 / 0.12), transparent 60%),
+  --gradient-soft: radial-gradient(circle at 30% 20%, oklch(0.576 0.190 275.7 / 0.12), transparent 60%),
                    radial-gradient(circle at 80% 70%, oklch(0.4 0.02 80 / 0.4), transparent 55%);
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
