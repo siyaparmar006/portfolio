@@ -95,11 +95,11 @@ export function Hero() {
                 ) : (
                   <motion.span
                     key="wave"
-                    initial={{ opacity: 0, scale: 0.6, rotate: 0 }}
+                    initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
                     animate={{
                       opacity: 1,
                       scale: 1,
-                      rotate: [0, -20, 18, -14, 12, -6, 0],
+                      rotate: [-20, -35, -5, -28, -10, -22, -20],
                     }}
                     exit={{ opacity: 0, scale: 0.6 }}
                     transition={{
@@ -112,7 +112,7 @@ export function Hero() {
                     role="img"
                     aria-label="waving hand"
                   >
-                    ✋
+                    👋
                   </motion.span>
                 )}
               </AnimatePresence>
