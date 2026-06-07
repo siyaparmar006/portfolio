@@ -5,6 +5,7 @@ import {
   useScroll,
   useSpring,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ArrowUpRight, Sparkles } from "lucide-react";
@@ -12,18 +13,16 @@ import portrait from "@/assets/siya-portrait.jpg.asset.json";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const portraitTags = [
+type Tag = { label: string; x: string; y: string; drift: number };
+
+const portraitTags: Tag[] = [
   { label: "Product Design", x: "-8%", y: "10%", drift: -18 },
   { label: "Visual Systems", x: "94%", y: "20%", drift: 22 },
   { label: "Brand Thinking", x: "-12%", y: "72%", drift: -14 },
   { label: "Human-Centered", x: "92%", y: "80%", drift: 18 },
 ];
 
-function ClayShapes({
-  progress,
-}: {
-  progress: ReturnType<typeof useScroll>["scrollYProgress"];
-}) {
+function ClayShapes({ progress }: { progress: MotionValue<number> }) {
   const reduced = useReducedMotion();
   const x1 = useTransform(progress, [0, 1], reduced ? [0, 0] : [0, -40]);
   const x2 = useTransform(progress, [0, 1], reduced ? [0, 0] : [0, 50]);
@@ -41,35 +40,61 @@ function ClayShapes({
   );
 }
 
+function FloatingTag({
+  tag,
+  index,
+  progress,
+}: {
+  tag: Tag;
+  index: number;
+  progress: MotionValue<number>;
+}) {
+  const reduced = useReducedMotion();
+  const driftY = useTransform(
+    progress,
+    [0, 1],
+    reduced ? [0, 0] : [0, tag.drift],
+  );
+  return (
+    <motion.div
+      style={{ left: tag.x, top: tag.y, y: driftY }}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.7, ease, delay: 0.9 + index * 0.1 }}
+      className="absolute hidden -translate-x-1/2 -translate-y-1/2 rounded-full border border-border/70 bg-card/90 px-3 py-1.5 text-[11px] font-medium text-foreground/80 shadow-soft backdrop-blur md:block"
+    >
+      {tag.label}
+    </motion.div>
+  );
+}
+
 export function Hero() {
   const reduced = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-  const portraitRef = useRef<HTMLDivElement>(null);
 
-  // Scroll progress across the tall section to drive sticky stage exit
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  // Stage exit (content fades + lifts up as user scrolls past hero)
+  // Stage exit
   const stageY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, -120]);
   const stageOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
   const stageScale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 0.96]);
 
-  // Portrait scroll motion (scale + slight rotate as you scroll)
+  // Portrait scroll motion
   const portraitScale = useTransform(
     scrollYProgress,
-    [0, 0.5],
+    [0, 0.6],
     reduced ? [1, 1] : [1, 1.04],
   );
   const portraitRotate = useTransform(
     scrollYProgress,
     [0, 1],
-    reduced ? [0, 0] : [-1.2, 1.2],
+    reduced ? [-1, -1] : [-1.2, 1.4],
   );
 
-  // Mouse parallax on portrait (desktop only)
+  // Mouse parallax
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const sx = useSpring(mx, { stiffness: 60, damping: 18, mass: 0.6 });
@@ -148,7 +173,7 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.95, ease }}
-              className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-muted-foreground md:text-sm"
+              className="flex max-w-xl flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-muted-foreground md:text-sm"
             >
               {[
                 "UX/UI",
@@ -160,9 +185,7 @@ export function Hero() {
               ].map((s, i, arr) => (
                 <span key={s} className="inline-flex items-center gap-2">
                   <span>{s}</span>
-                  {i < arr.length - 1 && (
-                    <span className="opacity-40">·</span>
-                  )}
+                  {i < arr.length - 1 && <span className="opacity-40">·</span>}
                 </span>
               ))}
             </motion.div>
@@ -193,7 +216,6 @@ export function Hero() {
           {/* Right column — portrait */}
           <div className="md:col-span-5">
             <motion.div
-              ref={portraitRef}
               style={{ scale: portraitScale, rotate: portraitRotate }}
               initial={{ opacity: 0, scale: 0.94, rotate: -3 }}
               animate={{ opacity: 1, scale: 1, rotate: -1 }}
@@ -246,43 +268,8 @@ export function Hero() {
                 </div>
               </motion.div>
 
-              {/* Floating skill pills — desktop only */}
-              {portraitTags.map((t, i) => {
-                const driftY = useTransform(
-                  scrollYProgress,
-                  [0, 1],
-                  reduced ? [0, 0] : [0, t.drift],
-                );
-                return (
-                  <motion.div
-                    key={t.label}
-                    style={{ y: driftY }}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, ease, delay: 0.8 + i * 0.1 }}
-                    className="absolute hidden -translate-x-1/2 -translate-y-1/2 rounded-full border border-border/70 bg-card/90 px-3 py-1.5 text-[11px] font-medium text-foreground/80 shadow-soft backdrop-blur md:block"
-                  >
-                    <span
-                      className="absolute inset-0 -z-10 rounded-full"
-                      style={{
-                        position: "absolute",
-                      }}
-                    />
-                    <span style={{ position: "relative" }}>{t.label}</span>
-                  </motion.div>
-                );
-              }).map((node, i) => (
-                <span
-                  key={portraitTags[i].label}
-                  style={{
-                    position: "absolute",
-                    left: portraitTags[i].x,
-                    top: portraitTags[i].y,
-                  }}
-                  className="hidden md:block"
-                >
-                  {node}
-                </span>
+              {portraitTags.map((t, i) => (
+                <FloatingTag key={t.label} tag={t} index={i} progress={scrollYProgress} />
               ))}
             </motion.div>
           </div>

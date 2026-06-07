@@ -1,4 +1,10 @@
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+  type MotionValue,
+} from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 
@@ -37,19 +43,25 @@ const projects: Project[] = [
   },
 ];
 
-function ProjectCard({ p, index }: { p: Project; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
+function ProjectCard({
+  p,
+  index,
+  progress,
+}: {
+  p: Project;
+  index: number;
+  progress: MotionValue<number>;
+}) {
   const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.95", "start 0.35"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [60, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0, 1]);
-  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0.97, 1]);
+  // Stagger: each card reveals across a slice
+  const start = 0.3 + index * 0.12;
+  const end = start + 0.18;
+  const y = useTransform(progress, [start, end], reduced ? [0, 0] : [80, 0]);
+  const opacity = useTransform(progress, [start, end], reduced ? [1, 1] : [0, 1]);
+  const scale = useTransform(progress, [start, end], reduced ? [1, 1] : [0.94, 1]);
 
   return (
-    <motion.div ref={ref} style={{ y, opacity, scale }}>
+    <motion.div style={{ y, opacity, scale }} className="h-full">
       <motion.div
         whileHover={{ y: -6, scale: 1.015 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
@@ -69,8 +81,8 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           </div>
         </div>
         <div className="flex-1">
-          <div className="font-display text-2xl leading-tight">{p.title}</div>
-          <div className="mt-4 flex flex-wrap gap-1.5">
+          <div className="font-display text-xl leading-tight md:text-2xl">{p.title}</div>
+          <div className="mt-3 flex flex-wrap gap-1.5">
             {p.tags.map((t) => (
               <span
                 key={t}
@@ -80,11 +92,11 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
               </span>
             ))}
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             {p.description}
           </p>
         </div>
-        <div className="mt-6 flex items-center gap-1 text-sm font-medium">
+        <div className="mt-5 flex items-center gap-1 text-sm font-medium">
           {p.cta === "Coming Soon" ? (
             <span className="text-muted-foreground">Coming Soon</span>
           ) : (
@@ -103,53 +115,88 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
 }
 
 export function Work() {
-  const frameRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
-    target: frameRef,
-    offset: ["start 0.9", "start 0.2"],
+    target: sectionRef,
+    offset: ["start start", "end end"],
   });
+
+  // Stage entrance (scale frame up as you scroll in)
   const frameScale = useTransform(
     scrollYProgress,
-    [0, 1],
-    reduced ? [1, 1] : [0.96, 1],
+    [0, 0.25],
+    reduced ? [1, 1] : [0.92, 1],
   );
   const frameOpacity = useTransform(
     scrollYProgress,
-    [0, 1],
+    [0, 0.2],
     reduced ? [1, 1] : [0.5, 1],
   );
 
-  return (
-    <section id="work" className="relative px-4 py-32 md:px-6">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-12 max-w-2xl px-2">
-          <div className="mb-4 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Selected Work
-          </div>
-          <h2 className="font-display text-balance text-4xl leading-[1.05] md:text-5xl">
-            A focused body of work,<br />carefully chosen.
-          </h2>
-          <p className="mt-4 max-w-xl text-muted-foreground">
-            Product, service, and brand systems designed across digital and physical touchpoints.
-          </p>
-        </div>
+  // Title slide-in from below
+  const titleY = useTransform(scrollYProgress, [0, 0.2], reduced ? [0, 0] : [60, 0]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
 
+  // Stage exit
+  const stageY = useTransform(scrollYProgress, [0.85, 1], reduced ? [0, 0] : [0, -80]);
+  const stageOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.4]);
+
+  return (
+    <section
+      id="work"
+      ref={sectionRef}
+      className="relative"
+      style={{ height: "320vh" }}
+    >
+      <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden px-4 md:px-6">
         <motion.div
-          ref={frameRef}
-          style={{ scale: frameScale, opacity: frameOpacity }}
-          className="relative overflow-hidden rounded-[2.25rem] border border-border/60 bg-[var(--clay-1)]/12 p-5 shadow-soft md:p-10"
+          style={{ y: stageY, opacity: stageOpacity }}
+          className="mx-auto w-full max-w-6xl"
         >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-70"
-            style={{ background: "var(--gradient-soft)" }}
-          />
-          <div className="relative grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((p, i) => (
-              <ProjectCard key={p.title} p={p} index={i} />
-            ))}
-          </div>
+          <motion.div
+            style={{ y: titleY, opacity: titleOpacity }}
+            className="mb-6 flex flex-col gap-2 px-2 md:mb-8 md:flex-row md:items-end md:justify-between"
+          >
+            <div className="max-w-2xl">
+              <div className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Selected Work
+              </div>
+              <h2 className="font-display text-balance text-3xl leading-[1.05] md:text-5xl">
+                A focused body of work, carefully chosen.
+              </h2>
+            </div>
+            <p className="max-w-md text-sm text-muted-foreground md:text-base">
+              Product, service, and brand systems designed across digital and physical touchpoints.
+            </p>
+          </motion.div>
+
+          <motion.div
+            style={{ scale: frameScale, opacity: frameOpacity }}
+            className="relative overflow-hidden rounded-[2.25rem] border border-border/60 bg-[var(--clay-1)]/12 p-4 shadow-soft md:p-8"
+          >
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 opacity-70"
+              style={{ background: "var(--gradient-soft)" }}
+            />
+            {/* dashboard chrome */}
+            <div className="relative mb-5 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--clay-2)]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--clay-1)]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--clay-3)]" />
+                <span className="ml-3">work / selected</span>
+              </div>
+              <span>3 projects</span>
+            </div>
+            <div className="relative grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((p, i) => (
+                <ProjectCard key={p.title} p={p} index={i} progress={scrollYProgress} />
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

@@ -3,32 +3,36 @@ import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 
 export function Atlas() {
-  const ref = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
+    target: sectionRef,
+    offset: ["start start", "end end"],
   });
+
   const scale = useTransform(
     scrollYProgress,
-    [0, 0.5, 1],
-    reduced ? [1, 1, 1] : [0.94, 1, 0.98],
+    [0, 0.4, 0.85, 1],
+    reduced ? [1, 1, 1, 1] : [0.9, 1, 1, 0.97],
   );
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.4, 1],
-    reduced ? [1, 1, 1] : [0.4, 1, 0.9],
+    [0, 0.3, 0.85, 1],
+    reduced ? [1, 1, 1, 1] : [0.4, 1, 1, 0.5],
   );
 
   return (
-    <section className="relative px-4 py-24 md:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section
+      ref={sectionRef}
+      className="relative"
+      style={{ height: "200vh" }}
+    >
+      <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden px-4 md:px-6">
         <motion.div
-          ref={ref}
           style={{ scale, opacity }}
-          className="relative overflow-hidden rounded-[2.25rem] border border-border/60 bg-card p-10 text-center shadow-lift md:p-16"
+          className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.25rem] border border-border/60 bg-card p-8 text-center shadow-lift md:p-16"
         >
-          {/* portal glow */}
           <div
             aria-hidden
             className="absolute inset-0"
@@ -50,15 +54,14 @@ export function Atlas() {
               Beyond the case studies
             </div>
             <h3 className="mx-auto max-w-2xl text-balance font-display text-3xl leading-tight md:text-5xl">
-              A floating universe of every project, sketch and system.
+              A floating universe of every project, sketch, and system.
             </h3>
-            <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+            <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground md:text-base">
               Explore a categorized archive of product, brand, communication, print, spatial,
               and visual design work.
             </p>
 
             <div className="relative mt-12 flex justify-center">
-              {/* orbit ring */}
               <motion.div
                 aria-hidden
                 className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full border border-foreground/10"
