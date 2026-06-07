@@ -97,12 +97,27 @@ export function Hero() {
                 ) : (
                   <motion.span
                     key="wave"
-                    initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
-                    animate={{ opacity: 1, scale: 1, rotate: -20 }}
-                    exit={{ opacity: 0, scale: 0.6, rotate: -20 }}
-                    transition={{ duration: 0.35, ease }}
-                    style={{ transformOrigin: "70% 70%" }}
-                    className="text-2xl leading-none md:text-3xl"
+                     initial={{ opacity: 0, scale: 0.6, rotate: 0 }}
+                     animate={{
+                       opacity: 1,
+                       scale: 1,
+                       rotate: reduced ? 0 : [0, 16, -8, 16, -4, 0],
+                     }}
+                     exit={{ opacity: 0, scale: 0.6, rotate: 0 }}
+                     transition={{
+                       opacity: { duration: 0.25, ease },
+                       scale: { duration: 0.25, ease },
+                       rotate: reduced
+                         ? { duration: 0.25, ease }
+                         : {
+                             duration: 1.1,
+                             ease: "easeInOut",
+                             repeat: Infinity,
+                             repeatDelay: 0.35,
+                           },
+                     }}
+                     style={{ transformOrigin: "70% 75%" }}
+                     className="inline-block text-2xl leading-none md:text-3xl"
                     role="img"
                     aria-label="waving hand"
                   >
