@@ -20,6 +20,9 @@ export function Atlas() {
               <h3 className="mx-auto max-w-2xl text-balance font-display text-3xl leading-tight md:text-5xl">
                 A floating universe of every project, sketch and system.
               </h3>
+              <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+                Explore a categorized archive of product, brand, communication, print, spatial, and visual design work.
+              </p>
 
               <div className="mt-10 flex justify-center">
                 <motion.a

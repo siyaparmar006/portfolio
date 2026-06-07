@@ -10,16 +10,17 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Studio — Calm interfaces, intentional motion" },
+      { title: "Siya Parmar — Product Designer" },
       {
         name: "description",
         content:
-          "An independent design studio crafting product systems, brand identities, and the quiet animations that hold them together.",
+          "Siya Parmar is a Product Designer crafting human-centered digital experiences with strong visual systems and brand thinking.",
       },
-      { property: "og:title", content: "Studio — Calm interfaces, intentional motion" },
+      { property: "og:title", content: "Siya Parmar — Product Designer" },
       {
         property: "og:description",
-        content: "Product systems, brand identities, and quiet motion.",
+        content:
+          "Human-centered digital experiences with strong visual systems and brand thinking.",
       },
     ],
   }),

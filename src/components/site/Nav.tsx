@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import logo from "@/assets/logo.svg.asset.json";
 
 const links = [
   { href: "#work", label: "Work" },
@@ -29,7 +28,7 @@ export function Nav() {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6">
         <a href="#top" className="flex items-center gap-2" aria-label="Home">
-          <img src={logo.url} alt="" className="h-7 w-auto opacity-90" />
+          <span className="font-display text-lg tracking-tight">Siya Parmar</span>
         </a>
         <ul className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
