@@ -52,13 +52,15 @@ const Figma: IconCmp = ({ className }) => (
 
 /** Procreate official mark — stylized P brushstroke. */
 const Procreate: IconCmp = ({ className }) => (
-  <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
-    <rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill="#000" />
-    <path
-      fill="#fff"
-      d="M9 6.5h4.6c2.4 0 4.1 1.6 4.1 3.9 0 2.3-1.7 3.9-4.1 3.9H11v3.2H9V6.5zm2 1.9v4h2.4c1.2 0 2-.8 2-2s-.8-2-2-2H11z"
-    />
-  </svg>
+  <img src={procreateLogo.url} alt="" className={className} />
+);
+
+const Canva: IconCmp = ({ className }) => (
+  <img src={canvaLogo.url} alt="" className={className} />
+);
+
+const MailerLite: IconCmp = ({ className }) => (
+  <img src={mailerliteLogo.url} alt="" className={className} />
 );
 
 const Lovable: IconCmp = ({ className }) => (
