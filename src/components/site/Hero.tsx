@@ -82,49 +82,35 @@ export function Hero() {
                 color: "var(--accent-foreground)",
               }}
             >
-              <AnimatePresence mode="wait" initial={false}>
-                {hiToggle === 0 ? (
-                  <motion.span
-                    key="hi"
-                    initial={{ opacity: 0, scale: 0.6 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.6 }}
-                    transition={{ duration: 0.35, ease }}
-                    className="font-display text-2xl leading-none md:text-3xl"
-                  >
-                    Hi
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="wave"
-                     initial={{ opacity: 0, scale: 0.6, rotate: 0 }}
-                     animate={{
-                       opacity: 1,
-                       scale: 1,
-                       rotate: reduced ? 0 : [0, 16, -8, 16, -4, 0],
-                     }}
-                     exit={{ opacity: 0, scale: 0.6, rotate: 0 }}
-                     transition={{
-                       opacity: { duration: 0.25, ease },
-                       scale: { duration: 0.25, ease },
-                       rotate: reduced
-                         ? { duration: 0.25, ease }
-                         : {
-                             duration: 1.1,
-                             ease: "easeInOut",
-                             repeat: Infinity,
-                             repeatDelay: 0.35,
-                           },
-                     }}
-                     style={{ transformOrigin: "70% 75%" }}
-                     className="inline-block text-2xl leading-none md:text-3xl"
-                    role="img"
-                    aria-label="waving hand"
-                  >
-                    👋
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              <div className="relative grid h-full w-full place-items-center">
+                <motion.span
+                  animate={{ opacity: hiToggle === 0 ? 1 : 0, scale: hiToggle === 0 ? 1 : 0.6 }}
+                  transition={{ duration: 0.35, ease }}
+                  className="col-start-1 row-start-1 font-display text-2xl leading-none md:text-3xl"
+                >
+                  Hi
+                </motion.span>
+                <motion.span
+                  animate={{
+                    opacity: hiToggle === 1 ? 1 : 0,
+                    scale: hiToggle === 1 ? 1 : 0.6,
+                    rotate: hiToggle === 1 && !reduced ? [0, 16, -8, 16, -4, 0] : 0,
+                  }}
+                  transition={{
+                    opacity: { duration: 0.35, ease },
+                    scale: { duration: 0.35, ease },
+                    rotate: reduced
+                      ? { duration: 0.25, ease }
+                      : { duration: 1.1, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.4 },
+                  }}
+                  style={{ transformOrigin: "70% 75%" }}
+                  className="col-start-1 row-start-1 inline-block text-2xl leading-none md:text-3xl"
+                  role="img"
+                  aria-label="waving hand"
+                >
+                  👋
+                </motion.span>
+              </div>
 
             </div>
           </motion.div>
