@@ -1,10 +1,6 @@
-import { Heart, Sparkles } from "lucide-react";
+import { Heart } from "lucide-react";
 
-type Software = {
-  name: string;
-  slug?: string;
-  icon?: "heart" | "sparkles";
-};
+type Software = { name: string; slug?: string; icon?: "heart" };
 
 const softwares: Software[] = [
   { name: "Figma", slug: "figma" },
@@ -27,19 +23,25 @@ const softwares: Software[] = [
 ];
 
 function Icon({ item }: { item: Software }) {
-  if (item.icon === "heart")
-    return <Heart className="h-5 w-5 shrink-0" strokeWidth={2.2} />;
-  if (item.icon === "sparkles")
-    return <Sparkles className="h-5 w-5 shrink-0" strokeWidth={2.2} />;
+  if (item.icon === "heart") {
+    return <Heart className="h-4 w-4 shrink-0" strokeWidth={2.2} />;
+  }
+  const url = `https://cdn.simpleicons.org/${item.slug}`;
+  // Mask trick: icon color follows currentColor so it adapts to light/dark mode
   return (
-    <img
-      src={`https://cdn.simpleicons.org/${item.slug}/ffffff`}
-      alt=""
+    <span
       aria-hidden
-      width={20}
-      height={20}
-      loading="lazy"
-      className="h-5 w-5 shrink-0 opacity-90"
+      className="block h-4 w-4 shrink-0 bg-current"
+      style={{
+        WebkitMaskImage: `url(${url})`,
+        maskImage: `url(${url})`,
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
     />
   );
 }
@@ -50,25 +52,28 @@ export function SoftwareRibbon() {
   return (
     <section
       aria-label="Tools and software I use"
-      className="relative overflow-hidden border-y border-foreground/10 bg-foreground py-5 text-background"
+      className="relative overflow-hidden border-y border-foreground/10 bg-background py-3 text-foreground/80"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-foreground to-transparent"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-background to-transparent"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-foreground to-transparent"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-background to-transparent"
       />
 
-      <div className="flex w-max animate-[ribbon_60s_linear_infinite] gap-10 whitespace-nowrap will-change-transform">
+      <div className="flex w-max animate-[ribbon_55s_linear_infinite] gap-8 whitespace-nowrap will-change-transform">
         {loop.map((item, i) => (
-          <div key={i} className="flex items-center gap-3">
+          <div key={i} className="flex items-center gap-2.5">
             <Icon item={item} />
-            <span className="font-display text-2xl tracking-wide md:text-3xl">
+            <span className="text-xs uppercase tracking-[0.2em] md:text-sm">
               {item.name}
             </span>
-            <span className="ml-10 inline-block h-1.5 w-1.5 rounded-full bg-background/40" />
+            <span
+              aria-hidden
+              className="ml-6 inline-block h-1 w-1 rounded-full bg-foreground/25"
+            />
           </div>
         ))}
       </div>

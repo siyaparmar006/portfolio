@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/hooks/use-theme";
 import logo from "@/assets/siya-logo.svg.asset.json";
 
 const links = [
@@ -12,6 +14,7 @@ const links = [
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -62,22 +65,35 @@ export function Nav() {
           ))}
         </ul>
 
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background/40 px-3.5 py-1.5 text-xs text-foreground/85 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:bg-foreground hover:text-background md:text-sm"
-        >
-          <span className="relative flex h-2 w-2">
-            <span
-              className="absolute inset-0 animate-ping rounded-full opacity-75"
-              style={{ background: "var(--accent)" }}
-            />
-            <span
-              className="relative h-2 w-2 rounded-full"
-              style={{ background: "var(--accent)" }}
-            />
-          </span>
-          Let's talk
-        </a>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggle}
+            aria-label="Toggle theme"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-foreground/15 bg-background/40 text-foreground/80 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:text-foreground"
+          >
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
+          </button>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background/40 px-3.5 py-1.5 text-xs text-foreground/85 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:bg-foreground hover:text-background md:text-sm"
+          >
+            <span className="relative flex h-2 w-2">
+              <span
+                className="absolute inset-0 animate-ping rounded-full opacity-75"
+                style={{ background: "var(--accent)" }}
+              />
+              <span
+                className="relative h-2 w-2 rounded-full"
+                style={{ background: "var(--accent)" }}
+              />
+            </span>
+            Let's talk
+          </a>
+        </div>
       </motion.nav>
     </motion.header>
   );
