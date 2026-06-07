@@ -314,13 +314,37 @@ function AtlasPage() {
   );
 }
 
-// Pseudo-random but stable per-index offsets for the floating constellation.
-const widths = ["w-[220px]", "w-[250px]", "w-[280px]", "w-[230px]", "w-[260px]"];
-const yOffsets = [0, 24, 48, 12, 36, 56, 8, 40];
-const rotations = [-0.8, 0.5, -0.4, 1.0, -0.7, 0.3, 0.8, -0.5];
-const floatDurations = [7, 8.5, 9, 7.8, 8.2, 9.4, 7.4, 8.8];
+// Broken editorial grid — varied col-spans + aspect ratios + slight rotations.
+type Size = {
+  col: string;
+  aspect: string;
+  rot: number;
+  translateY: number;
+};
 
-function FloatingNode({
+const sizes: Size[] = [
+  { col: "col-span-5", aspect: "aspect-[4/3]", rot: -1.2, translateY: 0 },
+  { col: "col-span-3", aspect: "aspect-[3/4.2]", rot: 0.8, translateY: 32 },
+  { col: "col-span-4", aspect: "aspect-[1/1]", rot: -0.6, translateY: 12 },
+  { col: "col-span-4", aspect: "aspect-[4/3.2]", rot: 1.4, translateY: 48 },
+  { col: "col-span-3", aspect: "aspect-[3/4]", rot: -1.0, translateY: 0 },
+  { col: "col-span-5", aspect: "aspect-[4/2.6]", rot: 0.5, translateY: 24 },
+  { col: "col-span-3", aspect: "aspect-[3/4.3]", rot: 1.1, translateY: 8 },
+  { col: "col-span-4", aspect: "aspect-[4/3]", rot: -0.7, translateY: 40 },
+  { col: "col-span-3", aspect: "aspect-[1/1]", rot: 0.6, translateY: 0 },
+  { col: "col-span-5", aspect: "aspect-[4/3]", rot: -1.3, translateY: 20 },
+  { col: "col-span-4", aspect: "aspect-[3/4]", rot: 0.9, translateY: 0 },
+  { col: "col-span-3", aspect: "aspect-[4/3.4]", rot: -0.5, translateY: 28 },
+];
+
+const featuredSize: Size = {
+  col: "col-span-6",
+  aspect: "aspect-[4/3.6]",
+  rot: 0,
+  translateY: 0,
+};
+
+function EditorialNode({
   p,
   index,
   reduced,
@@ -329,41 +353,36 @@ function FloatingNode({
   index: number;
   reduced: boolean;
 }) {
-  const featured = p.featured;
-  const w = featured ? "w-[320px]" : widths[index % widths.length];
-  const yOff = featured ? 0 : yOffsets[index % yOffsets.length];
-  const rot = featured ? 0 : rotations[index % rotations.length];
-  const dur = floatDurations[index % floatDurations.length];
-  const delay = (index % 6) * 0.4;
+  const size = p.featured ? featuredSize : sizes[index % sizes.length];
 
   return (
     <motion.div
       layout
-      initial={reduced ? false : { opacity: 0, y: 30, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={reduced ? undefined : { opacity: 0, scale: 0.96 }}
+      initial={reduced ? false : { opacity: 0, y: 28 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduced ? undefined : { opacity: 0, y: -12 }}
       transition={{
         duration: 0.55,
-        delay: reduced ? 0 : Math.min(index * 0.03, 0.35),
+        delay: reduced ? 0 : Math.min(index * 0.025, 0.3),
         ease: [0.22, 1, 0.36, 1],
       }}
-      style={{ marginTop: yOff, rotate: `${rot}deg` }}
-      className={`${w} shrink-0`}
+      style={{
+        marginTop: size.translateY,
+        rotate: `${size.rot}deg`,
+      }}
+      className={size.col}
     >
-      <motion.div
-        animate={reduced ? undefined : { y: [0, -10, 0] }}
-        transition={{
-          duration: dur,
-          delay,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        <AtlasCard p={p} index={index} reduced={reduced} variant="float" />
-      </motion.div>
+      <AtlasCard
+        p={p}
+        index={index}
+        reduced={reduced}
+        variant="float"
+        aspectClass={size.aspect}
+      />
     </motion.div>
   );
 }
+
 
 
 function AtlasCard({
