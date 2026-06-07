@@ -1,5 +1,6 @@
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useTheme } from "@/hooks/use-theme";
 import portrait from "@/assets/siya-portrait.jpg.asset.json";
 
 const ease = [0.22, 1, 0.36, 1] as const;
