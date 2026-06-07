@@ -121,6 +121,7 @@ export const Route = createFileRoute("/atlas")({
 
 function AtlasPage() {
   const [active, setActive] = useState<"All" | Category>("All");
+  const [view, setView] = useState<"constellation" | "grid">("constellation");
   const reduced = useReducedMotion();
 
   const filtered = useMemo(
@@ -160,29 +161,47 @@ function AtlasPage() {
             </p>
           </motion.div>
 
-          {/* Filters */}
+          {/* Filters + view toggle */}
           <motion.div
             initial={reduced ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-wrap gap-2"
+            className="mt-10 flex flex-wrap items-center justify-between gap-4"
           >
-            {filters.map((f) => {
-              const isActive = active === f;
-              return (
+            <div className="flex flex-wrap gap-2">
+              {filters.map((f) => {
+                const isActive = active === f;
+                return (
+                  <button
+                    key={f}
+                    onClick={() => setActive(f)}
+                    className={`rounded-full border px-4 py-2 text-[11px] uppercase tracking-[0.18em] transition-all duration-300 ${
+                      isActive
+                        ? "border-foreground bg-foreground text-background shadow-soft"
+                        : "border-border/60 bg-secondary/30 text-foreground/70 hover:border-foreground/40 hover:text-foreground"
+                    }`}
+                  >
+                    {f}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="hidden items-center gap-1 rounded-full border border-border/60 bg-secondary/30 p-1 md:flex">
+              {(["constellation", "grid"] as const).map((v) => (
                 <button
-                  key={f}
-                  onClick={() => setActive(f)}
-                  className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.18em] transition-all duration-300 md:text-[11px] ${
-                    isActive
-                      ? "border-foreground bg-foreground text-background shadow-soft"
-                      : "border-border/60 bg-secondary/30 text-foreground/70 hover:border-foreground/40 hover:text-foreground"
+                  key={v}
+                  onClick={() => setView(v)}
+                  className={`rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.18em] transition-all duration-300 ${
+                    view === v
+                      ? "bg-foreground text-background"
+                      : "text-foreground/70 hover:text-foreground"
                   }`}
                 >
-                  {f}
+                  {v === "constellation" ? "Constellation" : "Grid"}
                 </button>
-              );
-            })}
+              ))}
+            </div>
           </motion.div>
           <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground/70">
             Showing {filtered.length} of {projects.length}
@@ -190,24 +209,61 @@ function AtlasPage() {
         </div>
       </section>
 
-      {/* Atlas grid */}
+      {/* Atlas — constellation (desktop) / grid */}
       <section className="relative pb-24 md:pb-32">
+        {/* Starfield backdrop */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 opacity-60"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--foreground) 22%, transparent) 1px, transparent 0)",
+            backgroundSize: "28px 28px",
+            maskImage:
+              "radial-gradient(ellipse at center, black 40%, transparent 80%)",
+          }}
+        />
+
         <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
-          <div
-            className="
-              [column-fill:_balance] gap-5 space-y-5
-              md:gap-6 md:space-y-6
-              columns-1 sm:columns-2 lg:columns-3
-            "
-          >
-            <AnimatePresence mode="popLayout">
-              {filtered.map((p, i) => (
-                <AtlasCard key={p.title} p={p} index={i} reduced={!!reduced} />
-              ))}
-            </AnimatePresence>
-          </div>
+          {view === "grid" ? (
+            <div className="[column-fill:_balance] gap-5 space-y-5 columns-1 sm:columns-2 md:gap-6 md:space-y-6 lg:columns-3">
+              <AnimatePresence mode="popLayout">
+                {filtered.map((p, i) => (
+                  <AtlasCard key={p.title} p={p} index={i} reduced={!!reduced} variant="grid" />
+                ))}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <>
+              {/* Mobile: clean stack */}
+              <div className="flex flex-col gap-5 md:hidden">
+                <AnimatePresence mode="popLayout">
+                  {filtered.map((p, i) => (
+                    <AtlasCard key={p.title} p={p} index={i} reduced={!!reduced} variant="grid" />
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              {/* Desktop: floating constellation */}
+              <div className="relative hidden md:block">
+                <div className="flex flex-wrap items-start justify-center gap-x-6 gap-y-10">
+                  <AnimatePresence mode="popLayout">
+                    {filtered.map((p, i) => (
+                      <FloatingNode
+                        key={p.title}
+                        p={p}
+                        index={i}
+                        reduced={!!reduced}
+                      />
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </section>
+
 
       {/* CTA */}
       <section className="relative pb-28 md:pb-36">
