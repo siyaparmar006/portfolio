@@ -140,4 +140,12 @@
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
+  .grain {
+    background-image: var(--gradient-soft);
+  }
+}
+
+@keyframes ribbon {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
