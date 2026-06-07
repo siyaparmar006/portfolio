@@ -78,8 +78,9 @@ export function DesignOS() {
           className="mb-10 max-w-2xl px-2 md:mb-14"
         >
           <div className="mb-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-            My Design OS
+            Design OS
           </div>
+
           <h2 className="font-display text-balance text-3xl leading-[1.05] md:text-5xl">
             The principles that shape how I design products, systems, and visual experiences.
           </h2>

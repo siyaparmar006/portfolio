@@ -4,6 +4,7 @@ import { Hero } from "@/components/site/Hero";
 import { Work } from "@/components/site/Work";
 import { DesignOS } from "@/components/site/DesignOS";
 import { Atlas } from "@/components/site/Atlas";
+import { About } from "@/components/site/About";
 import { Footer } from "@/components/site/Footer";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
 
@@ -37,7 +38,9 @@ function Index() {
       <Work />
       <DesignOS />
       <Atlas />
+      <About />
       <Footer />
     </main>
   );
 }
+
