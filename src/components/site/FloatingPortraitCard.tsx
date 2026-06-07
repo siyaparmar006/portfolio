@@ -46,13 +46,13 @@ export function FloatingPortraitCard({
   const stops = [0, 0.22, 0.42, 0.5, 0.58, 0.78, 1];
 
   const x = useTransform(p, stops, [
-    "0vw",
-    "30vw",
-    "33vw",
+    "32vw",
+    "36vw",
+    "37vw",
+    "38vw",
+    "37vw",
     "34vw",
-    "33vw",
-    "28vw",
-    "16vw",
+    "30vw",
   ]);
   const y = useTransform(p, stops, [
     "0vh",
@@ -63,7 +63,7 @@ export function FloatingPortraitCard({
     "0vh",
     "-32vh",
   ]);
-  const scale = useTransform(p, stops, [1, 0.82, 0.8, 0.78, 0.8, 0.86, 0.7]);
+  const scale = useTransform(p, stops, [0.85, 0.72, 0.7, 0.68, 0.7, 0.78, 0.62]);
   const rotateZ = useTransform(p, stops, [-3, 6, 2, -4, 2, 4, -6]);
   const rotateY = useTransform(p, stops, [0, 0, 45, 90, 45, 0, 0]);
   const opacity = useTransform(
