@@ -107,23 +107,26 @@ export function SoftwareRibbon() {
       />
 
       <div className="flex w-max animate-[ribbon_55s_linear_infinite] gap-8 whitespace-nowrap will-change-transform">
-        {loop.map(({ name, Icon, color }, i) => (
-          <div key={i} className="flex items-center gap-2.5">
-            <span
-              className="inline-flex h-5 w-5 shrink-0 items-center justify-center"
-              style={color ? { color } : undefined}
-            >
-              <Icon className="h-5 w-5" />
-            </span>
-            <span className="text-xs uppercase tracking-[0.2em] text-foreground/85 md:text-sm">
-              {name}
-            </span>
-            <span
-              aria-hidden
-              className="ml-6 inline-block h-1 w-1 rounded-full bg-foreground/25"
-            />
-          </div>
-        ))}
+        {loop.map(({ name, Icon, color }, i) => {
+          const isWide = name === "MailerLite";
+          return (
+            <div key={i} className="flex items-center gap-2.5">
+              <span
+                className={`inline-flex h-5 shrink-0 items-center justify-center ${isWide ? "w-16" : "w-5"}`}
+                style={color ? { color } : undefined}
+              >
+                <Icon className={isWide ? "h-5 w-auto object-contain" : "h-5 w-5"} />
+              </span>
+              <span className="text-xs uppercase tracking-[0.2em] text-foreground/85 md:text-sm">
+                {name}
+              </span>
+              <span
+                aria-hidden
+                className="ml-6 inline-block h-1 w-1 rounded-full bg-foreground/25"
+              />
+            </div>
+          );
+        })}
       </div>
     </section>
   );
