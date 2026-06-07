@@ -9,9 +9,9 @@ import {
   SiHubspot,
 } from "react-icons/si";
 import lovableLogo from "@/assets/lovable-logo.svg.asset.json";
-import canvaLogo from "@/assets/canva.png.asset.json";
-import procreateLogo from "@/assets/procreate.png.asset.json";
-import mailerliteLogo from "@/assets/mailerlite.png.asset.json";
+import canvaLogo from "@/assets/canva.svg.asset.json";
+import procreateLogo from "@/assets/procreate.svg.asset.json";
+import mailerliteLogo from "@/assets/mailerlite.svg.asset.json";
 
 type IconCmp = (props: { className?: string }) => React.ReactElement;
 
