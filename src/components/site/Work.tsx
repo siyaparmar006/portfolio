@@ -31,7 +31,7 @@ const projects: Project[] = [
       "A digital product experience focused on clear flows, intuitive screens, and human-centered interaction.",
     cta: "Coming Soon",
     gradient:
-      "radial-gradient(circle at 70% 40%, oklch(0.88 0.18 130 / 0.55), oklch(0.28 0.02 80))",
+      "radial-gradient(circle at 70% 40%, oklch(0.42 0.20 287 / 0.55), oklch(0.28 0.02 80))",
     badge: "02",
   },
   {
