@@ -244,12 +244,15 @@ function AtlasPage() {
                 </AnimatePresence>
               </div>
 
-              {/* Desktop: floating constellation */}
+              {/* Desktop: broken editorial grid */}
               <div className="relative hidden md:block">
-                <div className="flex flex-wrap items-start justify-center gap-x-6 gap-y-10">
+                <div
+                  className="grid grid-cols-12 gap-5 md:gap-6"
+                  style={{ gridAutoFlow: "dense" }}
+                >
                   <AnimatePresence mode="popLayout">
                     {filtered.map((p, i) => (
-                      <FloatingNode
+                      <EditorialNode
                         key={p.title}
                         p={p}
                         index={i}
