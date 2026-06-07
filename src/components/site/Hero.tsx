@@ -77,7 +77,11 @@ export function Hero() {
     return () => window.removeEventListener("mousemove", onMove);
   }, [reduced]);
 
-  const headingLines = ["Designing calm", "interfaces with", "intentional motion."];
+  const headingLines = [
+    "Product Designer",
+    "crafting human-centered",
+    "digital experiences.",
+  ];
 
   return (
     <section id="top" className="relative min-h-[100dvh] overflow-hidden pt-32 pb-24">
@@ -92,7 +96,7 @@ export function Hero() {
           className="inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur"
         >
           <Sparkles className="h-3.5 w-3.5" />
-          Available for select projects · 2026
+          Open to select projects · 2026
         </motion.div>
 
         <h1 className="font-display text-balance text-[clamp(2.75rem,7vw,5.5rem)] leading-[1.02] tracking-tight">
@@ -116,8 +120,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.7, ease }}
           className="max-w-xl text-balance text-lg text-muted-foreground"
         >
-          I'm an independent designer crafting product systems, brand identities,
-          and the quiet animations that hold them together.
+          I design digital experiences that feel clear, human, and visually memorable.
         </motion.p>
 
         <motion.div
@@ -127,7 +130,14 @@ export function Hero() {
           className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground"
         >
           <span className="opacity-60">Skills —</span>
-          {["Product Design", "Design Systems", "Motion", "Brand"].map((s) => (
+          {[
+            "UX/UI",
+            "Visual Systems",
+            "Brand Thinking",
+            "Information Architecture",
+            "Typography",
+            "Communication Design",
+          ].map((s) => (
             <span key={s} className="rounded-full border border-border/60 px-3 py-1">
               {s}
             </span>
@@ -144,15 +154,15 @@ export function Hero() {
             href="#work"
             className="group relative inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift"
           >
-            View selected work
+            View Selected Work
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
           <a
-            href="#contact"
+            href="/resume.pdf"
             className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium text-foreground transition-colors duration-300 hover:text-background"
           >
             <span className="absolute inset-0 -z-0 translate-y-full bg-foreground transition-transform duration-500 ease-out group-hover:translate-y-0" />
-            <span className="relative">Start a project</span>
+            <span className="relative">Download Resume</span>
           </a>
         </motion.div>
       </div>
@@ -165,12 +175,12 @@ export function Hero() {
       >
         <div className="mb-3 flex items-center gap-2">
           <div className="h-2 w-2 rounded-full" style={{ background: "var(--clay-2)" }} />
-          <span className="text-xs text-muted-foreground">Atlas / Case 04</span>
+          <span className="text-xs text-muted-foreground">Referral System</span>
         </div>
-        <div className="font-display text-lg leading-tight">Field Notes OS</div>
+        <div className="font-display text-lg leading-tight">Newcomer Support</div>
         <div className="mt-2 flex gap-1">
-          <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px]">Brand</span>
-          <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px]">Web</span>
+          <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px]">Service Design</span>
+          <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px]">IA</span>
         </div>
       </FloatingCard>
 
@@ -182,7 +192,7 @@ export function Hero() {
         <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
           Now playing
         </div>
-        <div className="mt-1 text-sm font-medium">Motion principles v2.4</div>
+        <div className="mt-1 text-sm font-medium">Visual systems v2.4</div>
         <div className="mt-3 h-1 w-full rounded-full bg-secondary">
           <div className="h-1 w-2/3 rounded-full" style={{ background: "var(--foreground)" }} />
         </div>
@@ -193,8 +203,8 @@ export function Hero() {
         delay={1.3}
         parallax={{ x: m.x * 0.3, y: m.y * 0.3 }}
       >
-        <div className="font-display text-2xl">12</div>
-        <div className="text-xs text-muted-foreground">shipped systems · 2025</div>
+        <div className="font-display text-2xl">6+</div>
+        <div className="text-xs text-muted-foreground">years designing · Product & Brand</div>
       </FloatingCard>
     </section>
   );

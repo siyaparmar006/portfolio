@@ -1,27 +1,27 @@
 import { motion } from "framer-motion";
-import { Compass, Layers, Waves, Anchor } from "lucide-react";
+import { Eye, Heart, Palette, Layers } from "lucide-react";
 import { Reveal } from "./motion";
 
 const principles = [
   {
-    icon: Compass,
-    title: "Direction over decoration",
-    body: "Every layout decision earns its place by clarifying the path forward.",
+    icon: Eye,
+    title: "Clarity",
+    body: "I structure information so people can understand what matters, where to go, and what to do next.",
+  },
+  {
+    icon: Heart,
+    title: "Humanity",
+    body: "I design with empathy, context, accessibility, and emotional clarity — especially for real people navigating complex systems.",
+  },
+  {
+    icon: Palette,
+    title: "Visual Memory",
+    body: "I use typography, color, layout, and visual rhythm to make digital experiences feel distinct and memorable.",
   },
   {
     icon: Layers,
-    title: "Systems, then surfaces",
-    body: "Tokens, primitives, and rhythm before pixels — surfaces compose themselves.",
-  },
-  {
-    icon: Waves,
-    title: "Motion as meaning",
-    body: "Animation carries hierarchy. If it doesn't, it's removed.",
-  },
-  {
-    icon: Anchor,
-    title: "Calm by default",
-    body: "Restraint is a feature. Interfaces should breathe, not perform.",
+    title: "Systems",
+    body: "I build reusable patterns across web, mobile, print, social, and brand touchpoints so design feels consistent and scalable.",
   },
 ];
 

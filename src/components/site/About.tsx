@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Calendar } from "lucide-react";
+import { Mail, Linkedin, FileText } from "lucide-react";
 import { Reveal } from "./motion";
 
 export function About() {
@@ -22,37 +22,44 @@ export function About() {
             About · Contact
           </div>
           <h2 className="mt-4 font-display text-balance text-4xl leading-[1.05] md:text-5xl">
-            Building quiet products with deliberate teams.
+            A Product Designer with a visual communication edge.
           </h2>
         </Reveal>
 
         <Reveal delay={0.15} className="md:col-span-7">
           <p className="text-lg leading-relaxed text-foreground/80">
-            I've spent the last decade designing software for founders, studios and
-            small product teams. My favourite work lives at the intersection of
-            systems thinking and craft — where the interface disappears and the
-            idea takes the stage.
+            I'm Siya Parmar, a Product Designer and Visual Communication Designer based in
+            Jersey City. My work blends human-centered design, UX/UI, branding, typography,
+            layout, and storytelling to create experiences that are useful, clear, and visually
+            memorable.
           </p>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            Currently taking on one or two engagements per quarter. If you're
-            shipping something you care about, I'd love to hear from you.
+            Let's create digital experiences that feel clear, human, and memorable.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-3">
             <a
-              href="mailto:hello@example.com"
+              href="mailto:siyaparmar@example.com"
               className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift"
             >
               <Mail className="h-4 w-4" />
-              hello@studio.com
+              Email Me
             </a>
             <a
-              href="#"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium text-foreground transition-colors duration-300 hover:text-background"
+              href="https://linkedin.com/in/siyaparmar"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:bg-foreground hover:text-background"
             >
-              <span className="absolute inset-0 -z-0 translate-y-full bg-foreground transition-transform duration-500 ease-out group-hover:translate-y-0" />
-              <Calendar className="relative h-4 w-4" />
-              <span className="relative">Book an intro</span>
+              <Linkedin className="h-4 w-4" />
+              LinkedIn
+            </a>
+            <a
+              href="/resume.pdf"
+              className="group inline-flex items-center gap-2 rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:bg-foreground hover:text-background"
+            >
+              <FileText className="h-4 w-4" />
+              Resume
             </a>
           </div>
         </Reveal>
