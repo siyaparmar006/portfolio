@@ -39,7 +39,7 @@ function Index() {
       <ScrollProgress />
       <ScrollMarker />
       <Nav />
-      <FloatingPortraitCard trackRef={journeyRef} />
+      
       <div ref={journeyRef}>
         <Hero />
         <Work />
