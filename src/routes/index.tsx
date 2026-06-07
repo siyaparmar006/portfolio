@@ -1,13 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef } from "react";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
 import { Work } from "@/components/site/Work";
 import { DesignOS } from "@/components/site/DesignOS";
 import { Atlas } from "@/components/site/Atlas";
-import { About } from "@/components/site/About";
 import { Footer } from "@/components/site/Footer";
-import { ScrollProgress, ScrollMarker } from "@/components/site/ScrollProgress";
+import { ScrollProgress } from "@/components/site/ScrollProgress";
 
 
 export const Route = createFileRoute("/")({
@@ -31,21 +29,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  // Spans Hero → About; the shared portrait card animates across this range.
-  const journeyRef = useRef<HTMLDivElement>(null);
-
   return (
     <main className="relative overflow-x-clip">
       <ScrollProgress />
-      <ScrollMarker />
       <Nav />
-      
-      <div ref={journeyRef}>
-        <Hero />
-        <Work />
-        <DesignOS />
-        <About />
-      </div>
+      <Hero />
+      <Work />
+      <DesignOS />
       <Atlas />
       <Footer />
     </main>
