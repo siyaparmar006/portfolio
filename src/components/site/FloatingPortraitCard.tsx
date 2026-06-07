@@ -63,7 +63,7 @@ export function FloatingPortraitCard({
     "0vh",
     "-32vh",
   ]);
-  const scale = useTransform(p, stops, [1, 0.82, 0.8, 0.78, 0.8, 0.86, 0.7]);
+  const scale = useTransform(p, stops, [0.85, 0.72, 0.7, 0.68, 0.7, 0.78, 0.62]);
   const rotateZ = useTransform(p, stops, [-3, 6, 2, -4, 2, 4, -6]);
   const rotateY = useTransform(p, stops, [0, 0, 45, 90, 45, 0, 0]);
   const opacity = useTransform(
