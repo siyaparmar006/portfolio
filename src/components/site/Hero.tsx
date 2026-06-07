@@ -7,7 +7,8 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduced = useReducedMotion();
-  const [hiToggle, setHiToggle] = useState(0); // 0 = "Hi", 1 = "✋"
+  const { theme, toggle } = useTheme();
+  const [hiToggle, setHiToggle] = useState(0); // 0 = "Hi", 1 = "👋"
 
   useEffect(() => {
     if (reduced) return;
