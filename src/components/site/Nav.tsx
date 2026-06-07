@@ -66,7 +66,7 @@ export function Nav() {
           <img
             src={logo.url}
             alt="Siya Parmar"
-            className="h-6 w-auto dark:invert-0 invert-0 [.light_&]:invert"
+            className="h-6 w-auto invert [.light_&]:invert-0"
           />
         </a>
 
