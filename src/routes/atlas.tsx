@@ -165,8 +165,8 @@ function AtlasPage() {
                 i={i}
                 total={projects.length}
                 setRef={(el) => { sectionsRef.current[i] = el; }}
-                reduced={!!reduced}
               />
+
             ))}
 
 
