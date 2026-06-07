@@ -161,7 +161,7 @@ function AtlasPage() {
             {projects.map((p, i) => (
               <section
                 key={p.title}
-                ref={(el) => (sectionsRef.current[i] = el)}
+                ref={(el) => { sectionsRef.current[i] = el; }}
                 data-idx={i}
                 className="relative"
                 style={{ height: "78vh" }}
