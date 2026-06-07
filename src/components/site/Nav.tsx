@@ -46,26 +46,38 @@ export function Nav() {
             : "border border-transparent"
         }`}
       >
-        <a href="#top" className="flex items-center gap-2 pl-2" aria-label="Siya Parmar — Home">
+        <Link to="/" hash="top" className="flex items-center gap-2 pl-2" aria-label="Siya Parmar — Home">
           <img
             src={logo.url}
             alt="Siya Parmar"
             className="h-7 w-auto invert [.light_&]:invert-0"
           />
-        </a>
+        </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
-          {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className="group relative rounded-full px-3 py-1.5 text-sm text-foreground/70 transition-colors hover:text-foreground"
-              >
+          {links.map((l) => {
+            const cls =
+              "group relative rounded-full px-3 py-1.5 text-sm text-foreground/70 transition-colors hover:text-foreground";
+            const inner = (
+              <>
                 <span className="absolute inset-0 -z-10 scale-90 rounded-full bg-secondary opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100" />
                 {l.label}
-              </a>
-            </li>
-          ))}
+              </>
+            );
+            return (
+              <li key={l.href}>
+                {l.to ? (
+                  <Link to={l.to} className={cls}>
+                    {inner}
+                  </Link>
+                ) : (
+                  <a href={l.href} className={cls}>
+                    {inner}
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex items-center gap-2">
