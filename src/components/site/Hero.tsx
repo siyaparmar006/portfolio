@@ -61,7 +61,7 @@ export function Hero() {
             {...anim(0.2)}
             className="relative order-1 mx-auto w-[55vw] max-w-[260px] md:order-2 md:w-[20vw] md:min-w-[200px] md:max-w-[240px]"
           >
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[oklch(0.92_0.01_70)] shadow-lift">
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-card shadow-lift">
               <img
                 src={portrait.url}
                 alt="Portrait of Siya Parmar"
