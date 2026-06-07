@@ -312,9 +312,9 @@ function AtlasPage() {
 }
 
 // Pseudo-random but stable per-index offsets for the floating constellation.
-const widths = ["w-[220px]", "w-[260px]", "w-[300px]", "w-[240px]", "w-[280px]"];
-const yOffsets = [0, 36, 72, 18, 54, 90, 12, 60];
-const rotations = [-1.4, 0.8, -0.6, 1.6, -1.1, 0.4, 1.2, -0.8];
+const widths = ["w-[220px]", "w-[250px]", "w-[280px]", "w-[230px]", "w-[260px]"];
+const yOffsets = [0, 24, 48, 12, 36, 56, 8, 40];
+const rotations = [-0.8, 0.5, -0.4, 1.0, -0.7, 0.3, 0.8, -0.5];
 const floatDurations = [7, 8.5, 9, 7.8, 8.2, 9.4, 7.4, 8.8];
 
 function FloatingNode({
