@@ -91,7 +91,7 @@ export function Atlas() {
               </motion.a>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
