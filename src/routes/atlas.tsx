@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
@@ -165,8 +165,8 @@ function AtlasPage() {
                 i={i}
                 total={projects.length}
                 setRef={(el) => { sectionsRef.current[i] = el; }}
-                reduced={!!reduced}
               />
+
             ))}
 
 
@@ -263,128 +263,98 @@ function StackCard({
   i,
   total,
   setRef,
-  reduced,
 }: {
   p: Project;
   i: number;
   total: number;
   setRef: (el: HTMLElement | null) => void;
-  reduced: boolean;
 }) {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    // 0 = section just entered viewport bottom; 1 = section's top reached viewport top
-    offset: ["start end", "start start"],
-  });
-
-  // As the NEXT section starts pushing this card out of view, shrink + fade slightly.
-  const { scrollYProgress: outProgress } = useScroll({
-    target: sectionRef,
-    // 0 = card just stuck to top; 1 = card scrolled away
-    offset: ["start start", "end start"],
-  });
-
-  const scale = useTransform(outProgress, [0, 1], reduced ? [1, 1] : [1, 0.92]);
-  const opacity = useTransform(outProgress, [0, 0.7, 1], reduced ? [1, 1, 1] : [1, 0.85, 0.5]);
-  // Entry: slide up from below
-  const enterY = useTransform(scrollYProgress, [0, 1], reduced ? ["0%", "0%"] : ["8%", "0%"]);
-
   return (
-    <section
-      ref={(el) => {
-        sectionRef.current = el;
-        setRef(el);
-      }}
+    <motion.article
+      ref={(el) => setRef(el)}
       data-idx={i}
-      className="relative"
-      style={{ height: "130vh", zIndex: i + 1 }}
+      className="sticky overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.85)]"
+      style={{
+        top: "8vh",
+        height: "84vh",
+        marginTop: i === 0 ? 0 : "16vh",
+        background: "#0E0B18",
+        zIndex: i + 1,
+      }}
     >
-      <motion.article
-        className="sticky overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.85)]"
-        style={{
-          top: "8vh",
-          height: "84vh",
-          background: "#0E0B18",
-          scale,
-          opacity,
-          y: enterY as MotionValue<string>,
-          transformOrigin: "center top",
-        }}
+      {/* Visual area */}
+      <div
+        className="relative h-[62%] w-full overflow-hidden"
+        style={{ background: cardGradient(p, i) }}
       >
-        {/* Visual area */}
         <div
-          className="relative h-[62%] w-full overflow-hidden"
-          style={{ background: cardGradient(p, i) }}
-        >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-50"
-            style={{ background: categoryColor[p.category] }}
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full blur-3xl opacity-30"
-            style={{ background: categoryColor[p.category] }}
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-[0.08]"
-            style={{
-              backgroundImage:
-                "radial-gradient(rgba(255,255,255,0.7) 1px, transparent 1px)",
-              backgroundSize: "3px 3px",
-            }}
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
+          aria-hidden
+          className="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-50"
+          style={{ background: categoryColor[p.category] }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full blur-3xl opacity-30"
+          style={{ background: categoryColor[p.category] }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-[0.08]"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(255,255,255,0.7) 1px, transparent 1px)",
+            backgroundSize: "3px 3px",
+          }}
+        />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span
+            className="font-serif italic leading-none text-white/[0.07]"
+            style={{ fontSize: "clamp(180px, 32vw, 420px)" }}
+          >
+            {String(i + 1).padStart(2, "0")}
+          </span>
+        </div>
+        <div className="absolute left-0 right-0 top-0 flex items-center justify-between p-6 md:p-8">
+          <div className="flex items-center gap-3">
             <span
-              className="font-serif italic leading-none text-white/[0.07]"
-              style={{ fontSize: "clamp(180px, 32vw, 420px)" }}
-            >
-              {String(i + 1).padStart(2, "0")}
+              className="h-2 w-2 rounded-full"
+              style={{
+                background: categoryColor[p.category],
+                boxShadow: `0 0 16px ${categoryColor[p.category]}`,
+              }}
+            />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-white/70">
+              {p.category}
             </span>
           </div>
-          <div className="absolute left-0 right-0 top-0 flex items-center justify-between p-6 md:p-8">
-            <div className="flex items-center gap-3">
-              <span
-                className="h-2 w-2 rounded-full"
-                style={{
-                  background: categoryColor[p.category],
-                  boxShadow: `0 0 16px ${categoryColor[p.category]}`,
-                }}
-              />
-              <span className="text-[10px] uppercase tracking-[0.3em] text-white/70">
-                {p.category}
-              </span>
-            </div>
-            <div className="font-mono text-[10px] tracking-[0.2em] text-white/50">
-              {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-            </div>
+          <div className="font-mono text-[10px] tracking-[0.2em] text-white/50">
+            {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </div>
         </div>
+      </div>
 
-        {/* Content area */}
-        <div className="relative flex h-[38%] items-center justify-between gap-6 px-8 py-6 md:px-12 md:py-8">
-          <div className="min-w-0 flex-1">
-            <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
-              {p.year ?? ""} · {p.status}
-            </div>
-            <h2 className="mt-2 font-serif text-2xl leading-[1.05] md:text-4xl lg:text-5xl">
-              {p.title}
-            </h2>
-            <p className="mt-2 line-clamp-2 max-w-2xl text-sm text-white/60">
-              {p.tagline}
-            </p>
+      {/* Content area */}
+      <div className="relative flex h-[38%] items-center justify-between gap-6 px-8 py-6 md:px-12 md:py-8">
+        <div className="min-w-0 flex-1">
+          <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+            {p.year ?? ""} · {p.status}
           </div>
-          <a
-            href="#"
-            className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:scale-105 hover:bg-white/10 md:h-16 md:w-16"
-            style={{ boxShadow: `0 0 32px ${categoryColor[p.category]}30` }}
-          >
-            <ArrowUpRight className="h-5 w-5 transition-transform group-hover:rotate-45" />
-          </a>
+          <h2 className="mt-2 font-serif text-2xl leading-[1.05] md:text-4xl lg:text-5xl">
+            {p.title}
+          </h2>
+          <p className="mt-2 line-clamp-2 max-w-2xl text-sm text-white/60">
+            {p.tagline}
+          </p>
         </div>
-      </motion.article>
-    </section>
+        <a
+          href="#"
+          className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:scale-105 hover:bg-white/10 md:h-16 md:w-16"
+          style={{ boxShadow: `0 0 32px ${categoryColor[p.category]}30` }}
+        >
+          <ArrowUpRight className="h-5 w-5 transition-transform group-hover:rotate-45" />
+        </a>
+      </div>
+    </motion.article>
   );
 }
+
