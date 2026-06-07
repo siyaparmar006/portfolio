@@ -97,13 +97,6 @@ export function Hero() {
           I design digital experiences that feel clear, human, and visually memorable.
         </motion.p>
 
-        {/* Skill line */}
-        <motion.p
-          {...anim(0.5)}
-          className="mt-6 max-w-3xl text-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground/80 md:text-xs"
-        >
-          UX/UI · Visual Systems · Brand Thinking · Information Architecture · Typography · Communication Design
-        </motion.p>
 
         {/* CTAs */}
         <motion.div
