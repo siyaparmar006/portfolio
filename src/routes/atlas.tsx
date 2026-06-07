@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState, useRef } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion, LayoutGroup } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
@@ -65,30 +65,79 @@ const projects: Project[] = [
   { title: "Animation Video", category: "Spatial & Visual Experiments", tagline: "Motion and animation exploration.", status: "Archive", year: "2021" },
 ];
 
-const chapters: { key: Category | "All"; label: string; sub: string }[] = [
-  { key: "All", label: "Complete Index", sub: "Every project across every discipline." },
-  { key: "Product Experiences", label: "Product Experiences", sub: "Interfaces, services, and systems for human use." },
-  { key: "Brand Systems", label: "Brand Systems", sub: "Identities, packaging, and visual languages." },
-  { key: "Communication Systems", label: "Communication Systems", sub: "Editorial frameworks and information ecosystems." },
-  { key: "Print & Editorial", label: "Print & Editorial", sub: "Typography and layout for the printed page." },
-  { key: "Spatial & Visual Experiments", label: "Spatial & Visual Experiments", sub: "Environments, illustration, and motion studies." },
+const filters: Array<"All" | Category> = [
+  "All",
+  "Product Experiences",
+  "Brand Systems",
+  "Communication Systems",
+  "Print & Editorial",
+  "Spatial & Visual Experiments",
 ];
+
+const categoryAccent: Record<Category, string> = {
+  "Product Experiences": "oklch(0.78 0.13 150)",
+  "Brand Systems": "oklch(0.82 0.13 70)",
+  "Communication Systems": "oklch(0.65 0.20 285)",
+  "Print & Editorial": "oklch(0.74 0.16 25)",
+  "Spatial & Visual Experiments": "oklch(0.72 0.13 200)",
+};
+
+const categoryGlyph: Record<Category, string> = {
+  "Product Experiences": "◐",
+  "Brand Systems": "✦",
+  "Communication Systems": "❋",
+  "Print & Editorial": "▦",
+  "Spatial & Visual Experiments": "◇",
+};
+
+const categoryShort: Record<Category, string> = {
+  "Product Experiences": "Product",
+  "Brand Systems": "Brand",
+  "Communication Systems": "Comms",
+  "Print & Editorial": "Print",
+  "Spatial & Visual Experiments": "Spatial",
+};
 
 export const Route = createFileRoute("/atlas")({
   head: () => ({
     meta: [
       { title: "Design Atlas — Siya Parmar" },
-      { name: "description", content: "An interactive index of every project — product, brand, communication, print, and spatial design by Siya Parmar." },
+      { name: "description", content: "An interactive typographic mosaic of every project — product, brand, communication, print, and spatial design by Siya Parmar." },
       { property: "og:title", content: "Design Atlas — Siya Parmar" },
-      { property: "og:description", content: "An interactive index of every project by Siya Parmar." },
+      { property: "og:description", content: "An interactive mosaic of every project by Siya Parmar." },
     ],
   }),
   component: AtlasPage,
 });
 
+// Tile size variants — Mondrian-style salon hang.
+// span = grid column units (out of 12), rows = grid row units, h = approx height tier.
+type Tile = { col: number; row: number; tier: "xs" | "s" | "m" | "l" | "xl" };
+
+const TILE_VARIANTS: Tile[] = [
+  { col: 4, row: 3, tier: "m" },
+  { col: 3, row: 2, tier: "s" },
+  { col: 5, row: 4, tier: "l" },
+  { col: 4, row: 2, tier: "s" },
+  { col: 3, row: 3, tier: "m" },
+  { col: 5, row: 3, tier: "m" },
+  { col: 4, row: 4, tier: "l" },
+  { col: 3, row: 2, tier: "xs" },
+  { col: 5, row: 2, tier: "s" },
+  { col: 4, row: 3, tier: "m" },
+  { col: 3, row: 4, tier: "l" },
+  { col: 5, row: 3, tier: "m" },
+];
+
+function getTile(p: Project, i: number): Tile {
+  if (p.featured) return { col: 6, row: 5, tier: "xl" };
+  if (p.status === "Case Study") return { col: 5, row: 4, tier: "l" };
+  return TILE_VARIANTS[i % TILE_VARIANTS.length];
+}
+
 function AtlasPage() {
-  const [active, setActive] = useState<Category | "All">("All");
-  const [hover, setHover] = useState<number | null>(null);
+  const [active, setActive] = useState<"All" | Category>("All");
+  const [hover, setHover] = useState<string | null>(null);
   const reduced = useReducedMotion();
 
   const filtered = useMemo(
@@ -97,21 +146,16 @@ function AtlasPage() {
   );
 
   const total = projects.length;
-  const hoverProject = hover !== null ? filtered[hover] : null;
-
-  // cursor follower
-  const [cursor, setCursor] = useState({ x: -100, y: -100, visible: false });
-  const stageRef = useRef<HTMLDivElement>(null);
 
   return (
     <main className="relative overflow-x-clip">
       <ScrollProgress />
       <Nav />
 
-      {/* ============ HERO / MASTHEAD ============ */}
+      {/* ============ HERO ============ */}
       <section className="relative pt-36 md:pt-44">
-        <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10">
-          <div className="flex flex-col gap-12 md:flex-row md:items-end md:justify-between">
+        <div className="mx-auto w-full max-w-[1500px] px-6 md:px-10">
+          <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
             <motion.div
               initial={reduced ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -122,12 +166,12 @@ function AtlasPage() {
                 <span className="inline-block h-px w-10 bg-foreground/30" />
                 Vol. 01 · The Design Atlas
               </div>
-              <h1 className="mt-6 font-serif text-[14vw] leading-[0.88] tracking-tight md:text-[8.5rem]">
-                Index<span style={{ color: "var(--accent)" }}>.</span>
+              <h1 className="mt-6 font-serif text-[13vw] leading-[0.86] tracking-tight md:text-[8.5rem]">
+                Atlas<span style={{ color: "var(--accent)" }}>.</span>
               </h1>
               <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                A living catalog of every project, study, and experiment — bound, numbered,
-                and arranged like the pages of a monograph.
+                A salon-hung mosaic of every project. Each tile a small poster. Each chapter a
+                rearrangement of the wall.
               </p>
             </motion.div>
 
@@ -135,243 +179,79 @@ function AtlasPage() {
               initial={reduced ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-3 gap-8 text-left md:gap-12"
+              className="flex items-end gap-10"
             >
-              <Stat n={String(total).padStart(2, "0")} label="Total Works" />
+              <Stat n={String(total).padStart(2, "0")} label="Works" />
               <Stat n="05" label="Disciplines" />
               <Stat n="04" label="Years" />
             </motion.div>
           </div>
-
-          <div className="mt-16 h-px w-full bg-foreground/10" />
         </div>
       </section>
 
-      {/* ============ INTERACTIVE INDEX STAGE ============ */}
-      <section className="relative py-16 md:py-20">
-        <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10">
-          <div
-            ref={stageRef}
-            onMouseMove={(e) => {
-              const r = stageRef.current?.getBoundingClientRect();
-              if (!r) return;
-              setCursor({ x: e.clientX - r.left, y: e.clientY - r.top, visible: true });
-            }}
-            onMouseLeave={() => setCursor((c) => ({ ...c, visible: false }))}
-            className="relative grid grid-cols-1 gap-12 md:grid-cols-[280px_1fr] md:gap-16 lg:grid-cols-[320px_1fr]"
-          >
-            {/* GHOST NUMBER backdrop */}
-            <AnimatePresence>
-              {hoverProject && !reduced && (
-                <motion.div
-                  key={hover}
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.02 }}
-                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  aria-hidden
-                  className="pointer-events-none absolute right-0 top-0 select-none font-serif italic leading-none"
+      {/* ============ FILTER CHIPS ============ */}
+      <section className="relative pt-14 md:pt-20">
+        <div className="mx-auto w-full max-w-[1500px] px-6 md:px-10">
+          <div className="flex flex-wrap items-center gap-2">
+            {filters.map((f) => {
+              const isActive = active === f;
+              const count = f === "All" ? projects.length : projects.filter((p) => p.category === f).length;
+              return (
+                <button
+                  key={f}
+                  onClick={() => setActive(f)}
+                  className="group relative inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[11px] uppercase tracking-[0.18em] transition-colors"
                   style={{
-                    fontSize: "clamp(12rem, 32vw, 28rem)",
-                    color: "color-mix(in oklab, var(--foreground) 4%, transparent)",
-                    lineHeight: 0.8,
-                    transform: "translateY(-12%)",
+                    borderColor: isActive ? "var(--foreground)" : "color-mix(in oklab, var(--foreground) 15%, transparent)",
+                    background: isActive ? "var(--foreground)" : "transparent",
+                    color: isActive ? "var(--background)" : "color-mix(in oklab, var(--foreground) 75%, transparent)",
                   }}
                 >
-                  {String((hover ?? 0) + 1).padStart(2, "0")}
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* cursor accent */}
-            <AnimatePresence>
-              {cursor.visible && hoverProject && !reduced && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.5 }}
-                  transition={{ duration: 0.25 }}
-                  aria-hidden
-                  className="pointer-events-none absolute hidden md:block"
-                  style={{
-                    left: cursor.x,
-                    top: cursor.y,
-                    transform: "translate(-50%, -50%)",
-                    width: 110,
-                    height: 110,
-                    borderRadius: "50%",
-                    background:
-                      "radial-gradient(circle, color-mix(in oklab, var(--accent) 35%, transparent), transparent 70%)",
-                    filter: "blur(6px)",
-                    zIndex: 1,
-                  }}
-                />
-              )}
-            </AnimatePresence>
-
-            {/* ===== LEFT: CHAPTERS ===== */}
-            <aside className="relative z-10">
-              <div className="sticky top-28">
-                <div className="mb-6 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
-                  § Chapters
-                </div>
-                <ul className="flex flex-col">
-                  {chapters.map((c, i) => {
-                    const isActive = active === c.key;
-                    const count =
-                      c.key === "All"
-                        ? projects.length
-                        : projects.filter((p) => p.category === c.key).length;
-                    return (
-                      <li key={c.key}>
-                        <button
-                          onClick={() => {
-                            setActive(c.key);
-                            setHover(null);
-                          }}
-                          className="group relative block w-full py-3 text-left"
-                        >
-                          <div className="flex items-baseline gap-3">
-                            <span
-                              className={`font-mono text-[10px] tabular-nums transition-colors ${
-                                isActive ? "text-foreground" : "text-muted-foreground/50"
-                              }`}
-                            >
-                              {String(i).padStart(2, "0")}
-                            </span>
-                            <span
-                              className={`font-serif text-lg leading-tight transition-all duration-500 ${
-                                isActive
-                                  ? "italic"
-                                  : "text-foreground/55 group-hover:text-foreground"
-                              }`}
-                              style={isActive ? { color: "var(--accent)" } : undefined}
-                            >
-                              {c.label}
-                            </span>
-                            <span className="ml-auto font-mono text-[10px] tabular-nums text-muted-foreground/60">
-                              {String(count).padStart(2, "0")}
-                            </span>
-                          </div>
-                          <AnimatePresence>
-                            {isActive && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                                className="overflow-hidden pl-7 pt-2"
-                              >
-                                <p className="text-xs leading-relaxed text-muted-foreground">
-                                  {c.sub}
-                                </p>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </button>
-                        {i < chapters.length - 1 && (
-                          <div className="h-px w-full bg-foreground/10" />
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-
-                <div className="mt-10 rounded-2xl border border-border/50 bg-card/40 p-5 backdrop-blur">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-                    Now Reading
-                  </div>
-                  <div className="mt-2 font-serif text-2xl italic" style={{ color: "var(--accent)" }}>
-                    {active === "All" ? "All" : active.split(" ")[0]}
-                  </div>
-                  <div className="mt-1 font-mono text-[10px] tabular-nums text-muted-foreground">
-                    {String(filtered.length).padStart(2, "0")} / {String(total).padStart(2, "0")} works
-                  </div>
-                </div>
-              </div>
-            </aside>
-
-            {/* ===== RIGHT: PROJECT LEDGER ===== */}
-            <div className="relative z-10 min-w-0">
-              {/* column header */}
-              <div className="mb-4 grid grid-cols-[44px_1fr_70px_90px] items-center gap-4 border-b border-foreground/15 pb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:grid-cols-[60px_1fr_90px_120px]">
-                <span>No.</span>
-                <span>Project</span>
-                <span className="hidden md:inline">Year</span>
-                <span>Type</span>
-              </div>
-
-              <AnimatePresence mode="wait">
-                <motion.ul
-                  key={active}
-                  initial={reduced ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={reduced ? undefined : { opacity: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="flex flex-col"
-                >
-                  {filtered.map((p, i) => (
-                    <LedgerRow
-                      key={`${active}-${p.title}`}
-                      p={p}
-                      i={i}
-                      reduced={!!reduced}
-                      isHover={hover === i}
-                      anyHover={hover !== null}
-                      onHover={() => setHover(i)}
-                      onLeave={() => setHover(null)}
-                    />
-                  ))}
-                </motion.ul>
-              </AnimatePresence>
-
-              {/* footer rule */}
-              <div className="mt-2 flex items-center justify-between border-t border-foreground/15 pt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                <span>End of selection</span>
-                <span className="tabular-nums">
-                  {String(filtered.length).padStart(2, "0")} entries · curated by SP
-                </span>
-              </div>
-            </div>
+                  <span>{f === "All" ? "All Works" : (f as string)}</span>
+                  <span className="font-mono text-[9px] tabular-nums opacity-70">
+                    {String(count).padStart(2, "0")}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ============ FEATURED MARQUEE ============ */}
-      <section className="relative overflow-hidden border-y border-foreground/10 py-6">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(90deg, var(--background) 0%, transparent 8%, transparent 92%, var(--background) 100%)",
-            zIndex: 2,
-          }}
-        />
-        <div
-          className="flex w-max gap-12 whitespace-nowrap"
-          style={{ animation: reduced ? undefined : "ribbon 60s linear infinite" }}
-        >
-          {[...Array(2)].map((_, k) => (
-            <div key={k} className="flex shrink-0 items-center gap-12">
-              {projects.filter((p) => p.featured).map((p) => (
-                <span key={p.title + k} className="flex items-center gap-4">
-                  <span className="font-serif text-3xl italic" style={{ color: "var(--accent)" }}>
-                    ✦
-                  </span>
-                  <span className="font-serif text-2xl italic">{p.title}</span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
-                    Featured Case Study
-                  </span>
-                </span>
-              ))}
-            </div>
-          ))}
+      {/* ============ MOSAIC WALL ============ */}
+      <section className="relative py-12 md:py-16">
+        <div className="mx-auto w-full max-w-[1500px] px-6 md:px-10">
+          <LayoutGroup>
+            <motion.div
+              layout
+              className="grid auto-rows-[68px] grid-cols-2 gap-3 sm:grid-cols-6 md:auto-rows-[78px] md:grid-cols-12 md:gap-4"
+            >
+              <AnimatePresence mode="popLayout">
+                {filtered.map((p, i) => {
+                  const t = getTile(p, i);
+                  return (
+                    <MosaicTile
+                      key={p.title}
+                      p={p}
+                      i={i}
+                      t={t}
+                      total={filtered.length}
+                      isHover={hover === p.title}
+                      anyHover={hover !== null}
+                      onHover={() => setHover(p.title)}
+                      onLeave={() => setHover(null)}
+                      reduced={!!reduced}
+                    />
+                  );
+                })}
+              </AnimatePresence>
+            </motion.div>
+          </LayoutGroup>
         </div>
       </section>
 
       {/* ============ CTA ============ */}
-      <section className="relative py-28 md:py-36">
+      <section className="relative py-24 md:py-32">
         <div className="mx-auto w-full max-w-5xl px-6 md:px-10">
           <div className="relative overflow-hidden rounded-[2rem] border border-border/60 bg-card p-10 text-center shadow-lift md:p-16">
             <div aria-hidden className="absolute inset-0" style={{ background: "var(--gradient-soft)" }} />
@@ -419,128 +299,177 @@ function Stat({ n, label }: { n: string; label: string }) {
   );
 }
 
-function LedgerRow({
+function MosaicTile({
   p,
   i,
-  reduced,
+  t,
+  total,
   isHover,
   anyHover,
   onHover,
   onLeave,
+  reduced,
 }: {
   p: Project;
   i: number;
-  reduced: boolean;
+  t: Tile;
+  total: number;
   isHover: boolean;
   anyHover: boolean;
   onHover: () => void;
   onLeave: () => void;
+  reduced: boolean;
 }) {
-  const dim = anyHover && !isHover;
+  const accent = categoryAccent[p.category];
+  const glyph = categoryGlyph[p.category];
+
+  // Tier drives typographic scale inside the tile
+  const titleClass =
+    t.tier === "xl"
+      ? "text-3xl md:text-5xl"
+      : t.tier === "l"
+        ? "text-2xl md:text-4xl"
+        : t.tier === "m"
+          ? "text-xl md:text-3xl"
+          : t.tier === "s"
+            ? "text-lg md:text-2xl"
+            : "text-base md:text-xl";
+
+  // Alternate composition variants for asymmetry
+  const variant = i % 4;
+
+  // Map col/row to tailwind-safe inline grid spans
+  const style: React.CSSProperties = {
+    gridColumn: `span ${Math.min(t.col, 12)} / span ${Math.min(t.col, 12)}`,
+    gridRow: `span ${t.row} / span ${t.row}`,
+  };
+
   return (
-    <motion.li
-      initial={reduced ? false : { opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay: i * 0.025, ease: [0.22, 1, 0.36, 1] }}
+    <motion.a
+      layout
+      href="#"
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="group relative border-b border-foreground/10"
+      initial={reduced ? false : { opacity: 0, scale: 0.94 }}
+      animate={{
+        opacity: anyHover && !isHover ? 0.35 : 1,
+        scale: 1,
+      }}
+      exit={reduced ? undefined : { opacity: 0, scale: 0.94 }}
+      transition={{
+        layout: { type: "spring", stiffness: 180, damping: 26 },
+        opacity: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+        scale: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+      }}
+      style={style}
+      className="group relative col-span-2 overflow-hidden rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm sm:col-auto"
     >
-      <a
-        href="#"
-        className="grid grid-cols-[44px_1fr_70px_90px] items-center gap-4 py-4 transition-all duration-500 md:grid-cols-[60px_1fr_90px_120px] md:py-5"
-        style={{
-          opacity: dim ? 0.35 : 1,
-          transform: isHover ? "translateX(8px)" : "translateX(0)",
-        }}
-      >
-        {/* number */}
-        <span
-          className="font-mono text-[11px] tabular-nums transition-colors"
-          style={{ color: isHover ? "var(--accent)" : undefined }}
-        >
-          {String(i + 1).padStart(3, "0")}
-        </span>
-
-        {/* title + tagline */}
-        <div className="min-w-0">
-          <div className="flex items-baseline gap-3">
-            <h3
-              className="truncate font-serif text-xl leading-tight transition-all duration-500 md:text-2xl"
-              style={{
-                fontStyle: isHover ? "italic" : "normal",
-                color: isHover ? "var(--accent)" : undefined,
-              }}
-            >
-              {p.title}
-            </h3>
-            {p.featured && (
-              <span
-                className="hidden shrink-0 font-serif text-base italic md:inline"
-                style={{ color: "var(--accent)" }}
-                aria-hidden
-              >
-                ✦
-              </span>
-            )}
-          </div>
-          <AnimatePresence>
-            {isHover && !reduced && (
-              <motion.p
-                initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                animate={{ opacity: 1, height: "auto", marginTop: 6 }}
-                exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="overflow-hidden text-sm leading-relaxed text-muted-foreground md:max-w-xl"
-              >
-                {p.tagline}
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* year */}
-        <span className="hidden font-mono text-[11px] tabular-nums text-muted-foreground md:inline">
-          {p.year}
-        </span>
-
-        {/* status */}
-        <div className="flex items-center justify-end gap-2">
-          <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground md:text-[10px]">
-            {shortStatus(p.status)}
-          </span>
-          <motion.span
-            animate={{ x: isHover ? 0 : -4, opacity: isHover ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-            className="inline-flex"
-          >
-            <ArrowUpRight className="h-4 w-4" style={{ color: "var(--accent)" }} />
-          </motion.span>
-        </div>
-      </a>
-
-      {/* hover hairline accent */}
+      {/* category color flood on hover */}
       <motion.span
         aria-hidden
-        className="pointer-events-none absolute bottom-[-1px] left-0 h-px"
-        style={{ background: "var(--accent)" }}
-        initial={{ width: 0 }}
-        animate={{ width: isHover ? "100%" : 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: `radial-gradient(circle at 30% 20%, ${accent}, transparent 70%)`,
+        }}
+        animate={{ opacity: isHover ? 0.22 : 0.05 }}
+        transition={{ duration: 0.5 }}
       />
-    </motion.li>
-  );
-}
 
-function shortStatus(s: Status) {
-  switch (s) {
-    case "Case Study":
-      return "Case Study";
-    case "Project Card":
-      return "Project";
-    case "Archive":
-      return "Archive";
-    case "Part of NNP Case Study":
-      return "NNP Series";
-  }
+      {/* hairline frame accent on hover */}
+      <motion.span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-2xl"
+        style={{ boxShadow: `inset 0 0 0 1px ${accent}` }}
+        animate={{ opacity: isHover ? 0.7 : 0 }}
+        transition={{ duration: 0.4 }}
+      />
+
+      {/* Inner composition */}
+      <div className="relative flex h-full w-full flex-col justify-between p-4 md:p-5">
+        {/* TOP META */}
+        <div className="flex items-start justify-between gap-3">
+          <span
+            className="font-mono text-[9px] uppercase tracking-[0.22em]"
+            style={{ color: isHover ? accent : "color-mix(in oklab, var(--foreground) 55%, transparent)" }}
+          >
+            {String(i + 1).padStart(3, "0")} / {String(total).padStart(3, "0")}
+          </span>
+          <span
+            className="font-serif text-lg leading-none"
+            style={{ color: accent, opacity: isHover ? 1 : 0.55 }}
+          >
+            {glyph}
+          </span>
+        </div>
+
+        {/* CENTER OR EDGE TITLE depending on variant */}
+        <div
+          className={`flex flex-1 ${
+            variant === 0 ? "items-end" : variant === 1 ? "items-start pt-3" : variant === 2 ? "items-center" : "items-end"
+          }`}
+        >
+          <h3
+            className={`font-serif leading-[0.95] tracking-tight ${titleClass}`}
+            style={{
+              fontStyle: isHover ? "italic" : "normal",
+              color: isHover ? accent : "var(--foreground)",
+              transition: "color 0.5s ease, font-style 0.5s ease",
+            }}
+          >
+            {p.title}
+          </h3>
+        </div>
+
+        {/* BOTTOM META — category + year + arrow */}
+        <div className="mt-3 flex items-end justify-between gap-3">
+          <div className="flex flex-col gap-1">
+            <span
+              className="font-mono text-[9px] uppercase tracking-[0.22em]"
+              style={{ color: "color-mix(in oklab, var(--foreground) 55%, transparent)" }}
+            >
+              {categoryShort[p.category]}
+              {p.year ? ` · ${p.year}` : ""}
+            </span>
+            <AnimatePresence>
+              {isHover && t.tier !== "xs" && !reduced && (
+                <motion.span
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 4 }}
+                  transition={{ duration: 0.3 }}
+                  className="hidden max-w-[28ch] text-[11px] leading-snug text-muted-foreground md:line-clamp-2"
+                >
+                  {p.tagline}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <motion.span
+            aria-hidden
+            animate={{
+              x: isHover ? 0 : -6,
+              y: isHover ? 0 : 6,
+              opacity: isHover ? 1 : 0,
+            }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+            style={{ background: accent, color: "var(--background)" }}
+          >
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </motion.span>
+        </div>
+
+        {/* Featured ribbon */}
+        {p.featured && (
+          <span
+            className="absolute right-3 top-3 rounded-full px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.22em]"
+            style={{ background: accent, color: "var(--background)" }}
+          >
+            Featured
+          </span>
+        )}
+      </div>
+    </motion.a>
+  );
 }
