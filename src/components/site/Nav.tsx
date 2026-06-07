@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import logo from "@/assets/siya-logo.svg.asset.json";
 
 const links = [
   { href: "#work", label: "Work" },
@@ -22,20 +23,35 @@ export function Nav() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass border-b border-border/60 py-3" : "py-5"
-      }`}
+      className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4"
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6">
-        <a href="#top" className="flex items-center gap-2" aria-label="Home">
-          <span className="font-display text-lg tracking-tight">Siya Parmar</span>
+      <motion.nav
+        animate={{
+          width: scrolled ? "min(640px, 96%)" : "min(1100px, 100%)",
+          paddingTop: scrolled ? 8 : 14,
+          paddingBottom: scrolled ? 8 : 14,
+        }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className={`relative flex items-center justify-between rounded-full px-3 transition-colors duration-500 md:px-4 ${
+          scrolled
+            ? "glass border border-border/60 shadow-soft"
+            : "border border-transparent"
+        }`}
+      >
+        <a href="#top" className="flex items-center gap-2 pl-2" aria-label="Home">
+          <img
+            src={logo.url}
+            alt="Siya Parmar"
+            className="h-6 w-auto invert"
+          />
         </a>
+
         <ul className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="group relative rounded-full px-4 py-2 text-sm text-foreground/70 transition-colors hover:text-foreground"
+                className="group relative rounded-full px-3 py-1.5 text-sm text-foreground/70 transition-colors hover:text-foreground"
               >
                 <span className="absolute inset-0 -z-10 scale-90 rounded-full bg-secondary opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100" />
                 {l.label}
@@ -43,13 +59,24 @@ export function Nav() {
             </li>
           ))}
         </ul>
+
         <a
           href="#contact"
-          className="hidden rounded-full border border-foreground/15 px-4 py-2 text-sm text-foreground/80 transition-all duration-300 hover:border-foreground/40 hover:bg-foreground hover:text-background md:inline-flex"
+          className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background/40 px-3 py-1.5 text-xs text-foreground/85 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:bg-foreground hover:text-background md:text-sm"
         >
-          Let's talk
+          <span className="relative flex h-2 w-2">
+            <span
+              className="absolute inset-0 animate-ping rounded-full opacity-75"
+              style={{ background: "var(--accent)" }}
+            />
+            <span
+              className="relative h-2 w-2 rounded-full"
+              style={{ background: "var(--accent)" }}
+            />
+          </span>
+          Available for Work
         </a>
-      </nav>
+      </motion.nav>
     </motion.header>
   );
 }

@@ -139,10 +139,6 @@ export function Work() {
   const titleY = useTransform(scrollYProgress, [0, 0.2], reduced ? [0, 0] : [60, 0]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
 
-  // Stage exit
-  const stageY = useTransform(scrollYProgress, [0.85, 1], reduced ? [0, 0] : [0, -80]);
-  const stageOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.4]);
-
   return (
     <section
       id="work"
@@ -151,10 +147,8 @@ export function Work() {
       style={{ height: "320vh" }}
     >
       <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden px-4 md:px-6">
-        <motion.div
-          style={{ y: stageY, opacity: stageOpacity }}
-          className="mx-auto w-full max-w-6xl"
-        >
+        <div className="mx-auto w-full max-w-6xl">
+
           <motion.div
             style={{ y: titleY, opacity: titleOpacity }}
             className="mb-6 flex flex-col gap-2 px-2 md:mb-8 md:flex-row md:items-end md:justify-between"
@@ -197,8 +191,9 @@ export function Work() {
               ))}
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
+
