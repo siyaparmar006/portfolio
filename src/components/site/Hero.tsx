@@ -137,19 +137,23 @@ export function Hero() {
           memorable — product UI, brand systems, and visual communication.
         </motion.p>
 
-        {/* CTA toggle — light track */}
-        <motion.a
+        {/* Theme toggle */}
+        <motion.button
           {...anim(0.5)}
-          href="#work"
-          aria-label="Scroll to work"
-          className="mt-8 inline-flex h-7 w-14 items-center rounded-full p-1"
+          onClick={toggle}
+          type="button"
+          aria-label="Toggle light and dark theme"
+          aria-pressed={theme === "light"}
+          className="mt-8 inline-flex h-7 w-14 items-center rounded-full p-1 transition-colors"
           style={{ background: "oklch(0.97 0.003 80 / 0.9)" }}
         >
-          <span
+          <motion.span
+            animate={{ x: theme === "light" ? 28 : 0 }}
+            transition={{ type: "spring", stiffness: 360, damping: 28 }}
             className="h-5 w-5 rounded-full shadow-soft"
             style={{ background: "var(--accent)" }}
           />
-        </motion.a>
+        </motion.button>
       </div>
     </section>
   );
