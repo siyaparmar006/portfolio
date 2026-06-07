@@ -8,7 +8,7 @@ import { Atlas } from "@/components/site/Atlas";
 import { About } from "@/components/site/About";
 import { Footer } from "@/components/site/Footer";
 import { ScrollProgress, ScrollMarker } from "@/components/site/ScrollProgress";
-import { FloatingPortraitCard } from "@/components/site/FloatingPortraitCard";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
