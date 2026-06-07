@@ -41,36 +41,36 @@
 
 :root {
   --radius: 1rem;
-  /* Warm cream / ink palette */
-  --background: oklch(0.975 0.012 80);
-  --foreground: oklch(0.18 0.015 50);
-  --card: oklch(0.99 0.008 80);
-  --card-foreground: oklch(0.18 0.015 50);
-  --popover: oklch(0.99 0.008 80);
-  --popover-foreground: oklch(0.18 0.015 50);
-  --primary: oklch(0.22 0.02 50);
-  --primary-foreground: oklch(0.975 0.012 80);
-  --secondary: oklch(0.94 0.018 75);
-  --secondary-foreground: oklch(0.22 0.02 50);
-  --muted: oklch(0.93 0.015 75);
-  --muted-foreground: oklch(0.48 0.02 60);
-  --accent: oklch(0.72 0.13 50);
-  --accent-foreground: oklch(0.18 0.015 50);
+  /* Paper & Ink editorial palette */
+  --background: oklch(0.965 0.003 80);
+  --foreground: oklch(0.18 0 0);
+  --card: oklch(0.985 0.002 80);
+  --card-foreground: oklch(0.18 0 0);
+  --popover: oklch(0.985 0.002 80);
+  --popover-foreground: oklch(0.18 0 0);
+  --primary: oklch(0.18 0 0);
+  --primary-foreground: oklch(0.965 0.003 80);
+  --secondary: oklch(0.92 0.004 80);
+  --secondary-foreground: oklch(0.22 0 0);
+  --muted: oklch(0.92 0.004 80);
+  --muted-foreground: oklch(0.42 0.005 70);
+  --accent: oklch(0.27 0 0);
+  --accent-foreground: oklch(0.965 0.003 80);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.88 0.012 75);
-  --input: oklch(0.88 0.012 75);
-  --ring: oklch(0.72 0.13 50);
+  --border: oklch(0.86 0.004 80);
+  --input: oklch(0.86 0.004 80);
+  --ring: oklch(0.27 0 0);
 
-  --clay-1: oklch(0.86 0.08 55);   /* warm peach */
-  --clay-2: oklch(0.82 0.07 35);   /* terracotta */
-  --clay-3: oklch(0.88 0.05 130);  /* sage */
+  --clay-1: oklch(0.92 0.004 80);
+  --clay-2: oklch(0.86 0.004 80);
+  --clay-3: oklch(0.78 0.004 80);
 
-  --shadow-soft: 0 10px 40px -12px oklch(0.18 0.015 50 / 0.12);
-  --shadow-lift: 0 24px 60px -20px oklch(0.18 0.015 50 / 0.22);
-  --gradient-warm: linear-gradient(135deg, oklch(0.86 0.08 55) 0%, oklch(0.82 0.07 35) 100%);
-  --gradient-soft: radial-gradient(circle at 30% 20%, oklch(0.86 0.08 55 / 0.4), transparent 60%),
-                   radial-gradient(circle at 80% 70%, oklch(0.88 0.05 130 / 0.35), transparent 55%);
+  --shadow-soft: 0 10px 40px -12px oklch(0.18 0 0 / 0.12);
+  --shadow-lift: 0 24px 60px -20px oklch(0.18 0 0 / 0.22);
+  --gradient-warm: linear-gradient(135deg, oklch(0.92 0.004 80) 0%, oklch(0.86 0.004 80) 100%);
+  --gradient-soft: radial-gradient(circle at 30% 20%, oklch(0.86 0.004 80 / 0.5), transparent 60%),
+                   radial-gradient(circle at 80% 70%, oklch(0.78 0.004 80 / 0.35), transparent 55%);
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
