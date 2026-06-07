@@ -1,265 +1,115 @@
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
-import { useEffect, useRef } from "react";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import portrait from "@/assets/siya-portrait.jpg.asset.json";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-type Tag = { label: string; x: string; y: string; drift: number };
-
-const portraitTags: Tag[] = [
-  { label: "Product Design", x: "-8%", y: "10%", drift: -18 },
-  { label: "Visual Systems", x: "94%", y: "20%", drift: 22 },
-  { label: "Brand Thinking", x: "-12%", y: "72%", drift: -14 },
-  { label: "Human-Centered", x: "92%", y: "80%", drift: 18 },
-];
-
-function ClayShapes({ progress }: { progress: MotionValue<number> }) {
-  const reduced = useReducedMotion();
-  const x1 = useTransform(progress, [0, 1], reduced ? [0, 0] : [0, -40]);
-  const x2 = useTransform(progress, [0, 1], reduced ? [0, 0] : [0, 50]);
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      <motion.div
-        style={{ x: x1, background: "var(--clay-1)", opacity: 0.45 }}
-        className="absolute -left-32 top-10 h-[460px] w-[460px] rounded-full blur-3xl"
-      />
-      <motion.div
-        style={{ x: x2, background: "var(--clay-3)", opacity: 0.4 }}
-        className="absolute right-[-140px] top-32 h-[400px] w-[400px] rounded-full blur-3xl"
-      />
-    </div>
-  );
-}
-
-function FloatingTag({
-  tag,
-  index,
-  progress,
-}: {
-  tag: Tag;
-  index: number;
-  progress: MotionValue<number>;
-}) {
-  const reduced = useReducedMotion();
-  const driftY = useTransform(
-    progress,
-    [0, 1],
-    reduced ? [0, 0] : [0, tag.drift],
-  );
-  return (
-    <motion.div
-      style={{ left: tag.x, top: tag.y, y: driftY }}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.7, ease, delay: 0.9 + index * 0.1 }}
-      className="absolute hidden -translate-x-1/2 -translate-y-1/2 rounded-full border border-border/70 bg-card/90 px-3 py-1.5 text-[11px] font-medium text-foreground/80 shadow-soft backdrop-blur md:block"
-    >
-      {tag.label}
-    </motion.div>
-  );
-}
-
 export function Hero() {
   const reduced = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Stage exit
-  const stageY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, -120]);
-  const stageOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
-  const stageScale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 0.96]);
-
-  // Portrait scroll motion
-  const portraitScale = useTransform(
-    scrollYProgress,
-    [0, 0.6],
-    reduced ? [1, 1] : [1, 1.04],
-  );
-  const portraitRotate = useTransform(
-    scrollYProgress,
-    [0, 1],
-    reduced ? [-1, -1] : [-1.2, 1.4],
-  );
-
-  // Mouse parallax
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 60, damping: 18, mass: 0.6 });
-  const sy = useSpring(my, { stiffness: 60, damping: 18, mass: 0.6 });
-
-  useEffect(() => {
-    if (reduced) return;
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(max-width: 768px)").matches) return;
-    const onMove = (e: MouseEvent) => {
-      mx.set((e.clientX / window.innerWidth - 0.5) * 10);
-      my.set((e.clientY / window.innerHeight - 0.5) * 10);
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [mx, my, reduced]);
-
-  const headingLines = [
-    "Product Designer",
-    "crafting human-centered",
-    "digital experiences.",
-  ];
+  const anim = (delay = 0) =>
+    reduced
+      ? {}
+      : {
+          initial: { opacity: 0, y: 16 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.9, ease, delay },
+        };
 
   return (
     <section
       id="top"
-      ref={sectionRef}
-      className="relative"
-      style={{ height: "200vh" }}
+      className="relative isolate min-h-[100svh] w-full overflow-hidden bg-background"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <ClayShapes progress={scrollYProgress} />
-        <div className="absolute inset-0 grain" aria-hidden />
+      <div aria-hidden className="absolute inset-0 grain-noise opacity-70" />
 
+      <div className="relative mx-auto flex min-h-[100svh] max-w-[1400px] flex-col items-center justify-center px-6 pt-28 pb-16 md:pt-32">
+        {/* Kicker */}
         <motion.div
-          style={{ y: stageY, opacity: stageOpacity, scale: stageScale }}
-          className="relative mx-auto grid h-full max-w-6xl items-center gap-10 px-6 pt-24 md:grid-cols-12 md:gap-10 md:pt-20"
+          {...anim(0.05)}
+          className="self-start font-display text-sm tracking-[0.22em] text-foreground/80 md:text-base md:pl-2"
         >
-          {/* Left column */}
-          <div className="flex flex-col gap-6 md:col-span-7">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease }}
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur"
-            >
-              <Sparkles className="h-3.5 w-3.5" />
-              Open to select projects · 2026
-            </motion.div>
-
-            <h1 className="font-display text-balance text-[clamp(2.25rem,6vw,4.75rem)] leading-[1.02] tracking-tight">
-              {headingLines.map((line, i) => (
-                <span key={i} className="block overflow-hidden">
-                  <motion.span
-                    className="block"
-                    initial={{ y: "110%" }}
-                    animate={{ y: "0%" }}
-                    transition={{ duration: 0.9, delay: 0.15 + i * 0.12, ease }}
-                  >
-                    {line}
-                  </motion.span>
-                </span>
-              ))}
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7, ease }}
-              className="max-w-xl text-balance text-base text-muted-foreground md:text-lg"
-            >
-              I design digital experiences that feel clear, human, and visually memorable.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.95, ease }}
-              className="flex max-w-xl flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-muted-foreground md:text-sm"
-            >
-              {[
-                "UX/UI",
-                "Visual Systems",
-                "Brand Thinking",
-                "Information Architecture",
-                "Typography",
-                "Communication Design",
-              ].map((s, i, arr) => (
-                <span key={s} className="inline-flex items-center gap-2">
-                  <span>{s}</span>
-                  {i < arr.length - 1 && <span className="opacity-40">·</span>}
-                </span>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.15, ease }}
-              className="flex flex-wrap gap-3 pt-2"
-            >
-              <a
-                href="#work"
-                className="group relative inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift"
-              >
-                View Selected Work
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-              <a
-                href="/resume.pdf"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium text-foreground transition-colors duration-300 hover:text-background"
-              >
-                <span className="absolute inset-0 -z-0 translate-y-full bg-foreground transition-transform duration-500 ease-out group-hover:translate-y-0" />
-                <span className="relative">Download Resume</span>
-              </a>
-            </motion.div>
-          </div>
-
-          {/* Right column — reserves space; the floating portrait card overlays this region on desktop. Mobile shows an inline portrait. */}
-          <div className="md:col-span-5">
-            {/* Mobile inline portrait */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94, rotate: -3 }}
-              animate={{ opacity: 1, scale: 1, rotate: -1 }}
-              transition={{ duration: 1.1, ease, delay: 0.35 }}
-              className="relative mx-auto w-full max-w-[320px] md:hidden"
-            >
-              <div
-                aria-hidden
-                className="absolute -inset-6 -z-10 rounded-[2.5rem] blur-2xl"
-                style={{ background: "var(--gradient-soft)" }}
-              />
-              <div className="relative overflow-hidden rounded-[2rem] border border-[var(--clay-1)]/40 bg-card p-3 shadow-lift">
-                <div className="relative overflow-hidden rounded-[1.5rem]">
-                  <img
-                    src={portrait.url}
-                    alt="Portrait of Siya Parmar"
-                    width={832}
-                    height={1024}
-                    className="block aspect-[4/5] w-full object-cover"
-                  />
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Desktop placeholder — floating card takes over this area via fixed positioning */}
-            <div
-              aria-hidden
-              className="hidden md:block"
-              style={{ height: "min(60vh, 480px)" }}
-            >
-              {/* Floating tags positioned around the projected card region */}
-              <div className="relative mx-auto h-full w-full max-w-[380px]">
-                {portraitTags.map((t, i) => (
-                  <FloatingTag
-                    key={t.label}
-                    tag={t}
-                    index={i}
-                    progress={scrollYProgress}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+          SIYA PARMAR
         </motion.div>
+
+        {/* Main row: VISUAL · photo · DESIGNER */}
+        <div className="relative mt-3 grid w-full grid-cols-1 items-center gap-6 md:mt-4 md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          {/* Left word */}
+          <motion.h1
+            {...anim(0.1)}
+            className="order-2 text-right font-display text-foreground md:order-1"
+            style={{
+              fontSize: "clamp(3.5rem, 12vw, 11rem)",
+              lineHeight: 0.9,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            VISUAL
+          </motion.h1>
+
+          {/* Portrait card (smaller) */}
+          <motion.div
+            {...anim(0.2)}
+            className="relative order-1 mx-auto w-[58vw] max-w-[340px] md:order-2 md:w-[26vw] md:max-w-[300px]"
+          >
+            <div className="relative overflow-hidden rounded-[2rem] bg-[oklch(0.92_0.01_70)] shadow-lift">
+              <img
+                src={portrait.url}
+                alt="Portrait of Siya Parmar"
+                width={832}
+                height={1024}
+                className="block aspect-[4/5.2] w-full object-cover"
+              />
+            </div>
+
+            {/* Hi! waving badge — bottom-left corner */}
+            <div
+              aria-label="Hi"
+              className="absolute -bottom-7 -left-7 flex h-20 w-20 items-center justify-center rounded-full shadow-lift ring-4 ring-background md:h-24 md:w-24"
+              style={{
+                background: "var(--accent)",
+                color: "var(--accent-foreground)",
+              }}
+            >
+              <span className="text-2xl md:text-3xl" role="img" aria-hidden>
+                ✋
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Right word */}
+          <motion.h1
+            {...anim(0.15)}
+            className="order-3 text-left font-display text-foreground"
+            style={{
+              fontSize: "clamp(3.5rem, 12vw, 11rem)",
+              lineHeight: 0.9,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            DESIGNER
+          </motion.h1>
+        </div>
+
+        {/* Tagline under right column */}
+        <motion.p
+          {...anim(0.35)}
+          className="mt-6 max-w-md self-center text-center text-sm leading-relaxed text-muted-foreground md:mt-4 md:max-w-sm md:self-end md:text-right md:text-base"
+        >
+          I design digital experiences that feel clear, human, and visually memorable —
+          product UI, brand systems, and visual communication.
+        </motion.p>
+
+        {/* CTA toggle */}
+        <motion.a
+          {...anim(0.5)}
+          href="#work"
+          aria-label="Scroll to work"
+          className="mt-10 inline-flex h-7 w-14 items-center rounded-full bg-foreground/10 p-1"
+        >
+          <span
+            className="h-5 w-5 rounded-full shadow-soft"
+            style={{ background: "var(--accent)" }}
+          />
+        </motion.a>
       </div>
     </section>
   );
