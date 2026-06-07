@@ -106,8 +106,6 @@ export function DesignOS() {
     reduced ? [1, 1] : [0.5, 1],
   );
   const titleY = useTransform(scrollYProgress, [0, 0.2], reduced ? [0, 0] : [50, 0]);
-  const stageY = useTransform(scrollYProgress, [0.85, 1], reduced ? [0, 0] : [0, -60]);
-  const stageOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0.4]);
 
   // animated accent dot moving across progress bar
   const dotX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -120,10 +118,8 @@ export function DesignOS() {
       style={{ height: "320vh" }}
     >
       <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden px-4 md:px-6">
-        <motion.div
-          style={{ y: stageY, opacity: stageOpacity }}
-          className="mx-auto w-full max-w-6xl"
-        >
+        <div className="mx-auto w-full max-w-6xl">
+
           <motion.div
             style={{ y: titleY }}
             className="mb-6 max-w-2xl px-2 md:mb-8"
@@ -169,8 +165,9 @@ export function DesignOS() {
               ))}
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
+

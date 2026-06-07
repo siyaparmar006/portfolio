@@ -1,10 +1,19 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import portrait from "@/assets/siya-portrait.jpg.asset.json";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduced = useReducedMotion();
+  const [hiToggle, setHiToggle] = useState(0); // 0 = "Hi", 1 = "✋"
+
+  useEffect(() => {
+    if (reduced) return;
+    const id = setInterval(() => setHiToggle((v) => (v === 0 ? 1 : 0)), 2200);
+    return () => clearInterval(id);
+  }, [reduced]);
+
   const anim = (delay = 0) =>
     reduced
       ? {}
@@ -19,7 +28,16 @@ export function Hero() {
       id="top"
       className="relative isolate min-h-[100svh] w-full overflow-hidden bg-background"
     >
-      <div aria-hidden className="absolute inset-0 grain-noise opacity-70" />
+      {/* Soft gradient ball blur behind portrait */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[60vw] max-h-[640px] w-[60vw] max-w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle at 30% 30%, oklch(0.88 0.18 130 / 0.55), transparent 60%), radial-gradient(circle at 70% 70%, oklch(0.72 0.16 30 / 0.35), transparent 65%)",
+        }}
+      />
+      <div aria-hidden className="absolute inset-0 grain-noise opacity-60" />
 
       <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-28 pb-16 md:pt-32">
         {/* Kicker */}
@@ -60,18 +78,29 @@ export function Hero() {
               />
             </div>
 
-            {/* Hi! waving badge — bottom-left corner */}
+            {/* Hi! badge — bottom-left corner, toggles between text and wave */}
             <div
               aria-label="Hi"
-              className="absolute -bottom-6 -left-6 flex h-16 w-16 items-center justify-center rounded-full shadow-lift ring-4 ring-background md:h-20 md:w-20"
+              className="absolute -bottom-6 -left-6 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full shadow-lift ring-4 ring-background md:h-20 md:w-20"
               style={{
                 background: "var(--accent)",
                 color: "var(--accent-foreground)",
               }}
             >
-              <span className="text-2xl" role="img" aria-hidden>
-                ✋
-              </span>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={hiToggle}
+                  initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 0.6, rotate: 20 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="font-display text-2xl leading-none md:text-3xl"
+                  role="img"
+                  aria-hidden
+                >
+                  {hiToggle === 0 ? "Hi" : "✋"}
+                </motion.span>
+              </AnimatePresence>
             </div>
           </motion.div>
 
@@ -89,21 +118,22 @@ export function Hero() {
           </motion.h1>
         </div>
 
-        {/* Tagline */}
+        {/* Tagline — centered under portrait */}
         <motion.p
           {...anim(0.35)}
-          className="mt-8 max-w-md self-center text-center text-sm leading-relaxed text-muted-foreground md:mt-6 md:max-w-sm md:self-end md:text-right"
+          className="mt-10 max-w-md text-center text-sm leading-relaxed text-muted-foreground md:max-w-lg md:text-base"
         >
           I design digital experiences that feel clear, human, and visually
           memorable — product UI, brand systems, and visual communication.
         </motion.p>
 
-        {/* CTA toggle */}
+        {/* CTA toggle — light track */}
         <motion.a
           {...anim(0.5)}
           href="#work"
           aria-label="Scroll to work"
-          className="mt-10 inline-flex h-7 w-14 items-center rounded-full bg-foreground/10 p-1"
+          className="mt-8 inline-flex h-7 w-14 items-center rounded-full p-1"
+          style={{ background: "oklch(0.97 0.003 80 / 0.9)" }}
         >
           <span
             className="h-5 w-5 rounded-full shadow-soft"
