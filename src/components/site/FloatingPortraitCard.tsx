@@ -123,7 +123,7 @@ export function FloatingPortraitCard({
           transformStyle: "preserve-3d",
           transformPerspective: 1400,
         }}
-        className="relative w-[320px] overflow-hidden border border-[var(--clay-1)]/40 bg-card p-3 shadow-lift lg:w-[360px]"
+        className="relative w-[320px] border border-[var(--clay-1)]/40 bg-card p-3 shadow-lift lg:w-[360px]"
       >
         {/* Front face */}
         <div
@@ -162,6 +162,22 @@ export function FloatingPortraitCard({
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Hi! waving-hand badge — overlaps the bottom-left corner */}
+        <div
+          className="absolute -bottom-5 -left-5 flex h-20 w-20 items-center justify-center rounded-full text-2xl shadow-lift ring-4 ring-background"
+          style={{
+            background: "var(--accent)",
+            color: "var(--accent-foreground)",
+            transform: "rotate(-8deg)",
+          }}
+          aria-label="Hi"
+        >
+          <span className="flex flex-col items-center leading-none">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">Hi</span>
+            <span className="mt-0.5 text-2xl" role="img" aria-hidden>👋</span>
+          </span>
         </div>
 
         {/* Back face (visible during the 3D flip mid-journey) */}
