@@ -315,10 +315,12 @@ function AtlasCard({
   p,
   index,
   reduced,
+  variant = "grid",
 }: {
   p: Project;
   index: number;
   reduced: boolean;
+  variant?: "grid" | "float";
 }) {
   const featured = p.featured;
   const isCase = p.status === "Case Study";
