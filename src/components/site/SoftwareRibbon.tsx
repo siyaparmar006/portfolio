@@ -1,6 +1,5 @@
 import type * as React from "react";
 import {
-  SiCanva,
   SiClaude,
   SiOpenai,
   SiFramer,
@@ -10,6 +9,9 @@ import {
   SiHubspot,
 } from "react-icons/si";
 import lovableLogo from "@/assets/lovable-logo.svg.asset.json";
+import canvaLogo from "@/assets/canva.png.asset.json";
+import procreateLogo from "@/assets/procreate.png.asset.json";
+import mailerliteLogo from "@/assets/mailerlite.png.asset.json";
 
 type IconCmp = (props: { className?: string }) => React.ReactElement;
 
@@ -50,13 +52,15 @@ const Figma: IconCmp = ({ className }) => (
 
 /** Procreate official mark — stylized P brushstroke. */
 const Procreate: IconCmp = ({ className }) => (
-  <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
-    <rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill="#000" />
-    <path
-      fill="#fff"
-      d="M9 6.5h4.6c2.4 0 4.1 1.6 4.1 3.9 0 2.3-1.7 3.9-4.1 3.9H11v3.2H9V6.5zm2 1.9v4h2.4c1.2 0 2-.8 2-2s-.8-2-2-2H11z"
-    />
-  </svg>
+  <img src={procreateLogo.url} alt="" className={className} />
+);
+
+const Canva: IconCmp = ({ className }) => (
+  <img src={canvaLogo.url} alt="" className={className} />
+);
+
+const MailerLite: IconCmp = ({ className }) => (
+  <img src={mailerliteLogo.url} alt="" className={className} />
 );
 
 const Lovable: IconCmp = ({ className }) => (
@@ -67,7 +71,7 @@ type Software = { name: string; Icon: IconCmp; color?: string };
 
 const softwares: Software[] = [
   { name: "Figma", Icon: Figma },
-  { name: "Canva", Icon: SiCanva as unknown as IconCmp, color: "#00C4CC" },
+  { name: "Canva", Icon: Canva },
   { name: "Photoshop", Icon: AdobeTile("Ps", "#001E36", "#31A8FF") },
   { name: "Illustrator", Icon: AdobeTile("Ai", "#330000", "#FF9A00") },
   { name: "InDesign", Icon: AdobeTile("Id", "#49021F", "#FD3F92") },
@@ -80,7 +84,7 @@ const softwares: Software[] = [
   { name: "Lovable", Icon: Lovable },
   { name: "SketchUp", Icon: SiSketchup as unknown as IconCmp, color: "#005F9E" },
   { name: "Blender", Icon: SiBlender as unknown as IconCmp, color: "#E87D0D" },
-  { name: "MailerLite", Icon: AdobeTile("ML", "#09C269", "#ffffff") },
+  { name: "MailerLite", Icon: MailerLite },
   { name: "Asana", Icon: SiAsana as unknown as IconCmp, color: "#F06A6A" },
   { name: "HubSpot", Icon: SiHubspot as unknown as IconCmp, color: "#FF7A59" },
 ];
