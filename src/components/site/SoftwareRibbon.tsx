@@ -84,7 +84,7 @@ const softwares: Software[] = [
   { name: "Lovable", Icon: Lovable },
   { name: "SketchUp", Icon: SiSketchup as unknown as IconCmp, color: "#005F9E" },
   { name: "Blender", Icon: SiBlender as unknown as IconCmp, color: "#E87D0D" },
-  { name: "MailerLite", Icon: AdobeTile("ML", "#09C269", "#ffffff") },
+  { name: "MailerLite", Icon: MailerLite },
   { name: "Asana", Icon: SiAsana as unknown as IconCmp, color: "#F06A6A" },
   { name: "HubSpot", Icon: SiHubspot as unknown as IconCmp, color: "#FF7A59" },
 ];
