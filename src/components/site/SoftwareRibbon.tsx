@@ -71,7 +71,7 @@ type Software = { name: string; Icon: IconCmp; color?: string };
 
 const softwares: Software[] = [
   { name: "Figma", Icon: Figma },
-  { name: "Canva", Icon: SiCanva as unknown as IconCmp, color: "#00C4CC" },
+  { name: "Canva", Icon: Canva },
   { name: "Photoshop", Icon: AdobeTile("Ps", "#001E36", "#31A8FF") },
   { name: "Illustrator", Icon: AdobeTile("Ai", "#330000", "#FF9A00") },
   { name: "InDesign", Icon: AdobeTile("Id", "#49021F", "#FD3F92") },
