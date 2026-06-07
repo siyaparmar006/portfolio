@@ -46,13 +46,13 @@ export function FloatingPortraitCard({
   const stops = [0, 0.22, 0.42, 0.5, 0.58, 0.78, 1];
 
   const x = useTransform(p, stops, [
-    "0vw",
-    "30vw",
-    "33vw",
+    "32vw",
+    "36vw",
+    "37vw",
+    "38vw",
+    "37vw",
     "34vw",
-    "33vw",
-    "28vw",
-    "16vw",
+    "30vw",
   ]);
   const y = useTransform(p, stops, [
     "0vh",
