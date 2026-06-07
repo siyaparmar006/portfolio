@@ -407,7 +407,7 @@ function AtlasCard({
       {/* Visual */}
       <div
         className={`relative overflow-hidden rounded-[1.1rem] ${
-          featured ? "aspect-[4/3.4]" : "aspect-[4/3]"
+          aspectClass ?? (featured ? "aspect-[4/3.4]" : "aspect-[4/3]")
         }`}
       >
         <div
