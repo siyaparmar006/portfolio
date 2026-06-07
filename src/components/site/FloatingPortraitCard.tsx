@@ -123,7 +123,7 @@ export function FloatingPortraitCard({
           transformStyle: "preserve-3d",
           transformPerspective: 1400,
         }}
-        className="relative w-[320px] overflow-hidden border border-[var(--clay-1)]/40 bg-card p-3 shadow-lift lg:w-[360px]"
+        className="relative w-[320px] border border-[var(--clay-1)]/40 bg-card p-3 shadow-lift lg:w-[360px]"
       >
         {/* Front face */}
         <div
