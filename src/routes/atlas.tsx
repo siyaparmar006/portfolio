@@ -288,7 +288,7 @@ function StackCard({
   const scale = useTransform(outProgress, [0, 1], reduced ? [1, 1] : [1, 0.92]);
   const opacity = useTransform(outProgress, [0, 0.7, 1], reduced ? [1, 1, 1] : [1, 0.85, 0.5]);
   // Entry: slide up from below
-  const enterY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : ["8%", "0%"]);
+  const enterY = useTransform(scrollYProgress, [0, 1], reduced ? ["0%", "0%"] : ["8%", "0%"]);
 
   return (
     <section
