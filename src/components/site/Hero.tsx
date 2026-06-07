@@ -96,17 +96,9 @@ export function Hero() {
                   <motion.span
                     key="wave"
                     initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      rotate: [-20, -35, -5, -28, -10, -22, -20],
-                    }}
-                    exit={{ opacity: 0, scale: 0.6 }}
-                    transition={{
-                      opacity: { duration: 0.25 },
-                      scale: { duration: 0.25 },
-                      rotate: { duration: 1.4, ease: "easeInOut", times: [0, 0.18, 0.36, 0.54, 0.72, 0.88, 1] },
-                    }}
+                    animate={{ opacity: 1, scale: 1, rotate: -20 }}
+                    exit={{ opacity: 0, scale: 0.6, rotate: -20 }}
+                    transition={{ duration: 0.35, ease }}
                     style={{ transformOrigin: "70% 70%" }}
                     className="text-2xl leading-none md:text-3xl"
                     role="img"
