@@ -33,11 +33,12 @@
   --color-clay-1: var(--clay-1);
   --color-clay-2: var(--clay-2);
   --color-clay-3: var(--clay-3);
-  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-display: "Bebas Neue", "Archivo Black", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap");
 
 :root {
   --radius: 1rem;
