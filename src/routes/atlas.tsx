@@ -308,7 +308,7 @@ function StackCard({
           background: "#0E0B18",
           scale,
           opacity,
-          y: enterY,
+          y: enterY as MotionValue<string>,
           transformOrigin: "center top",
         }}
       >
