@@ -41,14 +41,6 @@ export function Hero() {
       <div aria-hidden className="absolute inset-0 grain-noise opacity-60" />
 
       <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-28 pb-16 md:pt-32">
-        {/* Kicker */}
-        <motion.div
-          {...anim(0.05)}
-          className="mb-2 self-start font-display text-xs tracking-[0.28em] text-foreground/80 md:mb-4 md:text-sm"
-        >
-          SIYA PARMAR
-        </motion.div>
-
         {/* Main row: VISUAL · photo · DESIGNER */}
         <div className="relative grid w-full grid-cols-1 items-center gap-x-4 gap-y-6 md:grid-cols-[1fr_auto_1fr] md:gap-x-6">
           {/* Left word */}
