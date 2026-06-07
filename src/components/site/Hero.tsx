@@ -28,15 +28,16 @@ export function Hero() {
       id="top"
       className="relative isolate min-h-[100svh] w-full overflow-hidden bg-background"
     >
-      {/* Soft gradient ball blur behind portrait */}
+      {/* Soft lime gradient ball blur behind portrait */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[60vw] max-h-[640px] w-[60vw] max-w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70 blur-3xl"
         style={{
           background:
-            "radial-gradient(circle at 30% 30%, oklch(0.88 0.18 130 / 0.55), transparent 60%), radial-gradient(circle at 70% 70%, oklch(0.72 0.16 30 / 0.35), transparent 65%)",
+            "radial-gradient(circle at 50% 50%, oklch(0.88 0.18 130 / 0.6), transparent 65%)",
         }}
       />
+
       <div aria-hidden className="absolute inset-0 grain-noise opacity-60" />
 
       <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-28 pb-16 md:pt-32">
@@ -88,19 +89,42 @@ export function Hero() {
               }}
             >
               <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={hiToggle}
-                  initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
-                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  exit={{ opacity: 0, scale: 0.6, rotate: 20 }}
-                  transition={{ duration: 0.4, ease }}
-                  className="font-display text-2xl leading-none md:text-3xl"
-                  role="img"
-                  aria-hidden
-                >
-                  {hiToggle === 0 ? "Hi" : "✋"}
-                </motion.span>
+                {hiToggle === 0 ? (
+                  <motion.span
+                    key="hi"
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.6 }}
+                    transition={{ duration: 0.35, ease }}
+                    className="font-display text-2xl leading-none md:text-3xl"
+                  >
+                    Hi
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="wave"
+                    initial={{ opacity: 0, scale: 0.6, rotate: 0 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      rotate: [0, -20, 18, -14, 12, -6, 0],
+                    }}
+                    exit={{ opacity: 0, scale: 0.6 }}
+                    transition={{
+                      opacity: { duration: 0.25 },
+                      scale: { duration: 0.25 },
+                      rotate: { duration: 1.4, ease: "easeInOut", times: [0, 0.18, 0.36, 0.54, 0.72, 0.88, 1] },
+                    }}
+                    style={{ transformOrigin: "70% 70%" }}
+                    className="text-2xl leading-none md:text-3xl"
+                    role="img"
+                    aria-label="waving hand"
+                  >
+                    ✋
+                  </motion.span>
+                )}
               </AnimatePresence>
+
             </div>
           </motion.div>
 
