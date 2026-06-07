@@ -1,38 +1,16 @@
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 export function Atlas() {
-  const sectionRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.4, 0.85, 1],
-    reduced ? [1, 1, 1, 1] : [0.9, 1, 1, 0.97],
-  );
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.3, 0.85, 1],
-    reduced ? [1, 1, 1, 1] : [0.4, 1, 1, 0.5],
-  );
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative"
-      style={{ height: "200vh" }}
-    >
-      <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden px-4 md:px-6">
-        <motion.div
-          style={{ scale, opacity }}
+    <section className="relative py-24 md:py-32">
+      <div className="w-full px-4 md:px-6">
+        <div
           className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2.25rem] border border-border/60 bg-card p-8 text-center shadow-lift md:p-16"
         >
+
           <div
             aria-hidden
             className="absolute inset-0"
@@ -113,7 +91,7 @@ export function Atlas() {
               </motion.a>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
