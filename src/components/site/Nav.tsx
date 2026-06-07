@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useTheme } from "@/hooks/use-theme";
 import logo from "@/assets/siya-logo.svg.asset.json";
 
-const links = [
-  { href: "#work", label: "Work" },
-  { href: "#os", label: "Design OS" },
-  { href: "#atlas", label: "Atlas" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
+type NavLink = { href: string; label: string; to?: string };
+
+const links: NavLink[] = [
+  { href: "/#work", label: "Work" },
+  { href: "/#os", label: "Design OS" },
+  { href: "/atlas", label: "Atlas", to: "/atlas" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function Nav() {
