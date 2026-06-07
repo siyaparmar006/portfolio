@@ -159,106 +159,16 @@ function AtlasPage() {
           {/* LEFT — sticky stack */}
           <div className="relative">
             {projects.map((p, i) => (
-              <section
+              <StackCard
                 key={p.title}
-                ref={(el) => { sectionsRef.current[i] = el; }}
-                data-idx={i}
-                className="relative"
-                style={{ height: "100vh" }}
-              >
-                <motion.article
-                  initial={reduced ? false : { opacity: 0, y: 60 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-15% 0px" }}
-                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                  className="sticky overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]"
-                  style={{
-                    top: "8vh",
-                    height: "84vh",
-                    background: "#0E0B18",
-                  }}
-                >
-                  {/* Visual area (mockup placeholder) */}
-                  <div
-                    className="relative h-[62%] w-full overflow-hidden"
-                    style={{ background: cardGradient(p, i) }}
-                  >
-                    {/* category glow */}
-                    <div
-                      aria-hidden
-                      className="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-50"
-                      style={{ background: categoryColor[p.category] }}
-                    />
-                    <div
-                      aria-hidden
-                      className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full blur-3xl opacity-30"
-                      style={{ background: categoryColor[p.category] }}
-                    />
-                    {/* grain */}
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 opacity-[0.08]"
-                      style={{
-                        backgroundImage:
-                          "radial-gradient(rgba(255,255,255,0.7) 1px, transparent 1px)",
-                        backgroundSize: "3px 3px",
-                      }}
-                    />
-                    {/* index numeral */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span
-                        className="font-serif italic leading-none text-white/[0.07]"
-                        style={{ fontSize: "clamp(180px, 32vw, 420px)" }}
-                      >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-                    {/* top meta */}
-                    <div className="absolute left-0 right-0 top-0 flex items-center justify-between p-6 md:p-8">
-                      <div className="flex items-center gap-3">
-                        <span
-                          className="h-2 w-2 rounded-full"
-                          style={{
-                            background: categoryColor[p.category],
-                            boxShadow: `0 0 16px ${categoryColor[p.category]}`,
-                          }}
-                        />
-                        <span className="text-[10px] uppercase tracking-[0.3em] text-white/70">
-                          {p.category}
-                        </span>
-                      </div>
-                      <div className="font-mono text-[10px] tracking-[0.2em] text-white/50">
-                        {String(i + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Content area */}
-                  <div className="relative flex h-[38%] items-center justify-between gap-6 px-8 py-6 md:px-12 md:py-8">
-                    <div className="min-w-0 flex-1">
-                      <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
-                        {p.year ?? ""} · {p.status}
-                      </div>
-                      <h2 className="mt-2 font-serif text-2xl leading-[1.05] md:text-4xl lg:text-5xl">
-                        {p.title}
-                      </h2>
-                      <p className="mt-2 line-clamp-2 max-w-2xl text-sm text-white/60">
-                        {p.tagline}
-                      </p>
-                    </div>
-                    <a
-                      href="#"
-                      className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:scale-105 hover:bg-white/10 md:h-16 md:w-16"
-                      style={{
-                        boxShadow: `0 0 32px ${categoryColor[p.category]}30`,
-                      }}
-                    >
-                      <ArrowUpRight className="h-5 w-5 transition-transform group-hover:rotate-45" />
-                    </a>
-                  </div>
-                </motion.article>
-              </section>
+                p={p}
+                i={i}
+                total={projects.length}
+                setRef={(el) => { sectionsRef.current[i] = el; }}
+                reduced={!!reduced}
+              />
             ))}
+
 
           </div>
 
