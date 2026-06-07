@@ -1,16 +1,40 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Sun, Moon } from "lucide-react";
 import logo from "@/assets/siya-logo.svg.asset.json";
 
 const links = [
   { href: "#work", label: "Work" },
   { href: "#os", label: "Design OS" },
-  { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
 
+function useTheme() {
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  useEffect(() => {
+    const stored = (typeof window !== "undefined" && localStorage.getItem("theme")) as
+      | "light"
+      | "dark"
+      | null;
+    const initial = stored ?? "dark";
+    setTheme(initial);
+    document.documentElement.classList.toggle("light", initial === "light");
+  }, []);
+  const toggle = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    document.documentElement.classList.toggle("light", next === "light");
+    try {
+      localStorage.setItem("theme", next);
+    } catch {}
+  };
+  return { theme, toggle };
+}
+
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const { theme, toggle } = useTheme();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -42,7 +66,7 @@ export function Nav() {
           <img
             src={logo.url}
             alt="Siya Parmar"
-            className="h-6 w-auto invert"
+            className="h-6 w-auto invert [.light_&]:invert-0"
           />
         </a>
 
@@ -60,22 +84,31 @@ export function Nav() {
           ))}
         </ul>
 
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background/40 px-3 py-1.5 text-xs text-foreground/85 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:bg-foreground hover:text-background md:text-sm"
-        >
-          <span className="relative flex h-2 w-2">
-            <span
-              className="absolute inset-0 animate-ping rounded-full opacity-75"
-              style={{ background: "var(--accent)" }}
-            />
-            <span
-              className="relative h-2 w-2 rounded-full"
-              style={{ background: "var(--accent)" }}
-            />
-          </span>
-          Available for Work
-        </a>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggle}
+            aria-label="Toggle theme"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-foreground/15 bg-background/40 text-foreground/85 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:text-foreground"
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background/40 px-3 py-1.5 text-xs text-foreground/85 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:bg-foreground hover:text-background md:text-sm"
+          >
+            <span className="relative flex h-2 w-2">
+              <span
+                className="absolute inset-0 animate-ping rounded-full opacity-75"
+                style={{ background: "var(--accent)" }}
+              />
+              <span
+                className="relative h-2 w-2 rounded-full"
+                style={{ background: "var(--accent)" }}
+              />
+            </span>
+            Available for Work
+          </a>
+        </div>
       </motion.nav>
     </motion.header>
   );

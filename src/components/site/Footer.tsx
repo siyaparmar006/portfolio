@@ -1,9 +1,11 @@
+import logo from "@/assets/siya-logo.svg.asset.json";
+
 export function Footer() {
   return (
     <footer className="border-t border-border/60 px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-muted-foreground md:flex-row">
         <div className="flex items-center gap-3">
-          <span className="font-display text-base tracking-tight">Siya Parmar</span>
+          <img src={logo.url} alt="Siya Parmar" className="h-6 w-auto invert [.light_&]:invert-0" />
           <span>© {new Date().getFullYear()}</span>
         </div>
         <div className="flex items-center gap-5">
