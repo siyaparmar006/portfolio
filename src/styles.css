@@ -101,7 +101,12 @@
 }
 
 @layer utilities {
-  .font-display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em; }
+  .font-display { font-family: var(--font-display); font-weight: 400; letter-spacing: 0; }
+  .font-serif { font-family: var(--font-serif); }
+  .grain-noise {
+    background-image: radial-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
   .text-balance { text-wrap: balance; }
   .glass {
     background: color-mix(in oklab, var(--background) 70%, transparent);
