@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Sun, Moon } from "lucide-react";
 import logo from "@/assets/siya-logo.svg.asset.json";
 
 const links = [
@@ -9,31 +8,8 @@ const links = [
   { href: "#contact", label: "Contact" },
 ];
 
-function useTheme() {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-  useEffect(() => {
-    const stored = (typeof window !== "undefined" && localStorage.getItem("theme")) as
-      | "light"
-      | "dark"
-      | null;
-    const initial = stored ?? "dark";
-    setTheme(initial);
-    document.documentElement.classList.toggle("light", initial === "light");
-  }, []);
-  const toggle = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.classList.toggle("light", next === "light");
-    try {
-      localStorage.setItem("theme", next);
-    } catch {}
-  };
-  return { theme, toggle };
-}
-
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
