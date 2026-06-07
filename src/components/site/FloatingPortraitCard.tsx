@@ -68,11 +68,11 @@ export function FloatingPortraitCard({
   const rotateY = useTransform(p, stops, [0, 0, 45, 90, 45, 0, 0]);
   const opacity = useTransform(
     p,
-    [0, 0.02, 0.95, 1],
-    [1, 1, 1, 0.4],
+    stops,
+    [1, 0.15, 0, 0, 0, 1, 0.3],
   );
   // Show only while the journey wrapper is on screen
-  const visibility = useTransform(p, (v) => (v <= 0 || v >= 1.05 ? 0 : 1));
+  const visibility = useTransform(p, (v) => (v < 0 || v >= 1.05 ? 0 : 1));
   const radius = useTransform(p, stops, [
     "2rem",
     "1.5rem",
