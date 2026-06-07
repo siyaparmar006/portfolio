@@ -6,6 +6,7 @@ import { DesignOS } from "@/components/site/DesignOS";
 import { Atlas } from "@/components/site/Atlas";
 import { About } from "@/components/site/About";
 import { Footer } from "@/components/site/Footer";
+import { ScrollProgress } from "@/components/site/ScrollProgress";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="relative">
+      <ScrollProgress />
       <Nav />
       <Hero />
       <Work />
