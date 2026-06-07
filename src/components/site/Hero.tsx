@@ -1,12 +1,14 @@
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useTheme } from "@/hooks/use-theme";
 import portrait from "@/assets/siya-portrait.jpg.asset.json";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduced = useReducedMotion();
-  const [hiToggle, setHiToggle] = useState(0); // 0 = "Hi", 1 = "✋"
+  const { theme, toggle } = useTheme();
+  const [hiToggle, setHiToggle] = useState(0); // 0 = "Hi", 1 = "👋"
 
   useEffect(() => {
     if (reduced) return;
@@ -135,19 +137,23 @@ export function Hero() {
           memorable — product UI, brand systems, and visual communication.
         </motion.p>
 
-        {/* CTA toggle — light track */}
-        <motion.a
+        {/* Theme toggle */}
+        <motion.button
           {...anim(0.5)}
-          href="#work"
-          aria-label="Scroll to work"
-          className="mt-8 inline-flex h-7 w-14 items-center rounded-full p-1"
+          onClick={toggle}
+          type="button"
+          aria-label="Toggle light and dark theme"
+          aria-pressed={theme === "light"}
+          className="mt-8 inline-flex h-7 w-14 items-center rounded-full p-1 transition-colors"
           style={{ background: "oklch(0.97 0.003 80 / 0.9)" }}
         >
-          <span
+          <motion.span
+            animate={{ x: theme === "light" ? 28 : 0 }}
+            transition={{ type: "spring", stiffness: 360, damping: 28 }}
             className="h-5 w-5 rounded-full shadow-soft"
             style={{ background: "var(--accent)" }}
           />
-        </motion.a>
+        </motion.button>
       </div>
     </section>
   );
