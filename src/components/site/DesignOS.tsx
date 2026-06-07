@@ -1,11 +1,4 @@
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-  type MotionValue,
-} from "framer-motion";
-import { useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Eye, Heart, Palette, Layers } from "lucide-react";
 
 const principles = [
@@ -31,31 +24,16 @@ const principles = [
   },
 ];
 
-function PrincipleCard({
-  p,
-  i,
-  progress,
-}: {
-  p: (typeof principles)[number];
-  i: number;
-  progress: MotionValue<number>;
-}) {
+function PrincipleCard({ p, i }: { p: (typeof principles)[number]; i: number }) {
   const reduced = useReducedMotion();
-  const start = 0.25 + i * 0.13;
-  const end = start + 0.2;
-  const clip = useTransform(
-    progress,
-    [start, end],
-    reduced
-      ? ["inset(0% 0% 0% 0%)", "inset(0% 0% 0% 0%)"]
-      : ["inset(0% 100% 0% 0%)", "inset(0% 0% 0% 0%)"],
-  );
-  const y = useTransform(progress, [start, end], reduced ? [0, 0] : [30, 0]);
-  const opacity = useTransform(progress, [start, end], reduced ? [1, 1] : [0, 1]);
-  const scale = useTransform(progress, [start, end], reduced ? [1, 1] : [0.96, 1]);
-
   return (
-    <motion.div style={{ clipPath: clip, y, opacity, scale }} className="h-full">
+    <motion.div
+      initial={reduced ? false : { opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10% 0px" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.08 }}
+      className="h-full"
+    >
       <motion.div
         whileHover={{ y: -4 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -87,87 +65,32 @@ function PrincipleCard({
 }
 
 export function DesignOS() {
-  const sectionRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
-  const frameScale = useTransform(
-    scrollYProgress,
-    [0, 0.2],
-    reduced ? [1, 1] : [0.94, 1],
-  );
-  const frameOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.2],
-    reduced ? [1, 1] : [0.5, 1],
-  );
-  const titleY = useTransform(scrollYProgress, [0, 0.2], reduced ? [0, 0] : [50, 0]);
-
-  // animated accent dot moving across progress bar
-  const dotX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
   return (
-    <section
-      id="os"
-      ref={sectionRef}
-      className="relative"
-      style={{ height: "320vh" }}
-    >
-      <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden px-4 md:px-6">
-        <div className="mx-auto w-full max-w-6xl">
+    <section id="os" className="relative py-24 md:py-32">
+      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10% 0px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-10 max-w-2xl px-2 md:mb-14"
+        >
+          <div className="mb-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            My Design OS
+          </div>
+          <h2 className="font-display text-balance text-3xl leading-[1.05] md:text-5xl">
+            The principles that shape how I design products, systems, and visual experiences.
+          </h2>
+        </motion.div>
 
-          <motion.div
-            style={{ y: titleY }}
-            className="mb-6 max-w-2xl px-2 md:mb-8"
-          >
-            <div className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              My Design OS
-            </div>
-            <h2 className="font-display text-balance text-3xl leading-[1.05] md:text-5xl">
-              The principles that shape how I design products, systems, and visual experiences.
-            </h2>
-          </motion.div>
-
-          <motion.div
-            style={{ scale: frameScale, opacity: frameOpacity }}
-            className="relative overflow-hidden rounded-[2.25rem] border border-border/60 bg-card/80 p-4 shadow-soft md:p-8"
-          >
-            <div className="mb-5 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--clay-2)]" />
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--clay-1)]" />
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--clay-3)]" />
-                <span className="ml-3">os / principles</span>
-              </div>
-              <span>4 modules</span>
-            </div>
-
-            {/* progress line with accent dot */}
-            <div className="relative mb-6 h-px w-full bg-border/60">
-              <motion.span
-                style={{ left: dotX }}
-                className="absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-              >
-                <span
-                  className="block h-full w-full rounded-full"
-                  style={{ background: "var(--accent)" }}
-                />
-              </motion.span>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {principles.map((p, i) => (
-                <PrincipleCard key={p.title} p={p} i={i} progress={scrollYProgress} />
-              ))}
-            </div>
-          </motion.div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {principles.map((p, i) => (
+            <PrincipleCard key={p.title} p={p} i={i} />
+          ))}
         </div>
       </div>
     </section>
   );
 }
-
