@@ -1,3 +1,4 @@
+import type * as React from "react";
 import {
   SiFigma,
   SiCanva,
@@ -10,7 +11,7 @@ import {
   SiHubspot,
 } from "react-icons/si";
 
-type IconCmp = (props: { className?: string }) => JSX.Element;
+type IconCmp = (props: { className?: string }) => React.ReactElement;
 
 /** Letter-monogram fallback icon (used for brands not in react-icons/si). */
 const Mono =
