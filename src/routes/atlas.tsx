@@ -164,78 +164,102 @@ function AtlasPage() {
                 ref={(el) => { sectionsRef.current[i] = el; }}
                 data-idx={i}
                 className="relative"
-                style={{ height: "78vh" }}
+                style={{ height: "100vh" }}
               >
                 <motion.article
-                  initial={reduced ? false : { opacity: 0, y: 30 }}
+                  initial={reduced ? false : { opacity: 0, y: 60 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-20% 0px" }}
+                  viewport={{ once: true, margin: "-15% 0px" }}
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                  className="sticky overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]"
+                  className="sticky overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]"
                   style={{
-                    top: `calc(8vh + ${i * 14}px)`,
-                    height: "65vh",
-                    background: cardGradient(p, i),
+                    top: "8vh",
+                    height: "84vh",
+                    background: "#0E0B18",
                   }}
                 >
-                  {/* glow */}
+                  {/* Visual area (mockup placeholder) */}
                   <div
-                    aria-hidden
-                    className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full blur-3xl opacity-40"
-                    style={{ background: categoryColor[p.category] }}
-                  />
-                  {/* grain */}
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 opacity-[0.06]"
-                    style={{
-                      backgroundImage:
-                        "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
-                      backgroundSize: "3px 3px",
-                    }}
-                  />
-
-                  <div className="relative flex h-full flex-col justify-between p-8 md:p-14">
-                    <div className="flex items-start justify-between">
+                    className="relative h-[62%] w-full overflow-hidden"
+                    style={{ background: cardGradient(p, i) }}
+                  >
+                    {/* category glow */}
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-50"
+                      style={{ background: categoryColor[p.category] }}
+                    />
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full blur-3xl opacity-30"
+                      style={{ background: categoryColor[p.category] }}
+                    />
+                    {/* grain */}
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 opacity-[0.08]"
+                      style={{
+                        backgroundImage:
+                          "radial-gradient(rgba(255,255,255,0.7) 1px, transparent 1px)",
+                        backgroundSize: "3px 3px",
+                      }}
+                    />
+                    {/* index numeral */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span
+                        className="font-serif italic leading-none text-white/[0.07]"
+                        style={{ fontSize: "clamp(180px, 32vw, 420px)" }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    {/* top meta */}
+                    <div className="absolute left-0 right-0 top-0 flex items-center justify-between p-6 md:p-8">
                       <div className="flex items-center gap-3">
                         <span
                           className="h-2 w-2 rounded-full"
-                          style={{ background: categoryColor[p.category], boxShadow: `0 0 16px ${categoryColor[p.category]}` }}
+                          style={{
+                            background: categoryColor[p.category],
+                            boxShadow: `0 0 16px ${categoryColor[p.category]}`,
+                          }}
                         />
-                        <span className="text-[10px] uppercase tracking-[0.3em] text-white/60">
+                        <span className="text-[10px] uppercase tracking-[0.3em] text-white/70">
                           {p.category}
                         </span>
                       </div>
-                      <div className="font-mono text-[10px] tracking-[0.2em] text-white/40">
+                      <div className="font-mono text-[10px] tracking-[0.2em] text-white/50">
                         {String(i + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
                       </div>
                     </div>
+                  </div>
 
-                    <div>
+                  {/* Content area */}
+                  <div className="relative flex h-[38%] items-center justify-between gap-6 px-8 py-6 md:px-12 md:py-8">
+                    <div className="min-w-0 flex-1">
                       <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
                         {p.year ?? ""} · {p.status}
                       </div>
-                      <h2 className="mt-3 font-serif text-3xl leading-[1.02] md:text-5xl lg:text-6xl">
+                      <h2 className="mt-2 font-serif text-2xl leading-[1.05] md:text-4xl lg:text-5xl">
                         {p.title}
                       </h2>
-                      <p className="mt-4 max-w-2xl text-sm text-white/70 md:text-base">
+                      <p className="mt-2 line-clamp-2 max-w-2xl text-sm text-white/60">
                         {p.tagline}
                       </p>
-
-                      {p.status === "Case Study" && (
-                        <a
-                          href="#"
-                          className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs uppercase tracking-[0.2em] text-white backdrop-blur transition-colors hover:bg-white/10"
-                        >
-                          View Case Study
-                          <ArrowUpRight className="h-3.5 w-3.5" />
-                        </a>
-                      )}
                     </div>
+                    <a
+                      href="#"
+                      className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all hover:scale-105 hover:bg-white/10 md:h-16 md:w-16"
+                      style={{
+                        boxShadow: `0 0 32px ${categoryColor[p.category]}30`,
+                      }}
+                    >
+                      <ArrowUpRight className="h-5 w-5 transition-transform group-hover:rotate-45" />
+                    </a>
                   </div>
                 </motion.article>
               </section>
             ))}
+
           </div>
 
           {/* RIGHT — sticky project list */}
