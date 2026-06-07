@@ -1,50 +1,45 @@
 import { Heart } from "lucide-react";
+import type { IconType } from "react-icons";
+import {
+  SiFigma,
+  SiCanva,
+  SiAdobephotoshop,
+  SiAdobeillustrator,
+  SiAdobeindesign,
+  SiAdobepremierepro,
+  SiAdobelightroom,
+  SiProcreate,
+  SiClaude,
+  SiOpenai,
+  SiFramer,
+  SiSketchup,
+  SiBlender,
+  SiMailerlite,
+  SiAsana,
+  SiHubspot,
+} from "react-icons/si";
 
-type Software = { name: string; slug?: string; icon?: "heart" };
+type Software = { name: string; Icon: IconType };
 
 const softwares: Software[] = [
-  { name: "Figma", slug: "figma" },
-  { name: "Canva", slug: "canva" },
-  { name: "Photoshop", slug: "adobephotoshop" },
-  { name: "Illustrator", slug: "adobeillustrator" },
-  { name: "InDesign", slug: "adobeindesign" },
-  { name: "Premiere Pro", slug: "adobepremierepro" },
-  { name: "Lightroom", slug: "adobelightroom" },
-  { name: "Procreate", slug: "procreate" },
-  { name: "Claude", slug: "claude" },
-  { name: "ChatGPT", slug: "openai" },
-  { name: "Framer", slug: "framer" },
-  { name: "Lovable", icon: "heart" },
-  { name: "SketchUp", slug: "sketchup" },
-  { name: "Blender", slug: "blender" },
-  { name: "MailerLite", slug: "mailerlite" },
-  { name: "Asana", slug: "asana" },
-  { name: "HubSpot", slug: "hubspot" },
+  { name: "Figma", Icon: SiFigma },
+  { name: "Canva", Icon: SiCanva },
+  { name: "Photoshop", Icon: SiAdobephotoshop },
+  { name: "Illustrator", Icon: SiAdobeillustrator },
+  { name: "InDesign", Icon: SiAdobeindesign },
+  { name: "Premiere Pro", Icon: SiAdobepremierepro },
+  { name: "Lightroom", Icon: SiAdobelightroom },
+  { name: "Procreate", Icon: SiProcreate },
+  { name: "Claude", Icon: SiClaude },
+  { name: "ChatGPT", Icon: SiOpenai },
+  { name: "Framer", Icon: SiFramer },
+  { name: "Lovable", Icon: Heart as unknown as IconType },
+  { name: "SketchUp", Icon: SiSketchup },
+  { name: "Blender", Icon: SiBlender },
+  { name: "MailerLite", Icon: SiMailerlite },
+  { name: "Asana", Icon: SiAsana },
+  { name: "HubSpot", Icon: SiHubspot },
 ];
-
-function Icon({ item }: { item: Software }) {
-  if (item.icon === "heart") {
-    return <Heart className="h-4 w-4 shrink-0" strokeWidth={2.2} />;
-  }
-  const url = `https://cdn.simpleicons.org/${item.slug}`;
-  // Mask trick: icon color follows currentColor so it adapts to light/dark mode
-  return (
-    <span
-      aria-hidden
-      className="block h-4 w-4 shrink-0 bg-current"
-      style={{
-        WebkitMaskImage: `url(${url})`,
-        maskImage: `url(${url})`,
-        WebkitMaskRepeat: "no-repeat",
-        maskRepeat: "no-repeat",
-        WebkitMaskSize: "contain",
-        maskSize: "contain",
-        WebkitMaskPosition: "center",
-        maskPosition: "center",
-      }}
-    />
-  );
-}
 
 export function SoftwareRibbon() {
   const loop = [...softwares, ...softwares];
@@ -64,11 +59,11 @@ export function SoftwareRibbon() {
       />
 
       <div className="flex w-max animate-[ribbon_55s_linear_infinite] gap-8 whitespace-nowrap will-change-transform">
-        {loop.map((item, i) => (
+        {loop.map(({ name, Icon }, i) => (
           <div key={i} className="flex items-center gap-2.5">
-            <Icon item={item} />
+            <Icon className="h-4 w-4 shrink-0" aria-hidden />
             <span className="text-xs uppercase tracking-[0.2em] md:text-sm">
-              {item.name}
+              {name}
             </span>
             <span
               aria-hidden
