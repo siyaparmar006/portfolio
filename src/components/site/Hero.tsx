@@ -213,29 +213,21 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Right column — portrait */}
+          {/* Right column — reserves space; the floating portrait card overlays this region on desktop. Mobile shows an inline portrait. */}
           <div className="md:col-span-5">
+            {/* Mobile inline portrait */}
             <motion.div
-              style={{ scale: portraitScale, rotate: portraitRotate }}
               initial={{ opacity: 0, scale: 0.94, rotate: -3 }}
               animate={{ opacity: 1, scale: 1, rotate: -1 }}
               transition={{ duration: 1.1, ease, delay: 0.35 }}
-              className="relative mx-auto w-full max-w-[380px]"
+              className="relative mx-auto w-full max-w-[320px] md:hidden"
             >
               <div
                 aria-hidden
                 className="absolute -inset-6 -z-10 rounded-[2.5rem] blur-2xl"
                 style={{ background: "var(--gradient-soft)" }}
               />
-              <motion.div
-                style={{ x: sx, y: sy }}
-                className="relative overflow-hidden rounded-[2rem] border border-[var(--clay-1)]/40 bg-card p-3 shadow-lift"
-              >
-                <div
-                  aria-hidden
-                  className="absolute inset-0 opacity-60"
-                  style={{ background: "var(--gradient-soft)" }}
-                />
+              <div className="relative overflow-hidden rounded-[2rem] border border-[var(--clay-1)]/40 bg-card p-3 shadow-lift">
                 <div className="relative overflow-hidden rounded-[1.5rem]">
                   <img
                     src={portrait.url}
@@ -244,34 +236,28 @@ export function Hero() {
                     height={1024}
                     className="block aspect-[4/5] w-full object-cover"
                   />
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, transparent 55%, oklch(0.18 0.015 50 / 0.2) 100%)",
-                    }}
-                  />
-                  <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-background/85 px-2.5 py-1 text-[10px] font-medium text-foreground/80 shadow-soft backdrop-blur">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-                    siya.parmar — portfolio
-                  </div>
-                  <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-2xl bg-background/85 px-4 py-3 shadow-soft backdrop-blur">
-                    <div>
-                      <div className="font-display text-base leading-none">Siya Parmar</div>
-                      <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                        Product Designer · Jersey City
-                      </div>
-                    </div>
-                    <span className="text-[10px] text-muted-foreground">2026</span>
-                  </div>
                 </div>
-              </motion.div>
-
-              {portraitTags.map((t, i) => (
-                <FloatingTag key={t.label} tag={t} index={i} progress={scrollYProgress} />
-              ))}
+              </div>
             </motion.div>
+
+            {/* Desktop placeholder — floating card takes over this area via fixed positioning */}
+            <div
+              aria-hidden
+              className="hidden md:block"
+              style={{ height: "min(60vh, 480px)" }}
+            >
+              {/* Floating tags positioned around the projected card region */}
+              <div className="relative mx-auto h-full w-full max-w-[380px]">
+                {portraitTags.map((t, i) => (
+                  <FloatingTag
+                    key={t.label}
+                    tag={t}
+                    index={i}
+                    progress={scrollYProgress}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -13,8 +13,6 @@ export function About() {
 
   const textY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [60, 0]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.7], [0, 1]);
-  const portraitScale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0.95, 1]);
-  const portraitRotate = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [3, -1]);
 
   return (
     <section id="about" ref={ref} className="relative overflow-hidden px-6 py-32">
@@ -30,16 +28,9 @@ export function About() {
         }}
       />
       <div id="contact" className="relative mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-12">
-        <motion.div
-          style={{ scale: portraitScale, rotate: portraitRotate }}
-          className="md:col-span-4"
-        >
-          <div className="relative mx-auto w-full max-w-[280px] overflow-hidden rounded-[1.75rem] border border-[var(--clay-1)]/40 bg-card p-2 shadow-lift">
-            <div
-              aria-hidden
-              className="absolute inset-0 opacity-60"
-              style={{ background: "var(--gradient-soft)" }}
-            />
+        {/* Mobile inline portrait — desktop uses the shared floating card */}
+        <div className="md:hidden">
+          <div className="relative mx-auto w-full max-w-[260px] overflow-hidden rounded-[1.75rem] border border-[var(--clay-1)]/40 bg-card p-2 shadow-lift">
             <img
               src={portrait.url}
               alt="Portrait of Siya Parmar"
@@ -48,11 +39,11 @@ export function About() {
               className="relative block aspect-[4/5] w-full rounded-[1.25rem] object-cover"
             />
           </div>
-        </motion.div>
+        </div>
 
         <motion.div
           style={{ y: textY, opacity: textOpacity }}
-          className="md:col-span-8"
+          className="md:col-span-7"
         >
           <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
             About · Contact
@@ -96,6 +87,9 @@ export function About() {
             </a>
           </div>
         </motion.div>
+
+        {/* Desktop right column reserved for the floating portrait card landing */}
+        <div aria-hidden className="hidden md:col-span-5 md:block" style={{ height: "60vh" }} />
       </div>
     </section>
   );
