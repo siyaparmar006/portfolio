@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
+import { SoftwareRibbon } from "@/components/site/SoftwareRibbon";
 import { Work } from "@/components/site/Work";
 import { DesignOS } from "@/components/site/DesignOS";
 import { Atlas } from "@/components/site/Atlas";
@@ -35,6 +36,7 @@ function Index() {
       <ScrollProgress />
       <Nav />
       <Hero />
+      <SoftwareRibbon />
       <Work />
       <DesignOS />
       <Atlas />
