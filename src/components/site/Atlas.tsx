@@ -1,6 +1,8 @@
+"use client";
+
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { Link } from "@tanstack/react-router";
 
 export function Atlas() {
   const reduced = useReducedMotion();
@@ -59,7 +61,7 @@ export function Atlas() {
               </motion.div>
 
               <Link
-                to="/atlas"
+                href="/atlas"
                 className="group relative z-10 inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background"
               >
                 <span

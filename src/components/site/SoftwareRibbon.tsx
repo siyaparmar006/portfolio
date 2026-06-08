@@ -8,10 +8,10 @@ import {
   SiAsana,
   SiHubspot,
 } from "react-icons/si";
-import lovableLogo from "@/assets/lovable-logo.svg.asset.json";
-import canvaLogo from "@/assets/canva.svg.asset.json";
-import procreateLogo from "@/assets/procreate.svg.asset.json";
-import mailerliteLogo from "@/assets/mailerlite.svg.asset.json";
+const canvaLogo = { url: "/assets/icons/canva.svg" };
+const procreateLogo = { url: "/assets/icons/procreate.svg" };
+const mailerliteLogo = { url: "/assets/icons/mailerlite.svg" };
+const lovableLogo = { url: "/assets/icons/lovable.svg" };
 
 type IconCmp = (props: { className?: string }) => React.ReactElement;
 

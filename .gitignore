@@ -14,11 +14,11 @@ dist-ssr
 .vinxi
 .tanstack/**
 .nitro
+.next
+.tmp
+.wrangler
+tsconfig.tsbuildinfo
 *.local
-
-# Wrangler / Cloudflare
-.wrangler/
-.dev.vars
 
 # Editor directories and files
 .vscode/*

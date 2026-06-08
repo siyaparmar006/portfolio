@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import {
@@ -84,8 +86,7 @@ function ProjectCard({ p, i }: { p: PortfolioProject; i: number }) {
           {link && (
             <div className="mt-6">
               <Link
-                to="/projects/$slug"
-                params={{ slug: p.slug }}
+                href={link}
                 className="group/link inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-foreground/80"
               >
                 View Project

@@ -3,6 +3,7 @@ import { publicCommunicationDetail } from "@/content/project-pages/public-commun
 import { environmentalDesignDetail } from "@/content/project-pages/environmental-design";
 import { illustrationDetail } from "@/content/project-pages/illustration";
 import { photographyDetail } from "@/content/project-pages/photography";
+import { systemsThinkingDetail } from "@/content/project-pages/systems-thinking";
 
 export type ProjectBrief = {
   ask: string;
@@ -49,37 +50,20 @@ export type ProjectDetail = {
   layout?: "editorial" | "showcase" | "split";
 };
 
-const galleryModules = import.meta.glob<string>("../assets/projects/*/gallery-*.jpg", {
-  eager: true,
-  import: "default",
-});
+import { projectGalleries } from "@/content/asset-manifest";
 
-const projectImageModules = import.meta.glob<string>("../assets/projects/*/*.{jpg,jpeg,png,webp}", {
-  eager: true,
-  import: "default",
-});
+const ASSET_BASE = "/assets/projects";
 
 export function getProjectGallery(slug: string): string[] {
-  return Object.entries(galleryModules)
-    .filter(([path]) => path.includes(`/projects/${slug}/gallery-`))
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([, url]) => url);
+  return projectGalleries[slug] ?? [];
 }
 
-export function getProjectImage(slug: string, file: string): string | undefined {
-  const normalized = file.toLowerCase();
-  const match = Object.entries(projectImageModules).find(([path]) => {
-    if (!path.includes(`/projects/${slug}/`)) return false;
-    const name = path.split("/").pop()?.toLowerCase();
-    return name === normalized;
-  });
-  return match?.[1];
+export function getProjectImage(slug: string, file: string): string {
+  return `${ASSET_BASE}/${slug}/${file}`;
 }
 
 export function getProjectImages(slug: string, files: string[]): string[] {
-  return files
-    .map((file) => getProjectImage(slug, file))
-    .filter((url): url is string => Boolean(url));
+  return files.map((file) => getProjectImage(slug, file));
 }
 
 const details: Record<string, ProjectDetail> = {
@@ -88,6 +72,7 @@ const details: Record<string, ProjectDetail> = {
   "environmental-design": environmentalDesignDetail,
   illustration: illustrationDetail,
   photography: photographyDetail,
+  "systems-thinking": systemsThinkingDetail,
   nnp: {
     slug: "nnp",
     course: "Outreach & Communications Internship",

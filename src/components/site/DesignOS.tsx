@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useReducedMotion } from "framer-motion";
 import { Eye, Heart, Palette, Layers } from "lucide-react";
 

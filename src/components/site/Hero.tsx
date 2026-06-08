@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { PortraitImage } from "@/components/site/PortraitImage";

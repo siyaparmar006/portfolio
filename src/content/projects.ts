@@ -22,19 +22,9 @@ export type PortfolioProject = {
   gradient?: string;
 };
 
-const coverModules = import.meta.glob<string>("../assets/projects/*/cover.jpg", {
-  eager: true,
-  import: "default",
-});
+import { projectCovers } from "@/content/asset-manifest";
 
-export const projectCovers: Record<string, string> = Object.fromEntries(
-  Object.entries(coverModules)
-    .map(([path, url]) => {
-      const slug = path.match(/projects\/([^/]+)\//)?.[1];
-      return slug ? ([slug, url] as const) : null;
-    })
-    .filter((entry): entry is [string, string] => entry !== null),
-);
+export { projectCovers };
 
 export const atlasProjects: PortfolioProject[] = [
   {
@@ -296,11 +286,12 @@ export const atlasProjects: PortfolioProject[] = [
   },
   {
     slug: "systems-thinking",
-    title: "Systems Thinking",
+    title: "The Bachelors — Housing Societies",
     category: "Product Experiences",
-    tagline: "Process and systems mapping exploration for understanding complex relationships.",
+    tagline:
+      "Systems intervention for integrating single tenants into family-oriented housing societies through norms, trials, and feedback loops.",
     status: "Archive",
-    year: "2021",
+    year: "2022",
     documentUrl: "/projects/systems-thinking.pdf",
   },
   {

@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useScroll, useTransform, useReducedMotion, useSpring } from "framer-motion";
 import type { RefObject } from "react";
 import { PortraitImage } from "@/components/site/PortraitImage";

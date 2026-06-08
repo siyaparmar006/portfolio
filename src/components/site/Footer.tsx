@@ -1,4 +1,4 @@
-import logoUrl from "@/assets/brand/siya-logo.png";
+const logoUrl = "/assets/brand/siya-logo.png";
 import { site } from "@/content/site";
 
 export function Footer() {

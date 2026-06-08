@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 
 export function ScrollProgress() {

@@ -1,4 +1,4 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source "../src";
 @import "tw-animate-css";
 
@@ -40,7 +40,6 @@
 
 :root {
   --radius: 1rem;
-  /* Light (default) */
   --background: oklch(0.98 0.003 80);
   --foreground: oklch(0.18 0.01 80);
   --card: oklch(0.96 0.003 80);

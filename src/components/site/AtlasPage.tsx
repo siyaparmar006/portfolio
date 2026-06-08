@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+"use client";
+
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
@@ -27,21 +29,7 @@ function cardGradient(p: PortfolioProject, i: number) {
   return `linear-gradient(${angle}deg, ${c}18 0%, var(--card) 60%, var(--background) 100%)`;
 }
 
-export const Route = createFileRoute("/atlas")({
-  component: AtlasPage,
-  head: () => ({
-    meta: [
-      { title: "Design Atlas — Siya Parmar" },
-      {
-        name: "description",
-        content:
-          "A complete archive of design projects — case studies, project cards, and explorations.",
-      },
-    ],
-  }),
-});
-
-function AtlasPage() {
+export function AtlasPage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionsRef = useRef<Array<HTMLElement | null>>([]);
   const listRef = useRef<HTMLDivElement>(null);
@@ -99,7 +87,7 @@ function AtlasPage() {
         </h1>
         <p className="mt-3 max-w-xl text-sm text-muted-foreground">
           Scroll through {projects.length} projects — each one rises and rests on the last, like
-          pages on a designer's desk.
+          pages on a designer&apos;s desk.
         </p>
       </header>
 
@@ -307,8 +295,7 @@ function StackCard({
         </div>
         {link ? (
           <Link
-            to="/projects/$slug"
-            params={{ slug: p.slug }}
+            href={link}
             className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-border bg-background text-foreground transition-all hover:scale-105 hover:bg-secondary md:h-16 md:w-16"
             aria-label={`View ${p.title}`}
           >

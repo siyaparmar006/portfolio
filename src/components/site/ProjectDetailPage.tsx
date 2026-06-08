@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import {
@@ -84,8 +86,7 @@ export function ProjectDetailPage({ project, detail }: Props) {
       <article className="mx-auto max-w-5xl px-5 pt-28 pb-20 md:px-8 md:pt-32">
         <motion.div {...fade(0)}>
           <Link
-            to="/"
-            hash="work"
+            href="/#work"
             className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -190,7 +191,7 @@ export function ProjectDetailPage({ project, detail }: Props) {
               <ArrowUpRight className="h-4 w-4" />
             </a>
             <Link
-              to="/atlas"
+              href="/atlas"
               className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5"
             >
               Explore Design Atlas

@@ -1,9 +1,12 @@
+"use client";
+
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
-import { Link } from "@tanstack/react-router";
 import { useTheme } from "@/hooks/use-theme";
-import logoUrl from "@/assets/brand/siya-logo.png";
+
+const logoUrl = "/assets/brand/siya-logo.png";
 
 type NavLink = { href: string; label: string; to?: string };
 
@@ -44,12 +47,7 @@ export function Nav() {
           scrolled ? "glass border border-border/60 shadow-soft" : "border border-transparent"
         }`}
       >
-        <Link
-          to="/"
-          hash="top"
-          className="flex items-center gap-2 pl-2"
-          aria-label="Siya Parmar — Home"
-        >
+        <Link href="/#top" className="flex items-center gap-2 pl-2" aria-label="Siya Parmar — Home">
           <img src={logoUrl} alt="Siya Parmar" className="h-7 w-auto dark:invert" />
         </Link>
 
@@ -66,7 +64,7 @@ export function Nav() {
             return (
               <li key={l.href}>
                 {l.to ? (
-                  <Link to={l.to} className={cls}>
+                  <Link href={l.to} className={cls}>
                     {inner}
                   </Link>
                 ) : (

@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useReducedMotion } from "framer-motion";
 import { Mail, Linkedin, FileText } from "lucide-react";
 import { PortraitImage } from "@/components/site/PortraitImage";
