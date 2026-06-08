@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
-import portrait from "@/assets/siya-portrait.jpg.asset.json";
+import { PortraitImage } from "@/components/site/PortraitImage";
+import { site } from "@/content/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -27,7 +28,7 @@ export function Hero() {
         className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[60vw] max-h-[640px] w-[60vw] max-w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70 blur-3xl"
         style={{
           background:
-            "radial-gradient(circle at 50% 50%, oklch(0.576 0.190 275.7 / 0.55), transparent 65%)",
+            "radial-gradient(circle at 50% 50%, color-mix(in oklch, var(--accent) 55%, transparent), transparent 65%)",
         }}
       />
 
@@ -56,12 +57,9 @@ export function Hero() {
             className="relative order-1 mx-auto w-[55vw] max-w-[260px] md:order-2 md:w-[20vw] md:min-w-[210px] md:max-w-[250px]"
             style={{ rotate: "-2.5deg" }}
           >
-            <div className="relative overflow-hidden rounded-[1.75rem] border border-foreground/10 bg-[oklch(0.92_0.01_70)] shadow-lift">
-              <img
-                src={portrait.url}
+            <div className="relative overflow-hidden rounded-[1.75rem] border border-foreground/10 bg-secondary shadow-lift">
+              <PortraitImage
                 alt="Portrait of Siya Parmar, Product Designer"
-                width={832}
-                height={1024}
                 className="block aspect-[4/5.2] w-full object-cover"
               />
             </div>
@@ -85,8 +83,7 @@ export function Hero() {
           {...anim(0.35)}
           className="mt-12 max-w-2xl text-balance text-center text-base leading-relaxed text-foreground/85 md:text-lg"
         >
-          Product Designer crafting human-centered digital experiences with strong
-          visual systems and brand thinking.
+          {site.tagline}
         </motion.p>
 
         {/* Subheading */}
@@ -94,9 +91,8 @@ export function Hero() {
           {...anim(0.42)}
           className="mt-3 max-w-xl text-center text-sm leading-relaxed text-muted-foreground md:text-[15px]"
         >
-          I design digital experiences that feel clear, human, and visually memorable.
+          {site.subtagline}
         </motion.p>
-
 
         {/* CTAs */}
         <motion.div
@@ -111,7 +107,7 @@ export function Hero() {
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
           <a
-            href="/resume.pdf"
+            href={site.resumePath}
             className="group inline-flex items-center gap-2 rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/40 hover:bg-foreground/5"
           >
             <Download className="h-4 w-4" />

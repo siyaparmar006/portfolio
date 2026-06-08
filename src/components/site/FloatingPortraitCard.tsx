@@ -1,12 +1,6 @@
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-  useSpring,
-} from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, useSpring } from "framer-motion";
 import type { RefObject } from "react";
-import portrait from "@/assets/siya-portrait.jpg.asset.json";
+import { PortraitImage } from "@/components/site/PortraitImage";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 /**
@@ -14,11 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
  * as the user scrolls. Position, scale, rotation and a 3D Y-flip are all
  * driven by scroll progress over a wrapping ref.
  */
-export function FloatingPortraitCard({
-  trackRef,
-}: {
-  trackRef: RefObject<HTMLDivElement | null>;
-}) {
+export function FloatingPortraitCard({ trackRef }: { trackRef: RefObject<HTMLDivElement | null> }) {
   const reduced = useReducedMotion();
   const isMobile = useIsMobile();
 
@@ -45,32 +35,12 @@ export function FloatingPortraitCard({
   // 1.00  exit upward, fade
   const stops = [0, 0.22, 0.42, 0.5, 0.58, 0.78, 1];
 
-  const x = useTransform(p, stops, [
-    "32vw",
-    "36vw",
-    "37vw",
-    "38vw",
-    "37vw",
-    "34vw",
-    "30vw",
-  ]);
-  const y = useTransform(p, stops, [
-    "0vh",
-    "4vh",
-    "1vh",
-    "-2vh",
-    "1vh",
-    "0vh",
-    "-32vh",
-  ]);
+  const x = useTransform(p, stops, ["32vw", "36vw", "37vw", "38vw", "37vw", "34vw", "30vw"]);
+  const y = useTransform(p, stops, ["0vh", "4vh", "1vh", "-2vh", "1vh", "0vh", "-32vh"]);
   const scale = useTransform(p, stops, [0.85, 0.72, 0.7, 0.68, 0.7, 0.78, 0.62]);
   const rotateZ = useTransform(p, stops, [-3, 6, 2, -4, 2, 4, -6]);
   const rotateY = useTransform(p, stops, [0, 0, 45, 90, 45, 0, 0]);
-  const opacity = useTransform(
-    p,
-    stops,
-    [1, 0.15, 0, 0, 0, 1, 0.3],
-  );
+  const opacity = useTransform(p, stops, [1, 0.15, 0, 0, 0, 1, 0.3]);
   // Show only while the journey wrapper is on screen
   const visibility = useTransform(p, (v) => (v < 0 || v >= 1.05 ? 0 : 1));
   const radius = useTransform(p, stops, [
@@ -95,8 +65,7 @@ export function FloatingPortraitCard({
           style={{ transform: "translateX(18vw) rotate(-2deg)" }}
           className="w-[300px] overflow-hidden rounded-[2rem] border border-[var(--clay-1)]/40 bg-card p-3 shadow-lift"
         >
-          <img
-            src={portrait.url}
+          <PortraitImage
             alt="Portrait of Siya Parmar"
             className="block aspect-[4/5] w-full rounded-[1.5rem] object-cover"
           />
@@ -135,11 +104,8 @@ export function FloatingPortraitCard({
             className="absolute inset-0 opacity-60"
             style={{ background: "var(--gradient-soft)" }}
           />
-          <img
-            src={portrait.url}
+          <PortraitImage
             alt="Portrait of Siya Parmar"
-            width={832}
-            height={1024}
             className="relative block aspect-[4/5] w-full object-cover"
           />
           <div
@@ -176,7 +142,9 @@ export function FloatingPortraitCard({
         >
           <span className="flex flex-col items-center leading-none">
             <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">Hi</span>
-            <span className="mt-0.5 text-2xl" role="img" aria-hidden>👋</span>
+            <span className="mt-0.5 text-2xl" role="img" aria-hidden>
+              👋
+            </span>
           </span>
         </div>
 

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { site } from "@/content/site";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
 import { SoftwareRibbon } from "@/components/site/SoftwareRibbon";
@@ -9,22 +10,13 @@ import { About } from "@/components/site/About";
 import { Footer } from "@/components/site/Footer";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
 
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Siya Parmar — Product Designer" },
-      {
-        name: "description",
-        content:
-          "Siya Parmar is a Product Designer crafting human-centered digital experiences with strong visual systems and brand thinking.",
-      },
-      { property: "og:title", content: "Siya Parmar — Product Designer" },
-      {
-        property: "og:description",
-        content:
-          "Human-centered digital experiences with strong visual systems and brand thinking.",
-      },
+      { title: `${site.name} — ${site.title}` },
+      { name: "description", content: site.tagline },
+      { property: "og:title", content: `${site.name} — ${site.title}` },
+      { property: "og:description", content: site.subtagline },
     ],
   }),
   component: Index,
@@ -45,4 +37,3 @@ function Index() {
     </main>
   );
 }
-

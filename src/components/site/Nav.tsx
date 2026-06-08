@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTheme } from "@/hooks/use-theme";
-import logo from "@/assets/siya-logo.svg.asset.json";
+import logoUrl from "@/assets/brand/siya-logo.png";
 
 type NavLink = { href: string; label: string; to?: string };
 
@@ -41,17 +41,16 @@ export function Nav() {
         }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className={`relative flex items-center justify-between rounded-full px-3 transition-colors duration-500 md:px-4 ${
-          scrolled
-            ? "glass border border-border/60 shadow-soft"
-            : "border border-transparent"
+          scrolled ? "glass border border-border/60 shadow-soft" : "border border-transparent"
         }`}
       >
-        <Link to="/" hash="top" className="flex items-center gap-2 pl-2" aria-label="Siya Parmar — Home">
-          <img
-            src={logo.url}
-            alt="Siya Parmar"
-            className="h-7 w-auto invert [.light_&]:invert-0"
-          />
+        <Link
+          to="/"
+          hash="top"
+          className="flex items-center gap-2 pl-2"
+          aria-label="Siya Parmar — Home"
+        >
+          <img src={logoUrl} alt="Siya Parmar" className="h-7 w-auto dark:invert" />
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -86,11 +85,7 @@ export function Nav() {
             aria-label="Toggle theme"
             className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-foreground/15 bg-background/40 text-foreground/80 backdrop-blur transition-all duration-300 hover:border-foreground/40 hover:text-foreground"
           >
-            {theme === "dark" ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
           <a
             href="#contact"

@@ -18,26 +18,25 @@ type IconCmp = (props: { className?: string }) => React.ReactElement;
 /** Adobe-style CC tile: dark rounded square with bright letter glyph. */
 const AdobeTile =
   (letters: string, bg: string, fg: string): IconCmp =>
-  ({ className }) =>
-    (
-      <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
-        <rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill={bg} />
-        <text
-          x="50%"
-          y="54%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif"
-          fontWeight="900"
-          fontStyle="italic"
-          fontSize={letters.length > 2 ? "9" : "12"}
-          fill={fg}
-          style={{ letterSpacing: "-0.5px" }}
-        >
-          {letters}
-        </text>
-      </svg>
-    );
+  ({ className }) => (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill={bg} />
+      <text
+        x="50%"
+        y="54%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif"
+        fontWeight="900"
+        fontStyle="italic"
+        fontSize={letters.length > 2 ? "9" : "12"}
+        fill={fg}
+        style={{ letterSpacing: "-0.5px" }}
+      >
+        {letters}
+      </text>
+    </svg>
+  );
 
 /** Authentic multi-color filled Figma logo. */
 const Figma: IconCmp = ({ className }) => (
@@ -55,9 +54,7 @@ const Procreate: IconCmp = ({ className }) => (
   <img src={procreateLogo.url} alt="" className={className} />
 );
 
-const Canva: IconCmp = ({ className }) => (
-  <img src={canvaLogo.url} alt="" className={className} />
-);
+const Canva: IconCmp = ({ className }) => <img src={canvaLogo.url} alt="" className={className} />;
 
 const MailerLite: IconCmp = ({ className }) => (
   <img src={mailerliteLogo.url} alt="" className={className} />

@@ -33,18 +33,10 @@ export function Frame({
     [0, 0.2, 0.8, 1],
     reduced ? [1, 1, 1, 1] : [0.4, 1, 1, 0.85],
   );
-  const y = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    reduced ? [0, 0, 0] : [40, 0, -20],
-  );
+  const y = useTransform(scrollYProgress, [0, 0.5, 1], reduced ? [0, 0, 0] : [40, 0, -20]);
 
   const toneClass =
-    tone === "warm"
-      ? "bg-[var(--clay-1)]/15"
-      : tone === "glow"
-        ? "bg-card"
-        : "bg-card/80";
+    tone === "warm" ? "bg-[var(--clay-1)]/15" : tone === "glow" ? "bg-card" : "bg-card/80";
 
   return (
     <motion.div

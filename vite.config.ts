@@ -7,9 +7,31 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Force Nitro deploy bundle outside Lovable sandbox (dist/client + dist/server).
+  // Default node-server for self-hosting; set NITRO_PRESET=cloudflare-module for Workers.
+  nitro: {
+    preset: process.env.NITRO_PRESET ?? "node-server",
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+  },
+  vite: {
+    build: {
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("node_modules/framer-motion")) return "motion";
+            if (id.includes("node_modules/@radix-ui")) return "radix";
+            if (id.includes("node_modules/@tanstack")) return "tanstack";
+            if (id.includes("node_modules/react-dom") || id.includes("node_modules/react/")) {
+              return "react";
+            }
+          },
+        },
+      },
+    },
   },
 });
