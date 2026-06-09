@@ -57,9 +57,13 @@ function HeroImage({
   publication?: boolean;
   scale?: number;
 }) {
-  const zoomStyle = scale ? { transform: `scale(${scale})`, transformOrigin: "center" as const } : undefined;
+  const zoomStyle = scale
+    ? { transform: `scale(${scale})`, transformOrigin: "center" as const }
+    : undefined;
   if (publication) {
-    return <PublicationPageImage src={src} alt={alt} className="w-full" style={zoomStyle} priority />;
+    return (
+      <PublicationPageImage src={src} alt={alt} className="w-full" style={zoomStyle} priority />
+    );
   }
   return (
     <img
@@ -368,13 +372,9 @@ function SectionImages({
   return (
     <div className={`mt-8 grid gap-4 md:mt-10 md:gap-5 ${gridClass}`}>
       {images.map((src, i) => {
-        const oddLast =
-          compact && count > 1 && count % 2 === 1 && i === count - 1;
+        const oddLast = compact && count > 1 && count % 2 === 1 && i === count - 1;
         return (
-          <div
-            key={src}
-            className={oddLast ? "col-span-2 mx-auto w-full max-w-md" : undefined}
-          >
+          <div key={src} className={oddLast ? "col-span-2 mx-auto w-full max-w-md" : undefined}>
             <SpreadImage
               src={src}
               compact={compact}

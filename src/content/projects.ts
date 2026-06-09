@@ -257,8 +257,7 @@ export const atlasProjects: PortfolioProject[] = [
     slug: "nnp-social-media",
     title: "NNP Social Media Templates",
     category: "Communication Systems",
-    tagline:
-      "Instagram story template system — campaigns, volunteer CTAs, and community updates.",
+    tagline: "Instagram story template system — campaigns, volunteer CTAs, and community updates.",
     description:
       "Designed and synthesized a branded social media template system for New Neighbors Partnership to support consistent Instagram stories, volunteer calls-to-action, donation campaigns, cultural content, and community updates.",
     status: "Part of NNP Case Study",

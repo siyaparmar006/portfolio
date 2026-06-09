@@ -50,8 +50,7 @@ export function AtlasPage() {
     const el = sectionsRef.current[index];
     if (!el) return;
 
-    const targetTop =
-      window.scrollY + el.getBoundingClientRect().top - stickyTriggerY();
+    const targetTop = window.scrollY + el.getBoundingClientRect().top - stickyTriggerY();
 
     window.scrollTo({
       top: Math.max(0, targetTop),

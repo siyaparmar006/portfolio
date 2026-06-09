@@ -64,7 +64,12 @@ function ProcessDiagram() {
           d="M100 58 L164 82 L142 158 L58 158 L36 82 Z"
           className="fill-none stroke-border/80 stroke-[1]"
         />
-        <text x="100" y="104" textAnchor="middle" className="fill-foreground text-[9px] font-medium">
+        <text
+          x="100"
+          y="104"
+          textAnchor="middle"
+          className="fill-foreground text-[9px] font-medium"
+        >
           OS
         </text>
       </svg>

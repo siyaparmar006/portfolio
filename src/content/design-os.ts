@@ -9,13 +9,7 @@ export type ProcessStep = {
   quote: string;
 };
 
-export const processPills = [
-  "Understand",
-  "Structure",
-  "Visualize",
-  "Connect",
-  "Refine",
-] as const;
+export const processPills = ["Understand", "Structure", "Visualize", "Connect", "Refine"] as const;
 
 export const processOverview = [
   { id: "step-01", number: "01", title: "Understand the Ecosystem" },

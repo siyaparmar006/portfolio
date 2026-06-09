@@ -8,8 +8,7 @@ export const fluidDetail: ProjectDetail = {
   team: "Blue CoLab, Pace University",
   duration: "12 weeks",
   tools: "Figma, FigJam",
-  format:
-    "Research report, mobile prototype, presentation deck, usability study, field study",
+  format: "Research report, mobile prototype, presentation deck, usability study, field study",
   coreSkills:
     "UX research, mobile UI, data visualization, safety communication, environmental design, community reporting",
   deliverables: "Mobile App Design / Environmental Data Communication",
@@ -112,7 +111,7 @@ export const fluidDetail: ProjectDetail = {
             "Water temperature and tide snapshot",
             "Water-quality forecast for planning future activities",
             "Details page for bacteria, WQI, turbidity, salinity, dissolved oxygen, and chlorophyll",
-            "\"How Your Water Is Tested\" section to build trust",
+            '"How Your Water Is Tested" section to build trust',
             "Community report feature with activity filters and user posts",
             "Report Condition flow with photo or video upload",
             "History of water-quality information and bottom navigation",

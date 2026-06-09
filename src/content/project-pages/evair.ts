@@ -37,7 +37,7 @@ export const evairDetail: ProjectDetail = {
       title: "Project Context & Brand Background",
       blocks: [
         {
-          text: "Evair is a Made-in-India premium car fragrance brand created by VRN Lifestyle. The name combines \"everyday\" and \"air,\" reflecting the brand's promise of bringing freshness into everyday car journeys through long-lasting fragrances and natural wooden diffuser bottles.",
+          text: 'Evair is a Made-in-India premium car fragrance brand created by VRN Lifestyle. The name combines "everyday" and "air," reflecting the brand\'s promise of bringing freshness into everyday car journeys through long-lasting fragrances and natural wooden diffuser bottles.',
         },
         {
           text: "This project was completed as part of my professional experience at Zero Gravity Communications for a real client. The goal was to create packaging that made Evair feel fresh, premium, approachable, and visually distinct within the car fragrance category.",

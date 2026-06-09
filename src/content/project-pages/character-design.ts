@@ -12,9 +12,10 @@ export const characterDesignDetail: ProjectDetail = {
   heroImage: "hero-cover.jpg",
   brief: {
     ask: "Choose a non-human subject, research it, and develop a fully realized character from thumbnails to a final sheet. I picked a snail — less human-like than typical animal picks — so anatomy, posing, and expression needed extra invention.",
-    audience: "Design faculty, peers, and portfolio reviewers evaluating character design process and craft.",
+    audience:
+      "Design faculty, peers, and portfolio reviewers evaluating character design process and craft.",
     goals: [
-      "A readable silhouette that screams \"snail\" even at thumbnail size",
+      'A readable silhouette that screams "snail" even at thumbnail size',
       "Expressive emotion using species-true features (eyestalks, shell posture)",
       "Narrative clarity — the look should imply story and role",
       "A production-ready sheet (turnarounds + key art) suitable for animation or editorial use",
@@ -32,14 +33,14 @@ export const characterDesignDetail: ProjectDetail = {
         },
         {
           label: "Persona",
-          text: "A gentle, curious snail wayfarer / \"snail-mail\" carrier who wanders, collects stories, and delivers little notes between stump-side homes. Core traits: patient, optimistic, observant; resourceful rather than fast.",
+          text: 'A gentle, curious snail wayfarer / "snail-mail" carrier who wanders, collects stories, and delivers little notes between stump-side homes. Core traits: patient, optimistic, observant; resourceful rather than fast.',
         },
         {
           label: "Design drivers",
           bullets: [
-            "Carrying \"home\" (shell) doubles as prop and symbol — safety, memory",
+            'Carrying "home" (shell) doubles as prop and symbol — safety, memory',
             "Small tool set (satchel, lantern, folded leaf) signals occupation and gives posing affordances",
-            "Every decision should read \"slow, kind, observant wanderer\" at a glance",
+            'Every decision should read "slow, kind, observant wanderer" at a glance',
           ],
         },
       ],
@@ -56,8 +57,8 @@ export const characterDesignDetail: ProjectDetail = {
         {
           label: "Exploration notes",
           bullets: [
-            "Shell scale tests: very large shell → shy/hidden mood; mid-scale shell → balanced, plucky traveler; mini shell → lost the \"snailness\"",
-            "Posture variants: low crawl (authentic but hard to emote), semi-upright (hybrid, best for acting), exaggerated \"stretch\" for reach moments",
+            'Shell scale tests: very large shell → shy/hidden mood; mid-scale shell → balanced, plucky traveler; mini shell → lost the "snailness"',
+            'Posture variants: low crawl (authentic but hard to emote), semi-upright (hybrid, best for acting), exaggerated "stretch" for reach moments',
             "Shape language: mostly round, flowing curves for warmth and approachability; avoided sharp angles that suggest threat",
             "Gesture passes: peek, tuck, reach, listen, lug, rest — ensured the silhouette stays legible in action and ¾ views",
           ],
@@ -76,7 +77,7 @@ export const characterDesignDetail: ProjectDetail = {
         {
           label: "Face & palette",
           bullets: [
-            "Eyestalks kept as species signal with subtle \"brow\" hints at the tips for micro-expressions; small mouth line for smiles/\"ooh\"",
+            'Eyestalks kept as species signal with subtle "brow" hints at the tips for micro-expressions; small mouth line for smiles/"ooh"',
             "Earthy greens and warm browns with soft marigold/teal accents; light gloss on body to imply moisture without feeling slimy",
             "Shell spiral as memory spiral — quiet linework implying collected journeys",
             "Satchel and leaf parasol as instant story cues; stamps and tiny letters as secondary props",

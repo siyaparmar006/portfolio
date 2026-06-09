@@ -60,8 +60,7 @@ export const nnpSubProjects: NnpSubProject[] = [
     slug: "nnp-branding",
     title: "NNP Brand Style Guide",
     shortTitle: "Brand Style Guide",
-    tagline:
-      "5-page visual identity system — colors, typography, and social template categories.",
+    tagline: "5-page visual identity system — colors, typography, and social template categories.",
     category: "Brand System",
   },
   {

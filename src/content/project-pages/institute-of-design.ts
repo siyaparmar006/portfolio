@@ -123,7 +123,7 @@ export const instituteOfDesignDetail: ProjectDetail = {
         {
           label: "Exploration & systemization",
           bullets: [
-            "Started with the constraint \"one geometry only\" — circle cuts that read as DESIGN at multiple scales",
+            'Started with the constraint "one geometry only" — circle cuts that read as DESIGN at multiple scales',
             "Quick print tests at 16–24 mm and 2–3 m to check counter shapes and arrow clarity",
             "Converted recurring decisions into tokens: color roles, spacing units, type scale, icon grid, pattern tiles",
           ],
@@ -149,7 +149,7 @@ export const instituteOfDesignDetail: ProjectDetail = {
           bullets: [
             "Single primitive → infinite family: circles power the logo, icons, patterns, and image masks",
             "Rules with reasons: each prohibition tied to readability or recognition",
-            "Scalable delight: the second-read \"DESIGN\" moment rewards curiosity; arrows signal forward motion",
+            'Scalable delight: the second-read "DESIGN" moment rewards curiosity; arrows signal forward motion',
           ],
         },
         {

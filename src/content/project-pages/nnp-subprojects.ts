@@ -334,7 +334,7 @@ export const nnpImpactReportDetail: ProjectDetail = {
       title: "Storytelling, Photography & Emotional Tone",
       blocks: [
         {
-          text: "The report uses photography, quotes, and family stories to keep the content human-centered. The \"Meet Mirian\" page adds a personal narrative, while program pages use photographs of clothing packages, handwritten notes, groceries, school supplies, babies, dinners, and community events to show the real outcomes of NNP's work.",
+          text: 'The report uses photography, quotes, and family stories to keep the content human-centered. The "Meet Mirian" page adds a personal narrative, while program pages use photographs of clothing packages, handwritten notes, groceries, school supplies, babies, dinners, and community events to show the real outcomes of NNP\'s work.',
         },
         {
           label: "Emotional tone",
@@ -440,7 +440,7 @@ export const nnpCulturalPrimerDetail: ProjectDetail = {
       title: "Audience & Information Structure",
       blocks: [
         {
-          text: "The first page introduces the country through a broad overview, historical background, language phrases, and \"Did You Know?\" facts. The second page focuses on cultural considerations, food, holidays, and best practices for communication.",
+          text: 'The first page introduces the country through a broad overview, historical background, language phrases, and "Did You Know?" facts. The second page focuses on cultural considerations, food, holidays, and best practices for communication.',
         },
         {
           label: "Reading flow",
@@ -463,7 +463,7 @@ export const nnpCulturalPrimerDetail: ProjectDetail = {
             "Clear title block with the country name and flag",
             "Map-based visual cue to establish location",
             "Soft teal and peach color blocks for section separation",
-            "Rounded cards for \"Did You Know?\" facts",
+            'Rounded cards for "Did You Know?" facts',
             "Icon-style illustrations for music, geography, food, and communication",
             "Consistent section headings for easy navigation",
             "Balanced text density across both pages",
@@ -994,7 +994,7 @@ export const nnpBrandingDetail: ProjectDetail = {
             "Spotlight posts for volunteer, board member, or family interviews",
             "Quote and testimonial cards for community voices",
             "Announcement and campaign posts for events and recruitment",
-            "Impact metrics and \"Did You Know?\" posts for statistics and awareness",
+            'Impact metrics and "Did You Know?" posts for statistics and awareness',
             "Cultural education and book/media recommendation posts",
             "New staff and grant announcement posts",
           ],
@@ -1131,9 +1131,9 @@ export const nnpSocialMediaDetail: ProjectDetail = {
         {
           label: "Template examples",
           bullets: [
-            "School supply campaign stories such as \"Fulfill a School Supply Wishlist\"",
-            "Donation support stories such as \"Cover a Student\"",
-            "Volunteer opportunity stories such as \"Seeking Recipe Testers\"",
+            'School supply campaign stories such as "Fulfill a School Supply Wishlist"',
+            'Donation support stories such as "Cover a Student"',
+            'Volunteer opportunity stories such as "Seeking Recipe Testers"',
             "Branded floral background templates for future updates",
             "Color variations for different categories of content",
             "Story frames with space for images, text, quotes, or calls-to-action",

@@ -17,8 +17,7 @@ export const communicationTheoryDetail: ProjectDetail = {
   heroImage: "hero-cover.jpg",
   brief: {
     ask: "During COVID-19, information fatigue and fear were high, while attention spans were low. How can mass culture artifacts (posters, memes, clips) translate health guidance into messages that feel relatable, memorable, and shareable — without losing accuracy or empathy?",
-    audience:
-      "Communication designers, students, social media teams, and public-info campaigners.",
+    audience: "Communication designers, students, social media teams, and public-info campaigners.",
     goals: [
       "Analyze manipulated posters, memes, and awareness videos for visual and linguistic cues",
       "Understand why these formats spread quickly and how effectively they nudged behavior",
@@ -102,13 +101,13 @@ export const communicationTheoryDetail: ProjectDetail = {
       blocks: [
         {
           label: "Poster remixes",
-          text: "Ghajini, Andaz Apna Apna, 3 Idiots, Mother India — masks/sanitizers inserted as punctum; titles/dialogues tweaked into CTAs; high-contrast type for quick legibility; warm palettes for urgency vs. cool accents for \"medical\" tone.",
+          text: 'Ghajini, Andaz Apna Apna, 3 Idiots, Mother India — masks/sanitizers inserted as punctum; titles/dialogues tweaked into CTAs; high-contrast type for quick legibility; warm palettes for urgency vs. cool accents for "medical" tone.',
         },
         {
           label: "Police & meme culture",
           bullets: [
             "Nagpur & Mumbai Police: regional language + pop-culture recall → instant comprehension; bold uppercase sans + red/black danger coding",
-            "Kapil Sharma Show, Rasode Mein Kaun Tha?: cardboard audiences/PPE visuals index \"new normal\"; humor lowers resistance and aids recall of rules",
+            'Kapil Sharma Show, Rasode Mein Kaun Tha?: cardboard audiences/PPE visuals index "new normal"; humor lowers resistance and aids recall of rules',
           ],
         },
       ],
@@ -121,7 +120,7 @@ export const communicationTheoryDetail: ProjectDetail = {
       blocks: [
         {
           bullets: [
-            "Borrowed familiarity wins: reframing cult dialogues/posters compresses explanation time — audiences \"get it\" in one glance",
+            'Borrowed familiarity wins: reframing cult dialogues/posters compresses explanation time — audiences "get it" in one glance',
             "Humor as entry, clarity as exit: memes open the door; crisp typographic hierarchy and explicit CTAs tell people what to do",
             "Color codes behaviors: red/black signal alert; blue/white signal trust/care",
             "Punctum drives shares: a single striking element increases virality",
