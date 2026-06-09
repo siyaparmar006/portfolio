@@ -18,13 +18,55 @@ import { ScrollProgress } from "@/components/site/ScrollProgress";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+/** Portrait booklet page — full page visible, no crop */
+function PublicationPageImage({
+  src,
+  alt,
+  className,
+  style,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  style?: React.CSSProperties;
+  priority?: boolean;
+}) {
+  return (
+    <figure className={className}>
+      <img
+        src={src}
+        alt={alt}
+        className="block w-full rounded-2xl shadow-soft md:rounded-[1.75rem]"
+        style={style}
+        loading={priority ? "eager" : "lazy"}
+      />
+    </figure>
+  );
+}
+
 /** Full-width hero — fills rounded frame edge-to-edge (reference PDF). */
-function HeroImage({ src, alt }: { src: string; alt: string }) {
+function HeroImage({
+  src,
+  alt,
+  publication = false,
+  scale,
+}: {
+  src: string;
+  alt: string;
+  publication?: boolean;
+  scale?: number;
+}) {
+  const zoomStyle = scale ? { transform: `scale(${scale})`, transformOrigin: "center" as const } : undefined;
+  if (publication) {
+    return <PublicationPageImage src={src} alt={alt} className="w-full" style={zoomStyle} priority />;
+  }
   return (
     <img
       src={src}
       alt={alt}
       className="w-full rounded-2xl shadow-soft ring-1 ring-border md:rounded-[1.75rem]"
+      style={zoomStyle}
       loading="eager"
     />
   );
@@ -35,11 +77,16 @@ function SpreadImage({
   src,
   alt = "",
   className,
+  compact = false,
 }: {
   src: string;
   alt?: string;
   className?: string;
+  compact?: boolean;
 }) {
+  if (compact) {
+    return <PublicationPageImage src={src} alt={alt} className={className} />;
+  }
   return (
     <img
       src={src}
@@ -77,6 +124,7 @@ export function ProjectDetailPage({ project, detail }: Props) {
   const briefImages = detail.briefImages ? getProjectImages(slug, detail.briefImages) : [];
   const description = detail.scope ?? detail.intro;
   const projectDuration = detail.duration ?? "—";
+  const compactImages = detail.compactImages ?? detail.hubSlug === "nnp";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -86,11 +134,11 @@ export function ProjectDetailPage({ project, detail }: Props) {
       <article className="mx-auto max-w-5xl px-5 pt-28 pb-20 md:px-8 md:pt-32">
         <motion.div {...fade(0)}>
           <Link
-            href="/#work"
+            href={detail.hubSlug ? `/projects/${detail.hubSlug}` : "/#work"}
             className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to work
+            {detail.hubSlug ? "Back to NNP ecosystem" : "Back to work"}
           </Link>
         </motion.div>
 
@@ -113,21 +161,39 @@ export function ProjectDetailPage({ project, detail }: Props) {
           className="mt-10 grid gap-x-8 gap-y-8 border-y border-border py-8 sm:grid-cols-2 lg:grid-cols-4"
         >
           <MetaItem label="Year" value={project.year ?? "—"} />
-          <MetaItem label="Course" value={detail.course ?? project.status} />
+          <MetaItem
+            label={detail.hubSlug ? "Focus" : "Course"}
+            value={detail.course ?? project.status}
+          />
           <MetaItem label="Role" value={detail.role} />
           <MetaItem label="Project Duration" value={projectDuration} />
         </motion.dl>
 
         {hero && (
-          <motion.figure {...fade(0.18)} className="mt-10">
-            <HeroImage src={hero} alt={`${title} — cover`} />
-          </motion.figure>
+          <motion.div
+            {...fade(0.18)}
+            className={`${compactImages ? "mx-auto mt-10 w-full max-w-md" : "mt-10"} ${
+              project.coverScale ? "overflow-hidden rounded-2xl md:rounded-[1.75rem]" : ""
+            }`}
+          >
+            <HeroImage
+              src={hero}
+              alt={`${title} — cover`}
+              publication={compactImages}
+              scale={project.coverScale}
+            />
+          </motion.div>
         )}
 
         <motion.section {...fade(0.24)} className="mt-16 md:mt-20">
           <SectionHeading number={1} title="Brief & Objectives" />
           <div className="mt-8 space-y-8 text-[15px] leading-relaxed md:text-base">
-            {detail.team && <BriefBlock label="Team" text={detail.team} />}
+            {detail.team && (
+              <BriefBlock
+                label={detail.hubSlug ? "Client / Organization" : "Team"}
+                text={detail.team}
+              />
+            )}
             {detail.deliverables && <BriefBlock label="Deliverables" text={detail.deliverables} />}
             {detail.tools && <BriefBlock label="Tools" text={detail.tools} />}
             <BriefBlock label="The ask" text={detail.brief.ask} />
@@ -166,11 +232,19 @@ export function ProjectDetailPage({ project, detail }: Props) {
               <BriefBlock label="Outcome snapshot" text={detail.brief.outcome} />
             )}
           </div>
-          {briefImages.length > 0 && <SectionImages images={briefImages} layout="stack" />}
+          {briefImages.length > 0 && (
+            <SectionImages images={briefImages} layout="grid" compact={compactImages} />
+          )}
         </motion.section>
 
         {detail.sections.map((section, i) => (
-          <RichSectionBlock key={section.title} section={section} slug={slug} index={i} />
+          <RichSectionBlock
+            key={section.title}
+            section={section}
+            slug={slug}
+            index={i}
+            compactImages={compactImages}
+          />
         ))}
 
         {project.documentUrl && (
@@ -265,34 +339,54 @@ function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
   );
 }
 
-function SectionImages({ images }: { images: string[]; layout?: ProjectSection["layout"] }) {
+function SectionImages({
+  images,
+  layout,
+  compact = false,
+}: {
+  images: string[];
+  layout?: ProjectSection["layout"];
+  compact?: boolean;
+}) {
   if (images.length === 0) return null;
 
   const count = images.length;
+  const useStack = layout === "stack" && !compact;
 
-  // Prefer pairs (2, 4) or full-width stacks — avoid orphaned thirds in a 2-col grid.
-  const gridClass =
-    count === 1 || count === 3
+  const gridClass = compact
+    ? count === 1
+      ? "mx-auto max-w-md grid-cols-1"
+      : "grid-cols-2"
+    : useStack || count === 1
       ? "grid-cols-1"
-      : count === 5
-        ? "grid-cols-1 sm:grid-cols-2"
-        : count >= 2
+      : count === 3
+        ? "grid-cols-1"
+        : count === 5
           ? "grid-cols-1 sm:grid-cols-2"
-          : "grid-cols-1";
+          : "grid-cols-1 sm:grid-cols-2";
 
   return (
-    <div className={`mt-10 grid gap-5 md:gap-6 ${gridClass}`}>
-      {images.map((src, i) => (
-        <SpreadImage
-          key={src}
-          src={src}
-          className={
-            count === 5 && i === count - 1
-              ? "sm:col-span-2 sm:mx-auto sm:w-full sm:max-w-2xl"
-              : undefined
-          }
-        />
-      ))}
+    <div className={`mt-8 grid gap-4 md:mt-10 md:gap-5 ${gridClass}`}>
+      {images.map((src, i) => {
+        const oddLast =
+          compact && count > 1 && count % 2 === 1 && i === count - 1;
+        return (
+          <div
+            key={src}
+            className={oddLast ? "col-span-2 mx-auto w-full max-w-md" : undefined}
+          >
+            <SpreadImage
+              src={src}
+              compact={compact}
+              className={
+                !compact && count === 5 && i === count - 1
+                  ? "sm:col-span-2 sm:mx-auto sm:w-full sm:max-w-2xl"
+                  : undefined
+              }
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -301,10 +395,12 @@ function RichSectionBlock({
   section,
   slug,
   index,
+  compactImages = false,
 }: {
   section: ProjectSection;
   slug: string;
   index: number;
+  compactImages?: boolean;
 }) {
   const reduced = useReducedMotion();
   const images = section.images ? getProjectImages(slug, section.images) : [];
@@ -331,7 +427,7 @@ function RichSectionBlock({
             {section.body}
           </p>
         )}
-        <SectionImages images={gallery.slice(0, 4)} layout="grid" />
+        <SectionImages images={gallery.slice(0, 4)} layout="grid" compact={compactImages} />
       </motion.section>
     );
   }
@@ -368,7 +464,21 @@ function RichSectionBlock({
           </>
         )}
       </div>
-      <SectionImages images={allImages} layout={layout} />
+      <SectionImages images={allImages} layout={layout} compact={compactImages} />
+      {section.video && (
+        <figure className="mt-10">
+          <video
+            src={getProjectImage(slug, section.video)}
+            controls
+            playsInline
+            preload="metadata"
+            className="w-full rounded-2xl shadow-soft ring-1 ring-border md:rounded-[1.75rem]"
+          />
+          <figcaption className="mt-3 text-center text-sm text-muted-foreground">
+            Animated walkthrough — Blender Eevee
+          </figcaption>
+        </figure>
+      )}
     </motion.section>
   );
 }

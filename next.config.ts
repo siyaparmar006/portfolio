@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // framer-motion 12 splits motion-dom; transpile avoids missing vendor-chunk errors in dev
+  transpilePackages: ["framer-motion", "motion-dom"],
   eslint: {
     dirs: ["app", "src/components", "src/content", "src/hooks", "src/lib"],
   },

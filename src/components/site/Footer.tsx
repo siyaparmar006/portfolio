@@ -21,7 +21,12 @@ export function Footer() {
           >
             LinkedIn
           </a>
-          <a href={site.resumePath} className="transition-colors hover:text-foreground">
+          <a
+            href={site.resumePath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
             Resume
           </a>
         </div>

@@ -6,7 +6,7 @@ export const site = {
   availability: "Open · 2026",
   email: "Siyaparmar006@gmail.com",
   linkedin: "https://linkedin.com/in/parmar-siya",
-  resumePath: "/resume.pdf",
+  resumePath: "/resume/siya-parmar-resume.pdf",
   tagline:
     "Product Designer crafting human-centered digital experiences with strong visual systems and brand thinking.",
   subtagline:

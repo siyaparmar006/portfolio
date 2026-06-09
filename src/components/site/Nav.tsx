@@ -12,7 +12,7 @@ type NavLink = { href: string; label: string; to?: string };
 
 const links: NavLink[] = [
   { href: "/#work", label: "Work" },
-  { href: "/#os", label: "Design OS" },
+  { href: "/design-os", label: "Design OS", to: "/design-os" },
   { href: "/atlas", label: "Atlas", to: "/atlas" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },

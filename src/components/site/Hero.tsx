@@ -110,6 +110,8 @@ export function Hero() {
           </a>
           <a
             href={site.resumePath}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/40 hover:bg-foreground/5"
           >
             <Download className="h-4 w-4" />

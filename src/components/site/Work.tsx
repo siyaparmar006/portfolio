@@ -12,9 +12,13 @@ import {
 
 function ProjectCard({ p, i }: { p: PortfolioProject; i: number }) {
   const reduced = useReducedMotion();
-  const isFeatured = p.featured;
+  const isFeatured = true;
   const cover = getProjectCover(p.slug);
   const link = getProjectLink(p);
+  const coverFit = p.homepageCover?.fit ?? p.coverFit ?? "cover";
+  const coverScale = p.homepageCover?.scale ?? p.coverScale ?? 1;
+  const coverPosition = p.homepageCover?.position ?? p.coverPosition;
+  const coverBg = p.homepageCover?.bg;
 
   return (
     <motion.article
@@ -27,23 +31,37 @@ function ProjectCard({ p, i }: { p: PortfolioProject; i: number }) {
         isFeatured ? "ring-1 ring-primary/30" : ""
       }`}
     >
+      {link ? (
+        <Link
+          href={link}
+          className="absolute inset-0 z-20 rounded-[2rem]"
+          aria-label={`View ${p.title}`}
+        />
+      ) : null}
       <div
-        className={`grid gap-6 md:items-center md:gap-10 ${
+        className={`pointer-events-none relative z-0 grid gap-6 md:items-center md:gap-10 ${
           isFeatured ? "md:grid-cols-[1.15fr_1fr]" : "md:grid-cols-[1.05fr_1fr]"
         }`}
       >
         <div
           className={`relative overflow-hidden rounded-[1.5rem] ${
             isFeatured ? "aspect-[4/3.1]" : "aspect-[4/3]"
-          }`}
+          }${coverFit === "contain" && !coverBg ? " bg-white" : ""}`}
+          style={coverBg ? { backgroundColor: coverBg } : undefined}
         >
           {cover ? (
             <motion.img
               src={cover}
               alt={p.title}
-              className="absolute inset-0 h-full w-full object-cover"
-              initial={{ scale: 1 }}
-              whileHover={{ scale: 1.06 }}
+              className={`absolute inset-0 h-full w-full ${
+                coverFit === "contain" ? "object-contain" : "object-cover"
+              }`}
+              style={{
+                ...(coverPosition ? { objectPosition: coverPosition } : {}),
+                transformOrigin: "center",
+              }}
+              initial={{ scale: coverScale }}
+              whileHover={{ scale: coverScale * 1.06 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             />
           ) : (
@@ -84,14 +102,9 @@ function ProjectCard({ p, i }: { p: PortfolioProject; i: number }) {
             ))}
           </div>
           {link && (
-            <div className="mt-6">
-              <Link
-                href={link}
-                className="group/link inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-foreground/80"
-              >
-                View Project
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-              </Link>
+            <div className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-foreground">
+              <span>View Project</span>
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
           )}
         </div>
@@ -102,7 +115,7 @@ function ProjectCard({ p, i }: { p: PortfolioProject; i: number }) {
         className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-60"
         style={{ background: "var(--gradient-warm)" }}
       />
-      <span className="absolute bottom-4 right-5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/60">
+      <span className="pointer-events-none absolute bottom-4 right-5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/60">
         {String(i + 1).padStart(2, "0")} / {featuredProjects.length}
       </span>
     </motion.article>

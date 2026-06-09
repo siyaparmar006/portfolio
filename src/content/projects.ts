@@ -17,9 +17,21 @@ export type PortfolioProject = {
   tags?: string[];
   status: ProjectStatus;
   year?: string;
-  featured?: boolean;
   documentUrl?: string;
   gradient?: string;
+  /** object-fit for project card / atlas cover */
+  coverFit?: "cover" | "contain";
+  /** CSS object-position for project card / atlas cover */
+  coverPosition?: string;
+  /** Slight zoom on cover image (1 = default) */
+  coverScale?: number;
+  /** Homepage signature cards only — does not affect Atlas or project pages */
+  homepageCover?: {
+    fit?: "cover" | "contain";
+    position?: string;
+    scale?: number;
+    bg?: string;
+  };
 };
 
 import { projectCovers } from "@/content/asset-manifest";
@@ -39,50 +51,58 @@ export const atlasProjects: PortfolioProject[] = [
     tags: ["Service Design", "Information Architecture", "Visual Systems", "Print + Digital"],
     status: "Case Study",
     year: "2024",
-    featured: true,
-    documentUrl: "/projects/nnp-brand-style-guide.pdf",
+    documentUrl: undefined,
     gradient:
       "radial-gradient(circle at 25% 25%, color-mix(in oklch, var(--accent) 55%, transparent), var(--card) 70%)",
+    homepageCover: { fit: "cover", position: "22% center", scale: 1 },
   },
   {
     slug: "liveseeds",
-    title: "LiveSeeds Plant-Care App",
+    title: "LiveSeeds — Plant Care & Diagnosis App",
     category: "Product Experiences",
-    tagline: "Mobile product experience for plant care, guidance, and approachable UI.",
+    tagline:
+      "Plant-care mobile app — diagnosis, reminders, nursery discovery, and reward-based routines.",
     description:
-      "Designed a plant-care mobile app experience focused on helping users understand plant needs, follow care guidance, and navigate a clear, approachable digital interface.",
-    label: "Mobile Product Experience",
-    tags: ["UX/UI", "Product Design", "Visual Interface Design"],
+      "Designed LiveSeeds, a plant-care mobile app that helps users diagnose plant infections, learn care procedures, find nearby nurseries, track reminders, earn points, and build a more consistent plant-care routine.",
+    label: "Mobile App Design · UX/UI Design · Plant Care Platform",
+    tags: ["UX/UI", "Product Design", "Mobile App", "Plant Care"],
     status: "Case Study",
-    year: "2024",
-    featured: true,
+    year: "2022",
     documentUrl: "/projects/liveseeds-app.pdf",
     gradient:
       "radial-gradient(circle at 70% 35%, color-mix(in oklch, var(--accent) 45%, transparent), var(--card) 75%)",
   },
   {
     slug: "evair",
-    title: "Evair Product Branding & Packaging System",
+    title: "Evair — Car Freshener Packaging System",
     category: "Brand Systems",
-    tagline: "Product identity and packaging direction for a car freshener brand.",
+    tagline:
+      "Real-client packaging system translating fragrance moods into visual packaging families.",
     description:
-      "Developed brand and packaging direction for Evair at Zero Gravity Communications — combining market research, visual identity exploration, packaging structure, and product storytelling.",
-    label: "Product Identity",
-    tags: ["Branding", "Packaging", "Product Communication"],
+      "Designed a real-client packaging system for Evair car fresheners, translating fragrance moods into visual packaging families through research, client meetings, sample testing, and final print-ready designs.",
+    label: "Packaging Design · Branding · Real Client Project · Fragrance Product",
+    tags: ["Packaging", "Branding", "Fragrance", "Client Work", "Print Design"],
     status: "Case Study",
-    year: "2023",
-    featured: true,
+    year: "2021",
     documentUrl: "/projects/evair-branding.pdf",
     gradient:
       "radial-gradient(circle at 30% 70%, color-mix(in oklch, var(--accent) 40%, transparent), var(--secondary) 75%)",
+    coverFit: "contain",
+    coverPosition: "center",
+    coverScale: 1.12,
   },
   {
     slug: "fluid",
-    title: "Fluid Water Quality Companion",
+    title: "Fluid — Water Quality Companion",
     category: "Product Experiences",
-    tagline: "Digital companion concept for understanding and tracking water quality.",
-    status: "Project Card",
-    year: "2023",
+    tagline:
+      "Mobile app that turns Hudson River water-quality data into clear, actionable safety guidance.",
+    description:
+      "Designed a mobile app that turns Hudson River water-quality data into clear, actionable safety guidance for swimmers, paddlers, boaters, and fishers.",
+    label: "UI/UX Design · Environmental Data · Mobile App · Human-Centered Design",
+    tags: ["UX Research", "Mobile UI", "Data Visualization", "Environmental Design", "Safety"],
+    status: "Case Study",
+    year: "2024",
     documentUrl: "/projects/fluid.pdf",
   },
   {
@@ -99,12 +119,20 @@ export const atlasProjects: PortfolioProject[] = [
   },
   {
     slug: "monkey-fries",
-    title: "Monkey Fries — Cloud Kitchen",
+    title: "Monkey Fries — Brand Communication System",
     category: "Brand Systems",
-    tagline: "Cloud kitchen brand identity and communication system.",
-    status: "Project Card",
-    year: "2023",
+    tagline:
+      "Mascot-led cloud-kitchen brand — flavour system, packaging direction, and social media toolkit.",
+    description:
+      "Created a mischievous and memorable brand communication system for Monkey Fries using a bold logo, playful mascot, flavour-based visuals, packaging direction, and a scalable social media toolkit.",
+    label: "Branding & Communication · Food Brand Identity · Packaging & Social Media",
+    tags: ["Branding", "Mascot Design", "Packaging", "Social Media", "Food Branding"],
+    status: "Case Study",
+    year: "2021",
     documentUrl: "/projects/monkey-fries.pdf",
+    coverFit: "contain",
+    coverPosition: "center",
+    coverScale: 1.14,
   },
   {
     slug: "zgc",
@@ -126,78 +154,116 @@ export const atlasProjects: PortfolioProject[] = [
   },
   {
     slug: "institute-of-design",
-    title: "Institute of Design",
+    title: "Institute of Design — DODNU",
     category: "Brand Systems",
-    tagline: "Identity system exploration for an academic design institution.",
-    status: "Project Card",
-    year: "2022",
+    tagline:
+      "Modular brand identity for Nirma University's Institute of Design — circles, arrows, and a system from favicon to façade.",
+    description:
+      "A refreshed identity for DODNU expressing young, collaborative design culture — distinctive mark, typography, patterns, sub-brands, and ready-to-use templates across print, space, and digital.",
+    label: "Brand Identity · Visual System · Academic",
+    tags: ["Brand Identity", "Visual System", "Wayfinding", "Guidelines"],
+    status: "Case Study",
+    year: "2021",
     documentUrl: "/projects/institute-of-design.pdf",
+    coverScale: 1.1,
   },
   {
     slug: "packaging",
-    title: "Packaging Design",
+    title: "CurvD — Packaging System",
     category: "Brand Systems",
     tagline:
-      "Product packaging design exploration with structure, visual appeal, and shelf presence.",
-    status: "Project Card",
+      "A hexagonal, handle-safe package for the CurvD mug — one-push slide opening, corrugated structure, and gift-ready display tray.",
+    description:
+      "Packaging Design — inclusive, reusable hex sleeve-and-tray system with dielines, cradle geometry, and handle-curve brand graphics.",
+    label: "Packaging Design · Inclusive + Reusable",
+    tags: ["Packaging", "Structure", "Dielines", "Accessibility"],
+    status: "Case Study",
     year: "2022",
-    documentUrl: "/projects/packaging.pdf",
+    documentUrl: undefined,
   },
   {
     slug: "nnp-volunteer-handbook",
     title: "NNP Volunteer Handbook",
     category: "Communication Systems",
-    tagline: "Volunteer onboarding handbook designed for clarity, trust, and consistency.",
+    tagline:
+      "16-page volunteer handbook for partner families — clothing partnership model, donation guidelines, and dignity-centered communication.",
+    description:
+      "Designed and synthesized a 16-page volunteer handbook for New Neighbors Partnership to help local partner families understand the clothing partnership model, follow donation guidelines, communicate respectfully, and support refugee families with dignity.",
     status: "Part of NNP Case Study",
-    year: "2024",
-    documentUrl: "/projects/nnp-brand-style-guide.pdf",
+    year: "2025",
+    documentUrl: undefined,
   },
   {
     slug: "nnp-impact-report",
-    title: "NNP Impact Report",
+    title: "NNP 2025 Impact Report",
     category: "Communication Systems",
-    tagline: "Impact storytelling and data communication for nonprofit audiences.",
+    tagline:
+      "2025 annual impact report — program data, family stories, and community outcomes in digital and print formats.",
+    description:
+      "Designed and synthesized New Neighbors Partnership's 2025 Impact Report across digital and print formats, turning program data, family stories, financials, and community outcomes into a warm, accessible, and donor-ready publication.",
     status: "Part of NNP Case Study",
-    year: "2024",
-    documentUrl: "/projects/nnp-impact-report.pdf",
+    year: "2025",
+    documentUrl: undefined,
   },
   {
     slug: "nnp-referral-guidelines",
     title: "NNP Referral Guidelines",
     category: "Communication Systems",
     tagline:
-      "Partner-facing referral guidelines later showcased during a UN General Assembly refugee employment event.",
+      "11-page partner referral guide — eligibility, process, expectations, and UN General Assembly presentation.",
+    description:
+      "Designed and synthesized an 11-page referral guidelines document for New Neighbors Partnership, helping partner agencies understand NNP's mission, program model, client eligibility, referral expectations, timeline, staff, and contact process.",
     status: "Part of NNP Case Study",
-    year: "2024",
-    documentUrl: "/projects/nnp-referral-guidelines.pdf",
+    year: "2025",
+    documentUrl: undefined,
   },
   {
     slug: "nnp-brochure",
-    title: "NNP Brochure",
+    title: "NNP Program Brochure",
     category: "Communication Systems",
-    tagline: "Public-facing program brochure explaining NNP's mission and support model.",
+    tagline:
+      "Family-facing brochure — Clothing Partnership Program, support types, and coordinator resources.",
+    description:
+      "Designed and synthesized a family-facing program brochure for New Neighbors Partnership to explain the Clothing Partnership Program, support types, expectations, privacy guidelines, and contact resources in a clear and welcoming format.",
     status: "Part of NNP Case Study",
-    year: "2024",
-    documentUrl: "/projects/nnp-brand-style-guide.pdf",
+    year: "2026",
+    documentUrl: undefined,
   },
   {
     slug: "nnp-cultural-primer",
-    title: "NNP Cultural Primer",
+    title: "NNP Cultural Primer — Guinea",
     category: "Communication Systems",
     tagline:
-      "Cultural education material designed to make community understanding more accessible.",
+      "Two-page cultural primer — Guinea overview, language, food, holidays, and volunteer best practices.",
+    description:
+      "Designed and synthesized a two-page cultural primer on Guinea for New Neighbors Partnership, transforming historical, cultural, language, food, holiday, and best-practice information into an accessible guide for volunteers and community members.",
     status: "Part of NNP Case Study",
-    year: "2024",
-    documentUrl: "/projects/nnp-brand-style-guide.pdf",
+    year: "2026",
+    documentUrl: undefined,
   },
   {
     slug: "nnp-branding",
-    title: "NNP Branding & Style Guide",
+    title: "NNP Brand Style Guide",
     category: "Brand Systems",
-    tagline: "Brand colors, typography, and visual system for New Neighbors Partnership.",
+    tagline:
+      "5-page brand system — color coding, typography, and social media template categories.",
+    description:
+      "Designed and synthesized a 5-page brand style guide for New Neighbors Partnership to create a consistent visual system across digital, print, social media, and partner-facing communication materials.",
     status: "Part of NNP Case Study",
-    year: "2024",
-    documentUrl: "/projects/nnp-brand-style-guide.pdf",
+    year: "2025",
+    documentUrl: undefined,
+  },
+  {
+    slug: "nnp-social-media",
+    title: "NNP Social Media Templates",
+    category: "Communication Systems",
+    tagline:
+      "Instagram story template system — campaigns, volunteer CTAs, and community updates.",
+    description:
+      "Designed and synthesized a branded social media template system for New Neighbors Partnership to support consistent Instagram stories, volunteer calls-to-action, donation campaigns, cultural content, and community updates.",
+    status: "Part of NNP Case Study",
+    year: "2025",
+    documentUrl: undefined,
   },
   {
     slug: "essence-of-green",
@@ -230,17 +296,24 @@ export const atlasProjects: PortfolioProject[] = [
     tags: ["Spatial Design", "Prototyping", "SketchUp", "Fabrication"],
     status: "Case Study",
     year: "2021",
-    featured: true,
     documentUrl: "/projects/environmental-design.pdf",
   },
   {
     slug: "wayfinding",
-    title: "Design of Wayfinding Systems",
+    title: "Find Your Way — Old City",
     category: "Spatial & Visual Experiments",
-    tagline: "Navigation and signage system exploration for physical environments.",
-    status: "Project Card",
+    tagline:
+      "A heritage-aware wayfinding system for Ahmedabad’s UNESCO Old City — bilingual signage, sign family architecture, and in-situ placement logic.",
+    description:
+      "Design of Wayfinding Systems — orientation boards, directional blades, interpretive plaques, and mobility signage for pols, markets, and monuments.",
+    label: "Wayfinding · Urban Graphics",
+    tags: ["Wayfinding", "Signage", "Urban Graphics", "Heritage"],
+    status: "Case Study",
     year: "2022",
-    documentUrl: "/projects/wayfinding.pdf",
+    documentUrl: undefined,
+    coverFit: "contain",
+    coverPosition: "center",
+    coverScale: 1.14,
   },
   {
     slug: "public-communication",
@@ -254,7 +327,6 @@ export const atlasProjects: PortfolioProject[] = [
     tags: ["Poster Design", "Copywriting", "Social Campaign", "Print + OOH"],
     status: "Case Study",
     year: "2023",
-    featured: true,
     documentUrl: "/projects/public-communication.pdf",
   },
   {
@@ -302,13 +374,21 @@ export const atlasProjects: PortfolioProject[] = [
     status: "Archive",
     year: "2021",
     documentUrl: "/projects/navya-baheti.pdf",
+    coverFit: "contain",
+    coverPosition: "center",
+    coverScale: 1.12,
   },
   {
     slug: "communication-theory",
-    title: "Communication Theory",
+    title: "Lights, Camera, Corona",
     category: "Communication Systems",
-    tagline: "Visual communication studies through posters, analysis, and media interpretation.",
-    status: "Archive",
+    tagline:
+      "Decoding how Bollywood posters, memes, and videos reframed public messages during COVID-19.",
+    description:
+      "A research-driven exploration of how Indian popular culture was reimagined as public communication during the pandemic — poster remixes, memes, and awareness videos analyzed through semiotics and visual design.",
+    label: "Communication Theory · Semiotic Analysis · Public Health Messaging",
+    tags: ["Communication Theory", "Semiotics", "Public Health", "Visual Analysis"],
+    status: "Case Study",
     year: "2021",
     documentUrl: "/projects/communication-theory.pdf",
   },
@@ -323,12 +403,17 @@ export const atlasProjects: PortfolioProject[] = [
   },
   {
     slug: "applied-literature",
-    title: "Applied Literature",
+    title: "Visual Language of Emotion — Film Analysis",
     category: "Print & Editorial",
-    tagline: "Literature-based visual and editorial design exploration.",
-    status: "Archive",
+    tagline:
+      "A semiotic study of Sanjay Leela Bhansali’s directorial grammar across Ram-Leela and Bajirao Mastani — color, camera, sound, and style map.",
+    description:
+      "Applied Literature — director study mapping palette, shot taxonomy, and music leitmotifs to emotional cues in two authored films.",
+    label: "Applied Literature · Director Study",
+    tags: ["Film Analysis", "Semiotics", "Visual Research", "Editorial"],
+    status: "Case Study",
     year: "2021",
-    documentUrl: "/projects/applied-literature.pdf",
+    documentUrl: undefined,
   },
   {
     slug: "space-design",
@@ -341,12 +426,18 @@ export const atlasProjects: PortfolioProject[] = [
   },
   {
     slug: "materials-3d",
-    title: "Introduction to Materials & 3D Modelling",
+    title: "The Canvas — 3D Chocolate Window Display",
     category: "Spatial & Visual Experiments",
-    tagline: "Material and 3D form exploration.",
-    status: "Archive",
+    tagline:
+      "A narrative window display for Huber & Holly’s chocolate launch — material prototyping, SketchUp planning, and Blender visualization of the bean-to-bar journey.",
+    description:
+      "Introduction to Materials & 3D Modelling — team window display for Huber & Holly blending storytelling, tactile mockups, and 3D renders inside a real café frame.",
+    label: "Materials & 3D · Window Display",
+    tags: ["Materials", "3D Modeling", "Blender", "Spatial Design"],
+    status: "Case Study",
     year: "2021",
-    documentUrl: "/projects/materials-3d.pdf",
+    documentUrl: undefined,
+    coverScale: 1.1,
   },
   {
     slug: "illustration",
@@ -360,7 +451,6 @@ export const atlasProjects: PortfolioProject[] = [
     tags: ["Illustration", "Book Cover", "Typography", "Print Production"],
     status: "Case Study",
     year: "2022",
-    featured: true,
     documentUrl: "/projects/illustration.pdf",
   },
   {
@@ -375,16 +465,23 @@ export const atlasProjects: PortfolioProject[] = [
     tags: ["Photography", "Architecture", "Documentary", "Lightroom"],
     status: "Case Study",
     year: "2020",
-    featured: true,
   },
   {
     slug: "character-design",
-    title: "Character Design",
+    title: "Character Design: Snail Persona",
     category: "Spatial & Visual Experiments",
-    tagline: "Character development and expressive visual design.",
-    status: "Archive",
-    year: "2021",
+    tagline:
+      "A whimsical, story-driven snail shaped through gesture, silhouette, and worldbuilding.",
+    description:
+      "Character design case study — a snail-mail carrier developed from research and thumbnails to turnarounds, expression studies, and production-ready key art.",
+    label: "Illustration · Character Design · Visual Narrative",
+    tags: ["Illustration", "Character Design", "Visual Narrative"],
+    status: "Case Study",
+    year: "2023",
     documentUrl: "/projects/character-design.pdf",
+    coverFit: "contain",
+    coverPosition: "center",
+    coverScale: 1.14,
   },
   {
     slug: "animation",
@@ -397,7 +494,35 @@ export const atlasProjects: PortfolioProject[] = [
   },
 ];
 
-export const featuredProjects = atlasProjects.filter((p) => p.featured);
+/** Homepage signature work — fixed trio */
+const HOMEPAGE_FEATURED_SLUGS = ["nnp", "liveseeds", "evair"] as const;
+
+/** Hidden from Atlas cards + index until case study content is ready */
+const ATLAS_HIDDEN_SLUGS = new Set([
+  "cx-capstone",
+  "zgc",
+  "brim",
+  "nnp-volunteer-handbook",
+  "nnp-impact-report",
+  "nnp-cultural-primer",
+  "nnp-brochure",
+  "nnp-branding",
+  "nnp-social-media",
+  "nnp-referral-guidelines",
+  "ui-ux-website",
+  "cognitive-science",
+  "ell-tcs",
+  "animation",
+  "space-design",
+  "information-architecture",
+  "poster-design",
+]);
+
+export const visibleAtlasProjects = atlasProjects.filter((p) => !ATLAS_HIDDEN_SLUGS.has(p.slug));
+
+export const featuredProjects = atlasProjects.filter((p) =>
+  (HOMEPAGE_FEATURED_SLUGS as readonly string[]).includes(p.slug),
+);
 
 export function getProjectCover(slug: string): string | undefined {
   return projectCovers[slug];

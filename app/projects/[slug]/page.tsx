@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { NnpHubPage } from "@/components/site/NnpHubPage";
 import { ProjectDetailPage } from "@/components/site/ProjectDetailPage";
 import { getProjectDetail } from "@/content/project-details";
 import { atlasProjects } from "@/content/projects";
@@ -24,6 +25,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Page({ params }: PageProps) {
   const { slug } = await params;
+  if (slug === "nnp") return <NnpHubPage />;
+
   const project = atlasProjects.find((p) => p.slug === slug);
   if (!project) notFound();
 

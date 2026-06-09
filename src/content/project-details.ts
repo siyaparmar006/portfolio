@@ -4,6 +4,26 @@ import { environmentalDesignDetail } from "@/content/project-pages/environmental
 import { illustrationDetail } from "@/content/project-pages/illustration";
 import { photographyDetail } from "@/content/project-pages/photography";
 import { systemsThinkingDetail } from "@/content/project-pages/systems-thinking";
+import { materials3dDetail } from "@/content/project-pages/materials-3d";
+import { wayfindingDetail } from "@/content/project-pages/wayfinding";
+import { packagingDetail } from "@/content/project-pages/packaging";
+import { appliedLiteratureDetail } from "@/content/project-pages/applied-literature";
+import { characterDesignDetail } from "@/content/project-pages/character-design";
+import { communicationTheoryDetail } from "@/content/project-pages/communication-theory";
+import { instituteOfDesignDetail } from "@/content/project-pages/institute-of-design";
+import { liveseedsDetail } from "@/content/project-pages/liveseeds";
+import { monkeyFriesDetail } from "@/content/project-pages/monkey-fries";
+import { fluidDetail } from "@/content/project-pages/fluid";
+import { evairDetail } from "@/content/project-pages/evair";
+import {
+  nnpVolunteerHandbookDetail,
+  nnpImpactReportDetail,
+  nnpCulturalPrimerDetail,
+  nnpReferralGuidelinesDetail,
+  nnpBrochureDetail,
+  nnpBrandingDetail,
+  nnpSocialMediaDetail,
+} from "@/content/project-pages/nnp-subprojects";
 
 export type ProjectBrief = {
   ask: string;
@@ -28,6 +48,7 @@ export type ProjectSection = {
   layout?: "text" | "split-left" | "split-right" | "gallery" | "grid" | "stack";
   imageIndex?: number;
   images?: string[];
+  video?: string;
 };
 
 export type ProjectDetail = {
@@ -42,6 +63,10 @@ export type ProjectDetail = {
   team?: string;
   deliverables?: string;
   tools?: string;
+  /** Parent hub slug — e.g. sub-projects link back to /projects/nnp */
+  hubSlug?: string;
+  /** Smaller publication-style images in a 2-column grid (no crop) */
+  compactImages?: boolean;
   intro: string;
   brief: ProjectBrief;
   briefImages?: string[];
@@ -50,7 +75,7 @@ export type ProjectDetail = {
   layout?: "editorial" | "showcase" | "split";
 };
 
-import { projectGalleries } from "@/content/asset-manifest";
+import { assetVersions, projectGalleries } from "@/content/asset-manifest";
 
 const ASSET_BASE = "/assets/projects";
 
@@ -59,7 +84,8 @@ export function getProjectGallery(slug: string): string[] {
 }
 
 export function getProjectImage(slug: string, file: string): string {
-  return `${ASSET_BASE}/${slug}/${file}`;
+  const v = assetVersions[`${slug}/${file}`];
+  return v ? `${ASSET_BASE}/${slug}/${file}?v=${v}` : `${ASSET_BASE}/${slug}/${file}`;
 }
 
 export function getProjectImages(slug: string, files: string[]): string[] {
@@ -73,6 +99,24 @@ const details: Record<string, ProjectDetail> = {
   illustration: illustrationDetail,
   photography: photographyDetail,
   "systems-thinking": systemsThinkingDetail,
+  "materials-3d": materials3dDetail,
+  wayfinding: wayfindingDetail,
+  packaging: packagingDetail,
+  "applied-literature": appliedLiteratureDetail,
+  "character-design": characterDesignDetail,
+  "communication-theory": communicationTheoryDetail,
+  "institute-of-design": instituteOfDesignDetail,
+  liveseeds: liveseedsDetail,
+  evair: evairDetail,
+  fluid: fluidDetail,
+  "monkey-fries": monkeyFriesDetail,
+  "nnp-volunteer-handbook": nnpVolunteerHandbookDetail,
+  "nnp-impact-report": nnpImpactReportDetail,
+  "nnp-cultural-primer": nnpCulturalPrimerDetail,
+  "nnp-referral-guidelines": nnpReferralGuidelinesDetail,
+  "nnp-brochure": nnpBrochureDetail,
+  "nnp-branding": nnpBrandingDetail,
+  "nnp-social-media": nnpSocialMediaDetail,
   nnp: {
     slug: "nnp",
     course: "Outreach & Communications Internship",
@@ -111,105 +155,6 @@ const details: Record<string, ProjectDetail> = {
     ],
     layout: "editorial",
   },
-  liveseeds: {
-    slug: "liveseeds",
-    course: "UI/UX App Design (Academic)",
-    role: "Research, wireframing, UI design, visual interface, prototyping",
-    duration: "Semester project",
-    intro:
-      "LiveSeeds is a plant-care mobile app that helps users understand what their plants need, when to act, and how to recover when something goes wrong — designed with clarity and warmth.",
-    brief: {
-      ask: "Design a mobile experience that makes plant care feel approachable for beginners without oversimplifying expert needs.",
-      audience:
-        "First-time plant owners and casual indoor gardeners who feel overwhelmed by conflicting care advice online.",
-      goals: [
-        "Reduce anxiety around plant health decisions",
-        "Create scannable care schedules and reminders",
-        "Use visual language that feels organic, not clinical",
-      ],
-      outcome:
-        "End-to-end app flows from onboarding through daily care, diagnostics, and plant library — with paper wireframes, hi-fi UI screens, and interaction prototypes.",
-    },
-    sections: [
-      {
-        title: "Discovery & Wireframes",
-        body: "Mapped core jobs-to-be-done: identify a plant, understand its needs, track watering/light, and get help when leaves change. Paper wireframes tested hierarchy before visual polish.",
-        layout: "split-left",
-        imageIndex: 0,
-      },
-      {
-        title: "Interface Design",
-        body: "Built a green-forward UI with clear cards, friendly iconography, and progressive disclosure so users aren't flooded on first open.",
-        layout: "gallery",
-      },
-    ],
-    layout: "showcase",
-  },
-  evair: {
-    slug: "evair",
-    course: "Agency — Zero Gravity Communications",
-    role: "Brand identity, packaging structure, visual system, product storytelling",
-    duration: "4 months",
-    intro:
-      "A contemporary rebrand and packaging system for Evair car fresheners — balancing shelf presence, brand recall, and functional packaging constraints.",
-    brief: {
-      ask: "Modernize Evair's visual identity and packaging to compete in a crowded car-care shelf environment.",
-      audience: "Retail shoppers looking for affordable, visually distinctive car fresheners.",
-      goals: [
-        "Create a memorable logo and color system",
-        "Design packaging that reads quickly at shelf distance",
-        "Unify product variants under one brand architecture",
-      ],
-      outcome:
-        "Logo explorations, color palette, typography, and structural packaging directions with mockups ready for production review.",
-    },
-    sections: [
-      {
-        title: "Identity Exploration",
-        body: "Explored multiple logo directions before landing on a mark that feels contemporary, airy, and aligned with the product category.",
-        layout: "split-right",
-        imageIndex: 0,
-      },
-      {
-        title: "Packaging System",
-        body: "Developed dielines, variant color coding, and front-panel hierarchy optimized for retail visibility.",
-      },
-    ],
-    layout: "split",
-  },
-  fluid: {
-    slug: "fluid",
-    course: "Product Design Studio",
-    role: "Concept development, UX flows, visual design, presentation",
-    duration: "Team project",
-    intro:
-      "Fluid is a digital companion concept for understanding and tracking water quality — translating complex environmental data into calm, actionable insights.",
-    brief: {
-      ask: "Help people understand what's in their water and what to do about it, without requiring a chemistry degree.",
-      audience:
-        "Health-conscious households and renters who can't easily change infrastructure but want transparency.",
-      goals: [
-        "Surface quality metrics in plain language",
-        "Recommend next steps based on severity",
-        "Build trust through calm, credible UI",
-      ],
-      outcome:
-        "Concept flows, final report, and presentation slides for a water-quality companion app.",
-    },
-    sections: [
-      {
-        title: "Problem Framing",
-        body: "Researched how people currently learn about water quality and where trust breaks down.",
-      },
-      {
-        title: "Experience Concept",
-        body: "Designed dashboard, alerts, and educational modules as a connected system.",
-        layout: "split-right",
-        imageIndex: 0,
-      },
-    ],
-    layout: "editorial",
-  },
   "cx-capstone": {
     slug: "cx-capstone",
     course: "CX by Design — Capstone Internship",
@@ -242,33 +187,6 @@ const details: Record<string, ProjectDetail> = {
       },
     ],
     layout: "editorial",
-  },
-  "monkey-fries": {
-    slug: "monkey-fries",
-    course: "Brand Systems (Academic)",
-    role: "Identity, menu design, packaging, social templates",
-    duration: "Studio project",
-    intro:
-      "Monkey Fries is a cloud-kitchen brand built for delivery-first audiences — playful identity, bold color, and systemized menu communication.",
-    brief: {
-      ask: "Create a distinctive cloud-kitchen brand that survives small screens and fast scrolling.",
-      audience: "Late-night delivery customers and urban food-app users.",
-      goals: [
-        "Own a memorable visual personality",
-        "Systemize menu and promo layouts",
-        "Keep brand consistent across touchpoints",
-      ],
-      outcome:
-        "Logo, color/type system, packaging, menu boards, and social templates documented in a brand deck.",
-    },
-    sections: [
-      {
-        title: "Brand World",
-        body: "Built a playful, high-contrast identity with flexible layout components for campaigns.",
-        layout: "gallery",
-      },
-    ],
-    layout: "showcase",
   },
   zgc: {
     slug: "zgc",
@@ -324,58 +242,6 @@ const details: Record<string, ProjectDetail> = {
       },
     ],
     layout: "editorial",
-  },
-  "institute-of-design": {
-    slug: "institute-of-design",
-    course: "Identity Design (Academic)",
-    role: "Logo, stationery system, brand guide, environmental applications",
-    duration: "Semester project",
-    intro:
-      "Identity exploration for an academic design institution — logo, stationery, signage, and brand guide documenting usage rules.",
-    brief: {
-      ask: "Design an identity system worthy of a design-forward academic institution.",
-      audience: "Prospective students, faculty, and campus visitors.",
-      goals: [
-        "Balance academic credibility with creative energy",
-        "Build a scalable stationery system",
-        "Document rules for long-term use",
-      ],
-      outcome: "Logo suite, stationery suite, environmental mockups, and brand guide PDF.",
-    },
-    sections: [
-      {
-        title: "System Applications",
-        body: "Extended the mark across letterhead, signage, and environmental graphics.",
-        layout: "gallery",
-      },
-    ],
-    layout: "showcase",
-  },
-  packaging: {
-    slug: "packaging",
-    course: "Packaging Design (Academic)",
-    role: "Structure, dielines, visual design, shelf mockups",
-    duration: "Studio module",
-    intro:
-      "Packaging explorations focused on structure, shelf presence, and tactile appeal — including CurvD and consumer product mockups.",
-    brief: {
-      ask: "Design packaging that communicates product value before the box is opened.",
-      audience: "Retail shoppers evaluating form, function, and trust at shelf.",
-      goals: [
-        "Resolve structure and graphics together",
-        "Test shelf visibility",
-        "Prototype with realistic mockups",
-      ],
-      outcome: "Multiple packaging directions with dielines, renders, and presentation boards.",
-    },
-    sections: [
-      {
-        title: "Form & Graphics",
-        body: "Iterated structure and surface graphics as one decision — not two separate passes.",
-        layout: "gallery",
-      },
-    ],
-    layout: "showcase",
   },
 };
 
